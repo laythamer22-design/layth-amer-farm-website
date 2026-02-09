@@ -24,28 +24,3 @@
     "prisma": "^5.10.2"
   }
 }
-  generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model Booking {
-  id            String   @id @default(uuid())
-  date          DateTime
-  customerName  String
-  customerPhone String
-  visitorType   String   
-  type          String   @default("STANDARD")
-  createdAt     DateTime @default(now())
-}
-
-model FarmSettings {
-  id            Int      @id @default(1)
-  farmKnowledge String   @db.Text
-  updatedAt     DateTime @updatedAt
-}
