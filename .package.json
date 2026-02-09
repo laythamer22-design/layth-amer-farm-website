@@ -1,0 +1,94 @@
+/** * نظام إدارة المزرعة المتكامل - نسخة العرض التجريبية
+ * يشمل: الحجز، الذكاء الاصطناعي، لوحة تحكم المالك، وتصنيف (عائلة/شباب)
+ **/
+
+import { PrismaClient } from '@prisma/client';
+import { OpenAI } from "openai";
+
+const prisma = new PrismaClient();
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// --- 1. قسم إدارة الحجوزات والقوانين ---
+export class FarmSystem {
+  
+  async createBooking(data: {
+    date: string, 
+    customerName: string, 
+    customerPhone: string, 
+    visitorType: 'عائلة' | 'شباب', 
+    type: 'STANDARD' | 'TRIAL',
+    identityUrl?: string,
+    receiptUrl?: string
+  }) {
+    const selectedDate = new Date(data.date);
+    const dayOfWeek = selectedDate.getDay(); // 5 = الجمعة، 6 = السبت
+
+    // أ- التحقق الإجباري من فئة الزوار (طلب الزبون)
+    if (!data.visitorType || (data.visitorType !== 'عائلة' && data.visitorType !== 'شباب')) {
+      throw new Error("يجب اختيار فئة الزوار (عائلة أو شباب) لإتمام الحجز.");
+    }
+
+    // ب- قوانين الحجز التجريبي (يوم واحد ومنع عطلة نهاية الأسبوع)
+    if (data.type === 'TRIAL') {
+      if (dayOfWeek === 5 || dayOfWeek === 6) {
+        throw new Error("عذراً، الحجز التجريبي متاح فقط في أيام الأسبوع وغير متاح يومي الجمعة والسبت.");
+      }
+
+      // التأكد أن الزبون لم يجرب المزرعة مجاناً من قبل
+      const previousTrial = await prisma.booking.findFirst({
+        where: { customerPhone: data.customerPhone, type: 'TRIAL' }
+      });
+      if (previousTrial) {
+        throw new Error("هذا الرقم استخدم ميزة الحجز التجريبي مسبقاً.");
+      }
+    }
+
+    // ج- حفظ الحجز في قاعدة البيانات
+    return await prisma.booking.create({
+      data: {
+        date: selectedDate,
+        customerName: data.customerName,
+        customerPhone: data.customerPhone,
+        visitorType: data.visitorType,
+        type: data.type,
+        identityUrl: data.identityUrl,
+        receiptUrl: data.type === 'STANDARD' ? data.receiptUrl : null,
+      }
+    });
+  }
+
+  // --- 2. قسم الذكاء الاصطناعي (موظف الاستقبال) ---
+  async askFarmBot(userQuestion: string) {
+    // جلب المعلومات التي أدخلها المالك من قاعدة البيانات
+    const settings = await prisma.farmSettings.findUnique({ where: { id: 1 } });
+    const farmContext = settings?.farmKnowledge || "مرحباً بك في مزرعتنا الهادئة.";
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { 
+          role: "system", 
+          content: `أنت موظف استقبال في مزرعة. استخدم هذه المعلومات للرد: ${farmContext}. 
+          تذكر دائماً: الحجز يتطلب تحديد نوع الزوار (عائلة أو شباب). كن مهذباً وواضحاً.` 
+        },
+        { role: "user", content: userQuestion }
+      ],
+    });
+    return response.choices[0].message.content;
+  }
+
+  // --- 3. لوحة تحكم المالك (تعديل المعلومات) ---
+  async updateAiKnowledge(newText: string) {
+    // هذه الدالة تسمح للمالك بتحديث معلومات المزرعة التي يستخدمها البوت
+    return await prisma.farmSettings.upsert({
+      where: { id: 1 },
+      update: { farmKnowledge: newText },
+      create: { id: 1, farmKnowledge: newText }
+    });
+  }
+}
+
+/** * ملاحظة للمبرمج: 
+ * تأكد من إضافة DATABASE_URL و OPENAI_API_KEY في قسم Secrets في Replit.
+ * وتأكد من تحديث ملف schema.prisma ليشمل جدول FarmSettings وحقل visitorType.
+ **/
