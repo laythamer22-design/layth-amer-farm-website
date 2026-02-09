@@ -1,91 +1,52 @@
-/**
- * Smart Farm System - Safe Encoding Version
- * All Arabic labels are handled via constants to avoid GitHub/Replit encoding issues.
- **/
-
 import { PrismaClient } from '@prisma/client';
 import { OpenAI } from "openai";
 
 const prisma = new PrismaClient();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Constants for safety (To avoid Arabic letters in logic)
-const VISITOR_TYPES = {
-  FAMILY: "FAMILY_CATEGORY",
-  YOUTH: "YOUTH_CATEGORY"
+const CATEGORIES = {
+  FAMILY: "FAMILY_CAT",
+  YOUTH: "YOUTH_CAT"
 };
 
 export class FarmSystem {
-  
-  async createBooking(data: {
-    date: string, 
-    customerName: string, 
-    customerPhone: string, 
-    visitorType: string, // Expected: FAMILY_CATEGORY or YOUTH_CATEGORY
-    type: 'STANDARD' | 'TRIAL',
-    identityUrl?: string,
-    receiptUrl?: string
-  }) {
+  async createBooking(data: any) {
     const selectedDate = new Date(data.date);
     const dayOfWeek = selectedDate.getDay(); 
 
-    // 1. Mandatory Visitor Type Check
-    if (!data.visitorType || !Object.values(VISITOR_TYPES).includes(data.visitorType)) {
-      throw new Error("Validation Error: Visitor type is mandatory.");
+    if (!data.visitorType || !Object.values(CATEGORIES).includes(data.visitorType)) {
+      throw new Error("Visitor type is required.");
     }
 
-    // 2. Trial Booking Rules (No Friday=5, No Saturday=6)
-    if (data.type === 'TRIAL') {
-      if (dayOfWeek === 5 || dayOfWeek === 6) {
-        throw new Error("Trial bookings are not allowed on weekends.");
-      }
-
-      const previousTrial = await prisma.booking.findFirst({
-        where: { customerPhone: data.customerPhone, type: 'TRIAL' }
-      });
-      if (previousTrial) {
-        throw new Error("This phone number already used a trial booking.");
-      }
+    if (data.type === 'TRIAL' && (dayOfWeek === 5 || dayOfWeek === 6)) {
+      throw new Error("No trials on weekends.");
     }
 
-    // 3. Save to Database
     return await prisma.booking.create({
       data: {
         date: selectedDate,
         customerName: data.customerName,
         customerPhone: data.customerPhone,
-        visitorType: data.visitorType, 
+        visitorType: data.visitorType,
         type: data.type,
-        identityUrl: data.identityUrl,
-        receiptUrl: data.type === 'STANDARD' ? data.receiptUrl : null,
       }
     });
   }
 
-  // AI Bot (Instructions in English, Output in Arabic as requested by AI)
   async askFarmBot(userQuestion: string) {
     const settings = await prisma.farmSettings.findUnique({ where: { id: 1 } });
-    const farmContext = settings?.farmKnowledge || "Farm info not set yet.";
+    const info = settings?.farmKnowledge || "Welcome.";
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         { 
           role: "system", 
-          content: `You are a helpful farm receptionist. Use this info: ${farmContext}. 
-          IMPORTANT: Respond ONLY in Arabic. Tell the user they must choose between (Family or Youth) for booking.` 
+          content: `You are an Arabic farm assistant. Info: ${info}. Always ask if they are Family or Youth in Arabic.` 
         },
         { role: "user", content: userQuestion }
       ],
     });
     return response.choices[0].message.content;
-  }
-
-  async updateAiKnowledge(newText: string) {
-    return await prisma.farmSettings.upsert({
-      where: { id: 1 },
-      update: { farmKnowledge: newText },
-      create: { id: 1, farmKnowledge: newText }
-    });
   }
 }
