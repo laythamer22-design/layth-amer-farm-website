@@ -1,52 +1,17 @@
-import { PrismaClient } from '@prisma/client';
-import { OpenAI } from "openai";
-
-const prisma = new PrismaClient();
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const CATEGORIES = {
-  FAMILY: "FAMILY_CAT",
-  YOUTH: "YOUTH_CAT"
-};
-
-export class FarmSystem {
-  async createBooking(data: any) {
-    const selectedDate = new Date(data.date);
-    const dayOfWeek = selectedDate.getDay(); 
-
-    if (!data.visitorType || !Object.values(CATEGORIES).includes(data.visitorType)) {
-      throw new Error("Visitor type is required.");
-    }
-
-    if (data.type === 'TRIAL' && (dayOfWeek === 5 || dayOfWeek === 6)) {
-      throw new Error("No trials on weekends.");
-    }
-
-    return await prisma.booking.create({
-      data: {
-        date: selectedDate,
-        customerName: data.customerName,
-        customerPhone: data.customerPhone,
-        visitorType: data.visitorType,
-        type: data.type,
-      }
-    });
-  }
-
-  async askFarmBot(userQuestion: string) {
-    const settings = await prisma.farmSettings.findUnique({ where: { id: 1 } });
-    const info = settings?.farmKnowledge || "Welcome.";
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        { 
-          role: "system", 
-          content: `You are an Arabic farm assistant. Info: ${info}. Always ask if they are Family or Youth in Arabic.` 
-        },
-        { role: "user", content: userQuestion }
-      ],
-    });
-    return response.choices[0].message.content;
+{
+  "name": "layth-amer-farm-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@prisma/client": "latest",
+    "openai": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   }
 }
