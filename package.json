@@ -1,25 +1,35 @@
-{
-  "name": "layth-amer-farm-website",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "@prisma/client": "^5.10.2",
-    "openai": "^4.28.0"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "prisma": "^5.10.2"
-  }
+// 1. Generator configuration for Vercel/Linux compatibility
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+// 2. Database connection
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 3. Main Booking Model (Includes ID, Residency cards, and unique date logic)
+model Booking {
+  id               String   @id @default(uuid())
+  date             DateTime @unique 
+  customerName     String
+  customerPhone    String
+  visitorType      String   
+  type             String   @default("STANDARD")
+  
+  // Storage for Identity documents (ID and Residency)
+  idCardUrl        String?  
+  residencyCardUrl String?  
+  
+  status           String   @default("PENDING") 
+  createdAt        DateTime @default(now())
+}
+
+// 4. Knowledge base for AI (OpenAI)
+model FarmSettings {
+  id            Int      @id @default(1)
+  farmKnowledge String   @db.Text 
+  updatedAt     DateTime @updatedAt
 }
