@@ -107,16 +107,63 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
     </form>
 </div>
 <div id="finalAdminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+    LAYTH AMER ALI, [2/12/2026 2:33 AM]
+<div id="finalAdminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         <div class="bg-slate-900 p-6 text-white flex justify-between items-center sticky top-0">
-            <span class="font-black">⚙️ لوحة التحكم الشاملة</span>
+            <span class="font-black">📊 نظام الإدارة والتقارير المالية</span>
             <button type="button" onclick="document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden')" class="text-xl">✕</button>
         </div>
-        <div class="p-8 space-y-6">
+        
+        <div class="p-8 space-y-8">
+            <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div>
+                    <label class="block font-bold mb-2 text-sm text-slate-700">اسم المزرعة:</label>
+                    <input type="text" id="editName" class="w-full p-3 border rounded-xl" placeholder="الاسم الجديد">
+                </div>
+                <div>
+                    <label class="block font-bold mb-2 text-sm text-slate-700">السعر الحالي:</label>
+                    <input type="number" id="priceInput" class="w-full p-3 border rounded-xl" placeholder="السعر">
+                </div>
+            </div>
+
             <div>
-                <label class="block font-bold mb-2 text-slate-700">تعديل اسم المزرعة:</label>
-                <script>
-// هذه الدالة تفتح اللوحة وتطلب الباسورد
+                <label class="block font-bold mb-2 text-blue-600">🧠 تلقين الذكاء الاصطناعي:</label>
+                <textarea id="aiKnowledge" class="w-full p-4 border border-blue-200 rounded-xl h-24 text-sm" placeholder="اكتب معلومات المزرعة هنا..."></textarea>
+            </div>
+
+            <div>
+                <h3 class="font-black text-lg mb-4 border-r-4 border-green-500 pr-3">📑 تقارير الحجوزات الأخيرة:</h3>
+                <div class="overflow-x-auto border rounded-xl">
+                    <table class="w-full text-sm text-right">
+                        <thead class="bg-slate-100 border-b">
+                            <tr>
+                                <th class="p-3">الزبون</th>
+                                <th class="p-3">الحالة</th>
+                                <th class="p-3">الدفع</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTable">
+                            <tr class="border-b">
+                                <td class="p-3">مثال: أحمد علي</td>
+                                <td class="p-3"><span class="text-green-600 font-bold">مؤكد</span></td>
+                                <td class="p-3 text-red-500">لم يدفع بعد</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <button type="button" onclick="saveAllChanges()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-2xl font-black shadow-lg transform transition-all active:scale-95">
+                حفظ كافة التغييرات وتحديث النظام ✅
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+let farmData = "مزرعة أبو سيف وأبو نمر ترحب بكم.";
+
 function toggleAdminPanel() {
     var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
     if (pin === "1234") {
@@ -125,36 +172,68 @@ function toggleAdminPanel() {
             panel.classList.remove('hidden');
             panel.classList.add('flex');
         }
-    } else if (pin !== null) {
+    } else if (pin !== null && pin !== "") {
         alert("الرمز غير صحيح!");
     }
 }
 
-// هذه الدالة هي "الصلاحيات الشاملة" التي تعالج السعر والاسم والوصف
 function saveAllChanges() {
-    // تحديث السعر
     var newPrice = document.getElementById('priceInput').value;
-    if (newPrice) {
-        var displayPrice = document.getElementById('displayPrice');
-        if (displayPrice) displayPrice.innerText = newPrice + " دينار";
-    }
-
-    // تحديث اسم المزرعة
+    if (newPrice) document.getElementById('displayPrice').innerText = newPrice + " دينار";
+    
     var newName = document.getElementById('editName').value;
     if (newName) {
-        var farmTitle = document.querySelector('h1');
-        if (farmTitle) farmTitle.innerText = newName;
+        var title = document.querySelector('h1');
+        if (title) title.innerText = newName;
     }
 
-    // تحديث الوصف
-    var newDesc = document.getElementById('editDesc').value;
-    if (newDesc) {
-        var description = document.querySelector('p.text-gray-600');
-        if (description) description.innerText = newDesc;
-    }
+    var newKnowledge = document.getElementById('aiKnowledge').value;
+    if (newKnowledge) farmData = newKnowledge;
 
-    alert("تم تحديث كافة تفاصيل الموقع بنجاح!");
+    alert("تم تحديث البيانات والتقارير بنجاح!");
     document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden');
+}
+
+// نظام تسجيل الحجوزات في التقارير
+
+LAYTH AMER ALI, [2/12/2026 2:33 AM]
+function addBookingToReport(name) {
+    const table = document.getElementById('reportsTable');
+    const newRow = `
+        <tr class="border-b bg-yellow-50">
+            <td class="p-3 font-bold">${name}</td>
+            <td class="p-3 text-blue-600">طلب جديد</td>
+            <td class="p-3">
+                <button onclick="this.innerText='تم الدفع ✅'; this.className='text-green-600 font-bold'" class="bg-white border px-2 py-1 rounded shadow-sm">تأكيد الدفع؟</button>
+            </td>
+        </tr>
+    `;
+    table.innerHTML = newRow + table.innerHTML;
+}
+
+function sendWhatsApp() {
+    var name = document.getElementById('custName').value;
+    var phone = document.getElementById('custPhone').value;
+    if (!name || !phone) { alert("يرجى إكمال الاسم ورقم الهاتف!"); return; }
+    
+    // تسجيل الحجز في التقارير قبل الإرسال
+    addBookingToReport(name);
+
+    var msg = "طلب حجز جديد لمزرعة أبو سيف وأبو نمر: \nالاسم: " + name + "\nالهاتف: " + phone;
+    window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
+}
+
+function botAnswer() {
+    const input = document.getElementById('botInput');
+    const messages = document.getElementById('botMessages');
+    if (input && input.value.trim() !== "") {
+        messages.innerHTML += <div class='bg-blue-100 p-2 rounded-lg mb-2 text-right'>${input.value}</div>;
+        setTimeout(() => {
+            messages.innerHTML += <div class='bg-gray-100 p-2 rounded-lg mb-2 text-left'>🤖: ${farmData}</div>;
+            messages.scrollTop = messages.scrollHeight;
+        }, 1000);
+        input.value = "";
+    }
 }
 </script>
 </body>
