@@ -97,86 +97,78 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
                 <div class="p-6 border-2 border-dashed border-blue-200 rounded-[2rem] bg-blue-50 text-center">
                     <p class="font-bold text-blue-900 mb-4">🆔 إرفاق المستمسكات (البطاقة الموحدة + السكن)</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        LAYTH AMER ALI, [2/12/2026 2:49 AM]
+                    LAYTH AMER ALI, [2/12/2026 2:54 AM]
 <button type="button" onclick="sendWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center gap-3 transform active:scale-95 transition-all text-xl">
             تأكيد الحجز والإرسال عبر الواتساب 💬
         </button>
     </form>
 </div>
 
-<div id="finalAdminPanel" style="display: none;" class="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 text-right" dir="rtl">
-    <div class="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto font-sans">
-        <div class="bg-slate-900 p-6 text-white flex justify-between items-center sticky top-0">
-            <span class="font-black text-lg">📊 نظام الإدارة الشامل والتقارير والذكاء الاصطناعي</span>
-            <button type="button" onclick="closeAdminPanel()" class="text-2xl font-bold">✕</button>
+<div id="finalAdminPanel" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-center: center; padding: 1rem;">
+    <div style="background: white; width: 100%; max-width: 600px; border-radius: 2rem; overflow: hidden; max-height: 90vh; overflow-y: auto; direction: rtl; text-align: right;">
+        <div style="background: #0f172a; padding: 1.5rem; color: white; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 900;">⚙️ لوحة التحكم والصلاحيات الشاملة</span>
+            <button onclick="closeAdminPanel()" style="font-size: 1.5rem; background: none; border: none; color: white; cursor: pointer;">✕</button>
         </div>
         
-        <div class="p-6 space-y-8">
-            <div class="grid grid-cols-2 gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200">
+        <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div>
-                    <label class="block font-bold mb-2 text-sm">اسم المزرعة:</label>
-                    <input type="text" id="editName" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500" placeholder="أدخل الاسم الجديد">
+                    <label style="display: block; font-weight: bold; margin-bottom: 0.5rem;">اسم المزرعة:</label>
+                    <input type="text" id="editName" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.75rem;" placeholder="الاسم الجديد">
                 </div>
                 <div>
-                    <label class="block font-bold mb-2 text-sm">السعر الحالي:</label>
-                    <input type="number" id="priceInput" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500" placeholder="السعر الجديد">
+                    <label style="display: block; font-weight: bold; margin-bottom: 0.5rem;">السعر:</label>
+                    <input type="number" id="priceInput" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.75rem;" placeholder="السعر الجديد">
                 </div>
-            </div>
-
-            <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100 shadow-inner">
-                <label class="block font-bold mb-2 text-blue-700">🧠 تلقين المجيب الآلي (معلومات المزرعة):</label>
-                <textarea id="aiKnowledge" class="w-full p-4 border border-blue-200 rounded-xl h-24 text-sm outline-none focus:border-blue-500" placeholder="اكتب هنا كل تفاصيل المزرعة التي سيستخدمها البوت للرد على الزبائن..."></textarea>
             </div>
 
             <div>
-                <h3 class="font-black text-lg mb-4 flex items-center gap-2">📑 تقارير الحجوزات والمدفوعات:</h3>
-                <div class="overflow-x-auto border rounded-2xl shadow-sm">
-                    <table class="w-full text-sm text-right">
-                        <thead class="bg-slate-100 border-b shadow-sm">
+                <label style="display: block; font-weight: bold; margin-bottom: 0.5rem; color: #2563eb;">🧠 تلقين المجيب الآلي (معلومات المزرعة):</label>
+                <textarea id="aiKnowledge" style="width: 100%; padding: 0.75rem; border: 1px solid #bfdbfe; border-radius: 0.75rem; height: 100px;" placeholder="اكتب هنا ما تريد أن يجيب به البوت على الزبائن..."></textarea>
+            </div>
+
+            <div>
+                <h3 style="font-weight: 900; margin-bottom: 1rem;">📑 التقارير المالية والحجوزات:</h3>
+                <div style="border: 1px solid #eee; border-radius: 1rem; overflow: hidden;">
+                    <table style="width: 100%; font-size: 0.875rem; text-align: right; border-collapse: collapse;">
+                        <thead style="background: #f8fafc;">
                             <tr>
-                                <th class="p-4">الزبون</th>
-                                <th class="p-4 text-center">حالة الدفع</th>
-                                <th class="p-4 text-center">الإجراء</th>
+                                <th style="padding: 0.75rem; border-bottom: 1px solid #eee;">الزبون</th>
+                                <th style="padding: 0.75rem; border-bottom: 1px solid #eee;">الدفع</th>
                             </tr>
                         </thead>
                         <tbody id="reportsTable">
-                            <tr id="noDataRow" class="border-b text-gray-400">
-                                <td colspan="3" class="p-4 text-center italic">لا توجد طلبات حجز جديدة حالياً</td>
-                            </tr>
+                            <tr><td colspan="2" style="padding: 1rem; text-align: center; color: #94a3b8;">لا توجد طلبات حجز حالياً</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="p-5 bg-red-50 rounded-2xl border border-red-100">
-                <label class="block font-bold mb-2 text-red-700 text-sm">تغيير رمز دخول المدير:</label>
-                <div class="flex gap-2 text-left" dir="ltr">
-                    <button type="button" onclick="updatePassword()" class="bg-red-600 text-white px-5 rounded-xl font-bold">تحديث</button>
-                    <input type="password" id="newPassInput" class="flex-1 p-3 border rounded-xl text-right" dir="rtl" placeholder="الرمز الجديد">
+            <div style="padding: 1rem; background: #fef2f2; border-radius: 1rem;">
+                <label style="display: block; font-weight: bold; color: #b91c1c; margin-bottom: 0.5rem;">تغيير كلمة سر المدير:</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="password" id="newPassInput" style="flex: 1; padding: 0.75rem; border: 1px solid #fecaca; border-radius: 0.75rem;" placeholder="الرمز الجديد">
+                    <button onclick="updatePassword()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.75rem; cursor: pointer;">تحديث</button>
                 </div>
             </div>
 
-            <button type="button" onclick="saveAllChanges()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-3xl font-black shadow-xl transform transition-all active:scale-95 text-xl">
-                حفظ كافة التغييرات وتحديث النظام ✅
-            </button>
+LAYTH AMER ALI, [2/12/2026 2:54 AM]
+<button onclick="saveAllChanges()" style="width: 100%; background: #2563eb; color: white; padding: 1.25rem; border: none; border-radius: 1.5rem; font-weight: 900; font-size: 1.1rem; cursor: pointer;">حفظ وتحديث النظام ✅</button>
         </div>
     </div>
 </div>
 
 <script>
-// تخزين المتغيرات بشكل عالمي
-window.
+// تعريف المتغيرات في نافذة المتصفح لضمان الوصول إليها
+window.adminPass = "1234";
+window.aiMemory = "مرحباً بك في مزرعتنا.";
 
-LAYTH AMER ALI, [2/12/2026 2:49 AM]
-adminPassword = "1234";
-window.farmKnowledge = "مزرعة أبو سيف وأبو نمر ترحب بكم.";
-
-// وظيفة فتح اللوحة (تم إصلاحها لضمان الاستجابة)
 function toggleAdminPanel() {
-    var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
-    if (pin === window.adminPassword) {
+    let pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
+    if (pin === window.adminPass) {
         document.getElementById('finalAdminPanel').style.display = 'flex';
-    } else if (pin !== null && pin !== "") {
+    } else if (pin !== null) {
         alert("الرمز غير صحيح!");
     }
 }
@@ -185,87 +177,57 @@ function closeAdminPanel() {
     document.getElementById('finalAdminPanel').style.display = 'none';
 }
 
-// تغيير كلمة السر
 function updatePassword() {
-    var newPass = document.getElementById('newPassInput').value;
-    if (newPass.length < 4) { alert("يجب أن تكون كلمة السر 4 رموز على الأقل"); return; }
-    window.adminPassword = newPass;
-    alert("تم تغيير كلمة السر بنجاح! الرمز الحالي هو: " + newPass);
+    let p = document.getElementById('newPassInput').value;
+    if (p.length < 4) { alert("كلمة السر ضعيفة!"); return; }
+    window.adminPass = p;
+    alert("تم تحديث كلمة السر بنجاح!");
 }
 
-// حفظ كافة التغييرات الشاملة
 function saveAllChanges() {
-    // 1. تحديث السعر
-    var nPrice = document.getElementById('priceInput').value;
-    if (nPrice) document.getElementById('displayPrice').innerText = nPrice + " دينار";
+    let nPrice = document.getElementById('priceInput').value;
+    if (nPrice) {
+        let disp = document.getElementById('displayPrice');
+        if (disp) disp.innerText = nPrice + " دينار";
+    }
     
-    // 2. تحديث الاسم
-    var nName = document.getElementById('editName').value;
+    let nName = document.getElementById('editName').value;
     if (nName) {
         document.querySelectorAll('h1').forEach(h => h.innerText = nName);
     }
 
-    // 3. تحديث عقل المجيب الآلي
-    var nKnowledge = document.getElementById('aiKnowledge').value;
-    if (nKnowledge) window.farmKnowledge = nKnowledge;
+    let nAI = document.getElementById('aiKnowledge').value;
+    if (nAI) window.aiMemory = nAI;
 
-    alert("تم تحديث كافة تفاصيل الموقع والذكاء الاصطناعي بنجاح!");
+    alert("تم حفظ كافة التعديلات وتدريب البوت!");
     closeAdminPanel();
 }
 
-// نظام تسجيل التقارير
-function addBookingToReport(name) {
-    const table = document.getElementById('reportsTable');
-    const noData = document.getElementById('noDataRow');
-    if (noData) noData.remove();
-
-    const newRow = `
-        <tr class="border-b bg-yellow-50/50">
-            <td class="p-4 font-bold text-slate-800">${name}</td>
-            <td class="p-4 text-center">
-                <span id="status-${name}" class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] font-bold">لم يدفع</span>
-            </td>
-            <td class="p-4 text-center">
-                <button onclick="confirmBookingPayment('${name}')" class="text-blue-600 hover:underline font-bold text-xs">تأكيد الدفع؟</button>
-            </td>
-        </tr>
-    `;
-    table.innerHTML = newRow + table.innerHTML;
-}
-
-function confirmBookingPayment(name) {
-    const el = document.getElementById('status-' + name);
-    if (el) {
-        el.innerText = "تم الدفع ✅";
-        el.className = "bg-green-100 text-green-600 px-3 py-1 rounded-full text-[10px] font-bold";
-    }
-}
-
-// إصلاح المجيب الآلي ليعتمد على التلقين
 function botAnswer() {
-    const input = document.getElementById('botInput');
-    const messages = document.getElementById('botMessages');
+    let input = document.getElementById('botInput');
+    let messages = document.getElementById('botMessages');
     if (input && input.value.trim() !== "") {
-        messages.innerHTML += <div class='bg-blue-100 p-3 rounded-2xl mb-2 text-right text-sm'>${input.value}</div>;
+        messages.innerHTML += <div style="background:#dbeafe; padding:0.75rem; border-radius:1rem; margin-bottom:0.5rem; text-align:right;">${input.value}</div>;
         setTimeout(() => {
-            messages.innerHTML += <div class='bg-gray-100 p-3 rounded-2xl mb-2 text-left text-sm border-r-4 border-blue-600'>🤖: ${window.farmKnowledge}</div>;
+            messages.innerHTML += <div style="background:#f1f5f9; padding:0.75rem; border-radius:1rem; margin-bottom:0.5rem; text-align:left; border-right: 4px solid #2563eb;">🤖: ${window.aiMemory}</div>;
             messages.scrollTop = messages.scrollHeight;
-        }, 800);
+        }, 600);
         input.value = "";
     }
 }
 
-// إرسال واتساب + تسجيل تلقائي في التقارير
 function sendWhatsApp() {
-    var name = document.getElementById('custName').value;
-    var phone = document.getElementById('custPhone').value;
-    if (!name || !phone) { alert("يرجى إكمال الاسم ورقم الهاتف!"); return; }
+    let name = document.getElementById('custName').value;
+    let phone = document.getElementById('custPhone').value;
+    if (!name || !phone) { alert("يرجى إكمال البيانات!"); return; }
     
-    addBookingToReport(name); // تسجيل في التقارير
+    // تسجيل الحجز في التقارير
+    let table = document.getElementById('reportsTable');
+    if (table.innerHTML.includes("لا توجد طلبات")) table.innerHTML = "";
+    table.innerHTML = <tr style="border-bottom: 1px solid #eee;"><td style="padding:0.75rem;">${name}</td><td style="padding:0.75rem; color:green; font-weight:bold;">مؤكد</td></tr> + table.innerHTML;
 
-    var msg = "طلب حجز جديد لمزرعة: \nالاسم: " + name + "\nالهاتف: " + phone;
-    window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
+    window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent("طلب حجز باسم: " + name));
 }
 </script>
 </body>
-</html>
+</html>    
