@@ -97,55 +97,52 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
                 <div class="p-6 border-2 border-dashed border-blue-200 rounded-[2rem] bg-blue-50 text-center">
                     <p class="font-bold text-blue-900 mb-4">🆔 إرفاق المستمسكات (البطاقة الموحدة + السكن)</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="file" class="bg-white p-2 rounded-xl border w-full text-xs">
-                        <input type="file" class="bg-white p-2 rounded-xl border w-full text-xs">
-                    <div id="adminPanel" class="max-w-4xl mx-auto px-4 mb-8 hidden">
-                </div>
-                LAYTH AMER ALI, [2/12/2026 2:44 AM]
+                        LAYTH AMER ALI, [2/12/2026 2:49 AM]
 <button type="button" onclick="sendWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center gap-3 transform active:scale-95 transition-all text-xl">
             تأكيد الحجز والإرسال عبر الواتساب 💬
         </button>
     </form>
 </div>
 
-<div id="finalAdminPanel" class="hidden fixed inset-0 z-[150] bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto text-right" dir="rtl">
-        <div class="bg-slate-900 p-6 text-white flex justify-between items-center sticky top-0 z-10">
-            <span class="font-black text-lg">📊 نظام الإدارة والتقارير والذكاء الاصطناعي</span>
-            <button type="button" onclick="document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden')" class="text-2xl font-bold">✕</button>
+<div id="finalAdminPanel" style="display: none;" class="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 text-right" dir="rtl">
+    <div class="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto font-sans">
+        <div class="bg-slate-900 p-6 text-white flex justify-between items-center sticky top-0">
+            <span class="font-black text-lg">📊 نظام الإدارة الشامل والتقارير والذكاء الاصطناعي</span>
+            <button type="button" onclick="closeAdminPanel()" class="text-2xl font-bold">✕</button>
         </div>
         
         <div class="p-6 space-y-8">
             <div class="grid grid-cols-2 gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200">
-                <div class="col-span-2 md:col-span-1">
-                    <label class="block font-bold mb-2 text-sm text-slate-700">تغيير اسم المزرعة:</label>
-                    <input type="text" id="editName" class="w-full p-3 border rounded-xl" placeholder="الاسم الجديد">
+                <div>
+                    <label class="block font-bold mb-2 text-sm">اسم المزرعة:</label>
+                    <input type="text" id="editName" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500" placeholder="أدخل الاسم الجديد">
                 </div>
-                <div class="col-span-2 md:col-span-1">
-                    <label class="block font-bold mb-2 text-sm text-slate-700">تعديل السعر الحالي:</label>
-                    <input type="number" id="priceInput" class="w-full p-3 border rounded-xl" placeholder="السعر">
+                <div>
+                    <label class="block font-bold mb-2 text-sm">السعر الحالي:</label>
+                    <input type="number" id="priceInput" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500" placeholder="السعر الجديد">
                 </div>
             </div>
 
-            <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100">
-                <label class="block font-bold mb-2 text-blue-700">🧠 تلقين المجيب الآلي (تدريب البوت):</label>
-                <textarea id="aiKnowledge" class="w-full p-4 border border-blue-200 rounded-xl h-24 text-sm" placeholder="أدخل معلومات المزرعة (المسبح، الغرف، الموقع...)"></textarea>
-                <p class="text-[10px] text-blue-500 mt-2">* هذه المعلومات سيستخدمها المجيب الآلي للرد على استفسارات الزبائن.</p>
+            <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100 shadow-inner">
+                <label class="block font-bold mb-2 text-blue-700">🧠 تلقين المجيب الآلي (معلومات المزرعة):</label>
+                <textarea id="aiKnowledge" class="w-full p-4 border border-blue-200 rounded-xl h-24 text-sm outline-none focus:border-blue-500" placeholder="اكتب هنا كل تفاصيل المزرعة التي سيستخدمها البوت للرد على الزبائن..."></textarea>
             </div>
 
             <div>
-                <h3 class="font-black text-lg mb-4">📑 تقارير الحجوزات والمدفوعات:</h3>
-                <div class="overflow-x-auto border rounded-2xl">
+                <h3 class="font-black text-lg mb-4 flex items-center gap-2">📑 تقارير الحجوزات والمدفوعات:</h3>
+                <div class="overflow-x-auto border rounded-2xl shadow-sm">
                     <table class="w-full text-sm text-right">
-                        <thead class="bg-slate-100 border-b">
+                        <thead class="bg-slate-100 border-b shadow-sm">
                             <tr>
                                 <th class="p-4">الزبون</th>
                                 <th class="p-4 text-center">حالة الدفع</th>
-                                <th class="p-4 text-center">تأكيد</th>
+                                <th class="p-4 text-center">الإجراء</th>
                             </tr>
                         </thead>
                         <tbody id="reportsTable">
-                            <tr class="border-b text-gray-400"><td colspan="3" class="p-4 text-center italic">لا توجد طلبات جديدة</td></tr>
+                            <tr id="noDataRow" class="border-b text-gray-400">
+                                <td colspan="3" class="p-4 text-center italic">لا توجد طلبات حجز جديدة حالياً</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -153,84 +150,120 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
 
             <div class="p-5 bg-red-50 rounded-2xl border border-red-100">
                 <label class="block font-bold mb-2 text-red-700 text-sm">تغيير رمز دخول المدير:</label>
-                <div class="flex gap-2">
-                    <input type="password" id="newPassInput" class="flex-1 p-3 border rounded-xl" placeholder="كلمة السر الجديدة">
+                <div class="flex gap-2 text-left" dir="ltr">
                     <button type="button" onclick="updatePassword()" class="bg-red-600 text-white px-5 rounded-xl font-bold">تحديث</button>
+                    <input type="password" id="newPassInput" class="flex-1 p-3 border rounded-xl text-right" dir="rtl" placeholder="الرمز الجديد">
                 </div>
             </div>
 
-            <button type="button" onclick="saveAllChanges()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-2xl font-black shadow-xl transform transition-all active:scale-95 text-lg">
-                حفظ كافة التغييرات وتحديث الموقع ✅
+            <button type="button" onclick="saveAllChanges()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-3xl font-black shadow-xl transform transition-all active:scale-95 text-xl">
+                حفظ كافة التغييرات وتحديث النظام ✅
             </button>
         </div>
     </div>
 </div>
 
 <script>
-let adminPassword = "1234";
-let farmData = "مرحباً بكم في مزرعتنا.";
+// تخزين المتغيرات بشكل عالمي
+window.
 
-LAYTH AMER ALI, [2/12/2026 2:44 AM]
+LAYTH AMER ALI, [2/12/2026 2:49 AM]
+adminPassword = "1234";
+window.farmKnowledge = "مزرعة أبو سيف وأبو نمر ترحب بكم.";
+
+// وظيفة فتح اللوحة (تم إصلاحها لضمان الاستجابة)
 function toggleAdminPanel() {
     var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
-    if (pin === adminPassword) {
-        var panel = document.getElementById('finalAdminPanel');
-        if (panel) { panel.classList.remove('hidden'); panel.classList.add('flex'); }
-    } else if (pin !== null) { alert("الرمز غير صحيح!"); }
+    if (pin === window.adminPassword) {
+        document.getElementById('finalAdminPanel').style.display = 'flex';
+    } else if (pin !== null && pin !== "") {
+        alert("الرمز غير صحيح!");
+    }
 }
 
+function closeAdminPanel() {
+    document.getElementById('finalAdminPanel').style.display = 'none';
+}
+
+// تغيير كلمة السر
 function updatePassword() {
     var newPass = document.getElementById('newPassInput').value;
-    if (newPass.length < 4) { alert("الرمز يجب أن يكون 4 أرقام على الأقل"); return; }
-    adminPassword = newPass;
-    alert("تم تغيير كلمة السر بنجاح! الرمز الجديد: " + newPass);
+    if (newPass.length < 4) { alert("يجب أن تكون كلمة السر 4 رموز على الأقل"); return; }
+    window.adminPassword = newPass;
+    alert("تم تغيير كلمة السر بنجاح! الرمز الحالي هو: " + newPass);
 }
 
+// حفظ كافة التغييرات الشاملة
 function saveAllChanges() {
-    var newPrice = document.getElementById('priceInput').value;
-    if (newPrice) document.getElementById('displayPrice').innerText = newPrice + " دينار";
+    // 1. تحديث السعر
+    var nPrice = document.getElementById('priceInput').value;
+    if (nPrice) document.getElementById('displayPrice').innerText = nPrice + " دينار";
     
-    var newName = document.getElementById('editName').value;
-    if (newName) document.querySelectorAll('h1').forEach(h => h.innerText = newName);
+    // 2. تحديث الاسم
+    var nName = document.getElementById('editName').value;
+    if (nName) {
+        document.querySelectorAll('h1').forEach(h => h.innerText = nName);
+    }
 
-    var newKnowledge = document.getElementById('aiKnowledge').value;
-    if (newKnowledge) farmData = newKnowledge;
+    // 3. تحديث عقل المجيب الآلي
+    var nKnowledge = document.getElementById('aiKnowledge').value;
+    if (nKnowledge) window.farmKnowledge = nKnowledge;
 
-    alert("تم تحديث الموقع وتدريب المجيب الآلي بنجاح!");
-    document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden');
+    alert("تم تحديث كافة تفاصيل الموقع والذكاء الاصطناعي بنجاح!");
+    closeAdminPanel();
 }
 
+// نظام تسجيل التقارير
 function addBookingToReport(name) {
     const table = document.getElementById('reportsTable');
-    if (table.innerHTML.includes("لا توجد طلبات")) table.innerHTML = "";
-    const newRow = <tr class="border-b bg-yellow-50/30"><td class="p-4 font-bold text-slate-800">${name}</td><td class="p-4 text-center"><span id="status-${name}" class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] font-bold text-nowrap">لم يدفع</span></td><td class="p-4 text-center"><button onclick="confirmPay('${name}')" class="text-blue-600 font-bold text-xs underline">تأكيد؟</button></td></tr>;
+    const noData = document.getElementById('noDataRow');
+    if (noData) noData.remove();
+
+    const newRow = `
+        <tr class="border-b bg-yellow-50/50">
+            <td class="p-4 font-bold text-slate-800">${name}</td>
+            <td class="p-4 text-center">
+                <span id="status-${name}" class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] font-bold">لم يدفع</span>
+            </td>
+            <td class="p-4 text-center">
+                <button onclick="confirmBookingPayment('${name}')" class="text-blue-600 hover:underline font-bold text-xs">تأكيد الدفع؟</button>
+            </td>
+        </tr>
+    `;
     table.innerHTML = newRow + table.innerHTML;
 }
 
-function confirmPay(name) {
+function confirmBookingPayment(name) {
     const el = document.getElementById('status-' + name);
-    if (el) { el.innerText = "تم الدفع ✅"; el.className = "bg-green-100 text-green-600 px-3 py-1 rounded-full text-[10px] font-bold text-nowrap"; }
+    if (el) {
+        el.innerText = "تم الدفع ✅";
+        el.className = "bg-green-100 text-green-600 px-3 py-1 rounded-full text-[10px] font-bold";
+    }
 }
 
+// إصلاح المجيب الآلي ليعتمد على التلقين
 function botAnswer() {
     const input = document.getElementById('botInput');
     const messages = document.getElementById('botMessages');
     if (input && input.value.trim() !== "") {
         messages.innerHTML += <div class='bg-blue-100 p-3 rounded-2xl mb-2 text-right text-sm'>${input.value}</div>;
         setTimeout(() => {
-            messages.innerHTML += <div class='bg-gray-100 p-3 rounded-2xl mb-2 text-left text-sm border-r-4 border-blue-600'>🤖: ${farmData}</div>;
+            messages.innerHTML += <div class='bg-gray-100 p-3 rounded-2xl mb-2 text-left text-sm border-r-4 border-blue-600'>🤖: ${window.farmKnowledge}</div>;
             messages.scrollTop = messages.scrollHeight;
         }, 800);
         input.value = "";
     }
 }
 
+// إرسال واتساب + تسجيل تلقائي في التقارير
 function sendWhatsApp() {
     var name = document.getElementById('custName').value;
     var phone = document.getElementById('custPhone').value;
-    if (!name || !phone) { alert("يرجى إكمال البيانات!"); return; }
-    addBookingToReport(name);
-    var msg = "طلب حجز جديد لمزرعة أبو سيف وأبو نمر: \nالاسم: " + name + "\nالهاتف: " + phone;
+    if (!name || !phone) { alert("يرجى إكمال الاسم ورقم الهاتف!"); return; }
+    
+    addBookingToReport(name); // تسجيل في التقارير
+
+    var msg = "طلب حجز جديد لمزرعة: \nالاسم: " + name + "\nالهاتف: " + phone;
     window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
 }
 </script>
