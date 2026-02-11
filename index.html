@@ -101,111 +101,65 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
                         <input type="file" class="bg-white p-2 rounded-xl border w-full text-xs">
                     <div id="adminPanel" class="max-w-4xl mx-auto px-4 mb-8 hidden">
                 </div>
-                <button type="button" onclick="sendWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-2xl text-xl shadow-xl transition-all active:scale-95">
-                    تأكيد الحجز والإرسال عبر الواتساب 💬
-                </button>
-            </form>
-        </div>
-    </main>
-
-    <div id="adminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
-            <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
-                <span class="font-black">⚙️ لوحة تحكم المدير</span>
-                <button onclick="document.getElementById('adminPanel').classList.add('hidden')" class="text-xl">✕</button>
-            </div>
-            <div class="p-8 space-y-6">
-                <div>
-                    <label class="block font-bold mb-2">تعديل سعر الإيجار</label>
-                    <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="أدخل السعر الجديد">
-                </div>
-                <div>
-                    <label class="block font-bold mb-2">تعديل تفاصيل المزرعة</label>
-                    <textarea class="w-full p-4 border rounded-xl h-24" placeholder="أدخل التعديلات الجديدة..."></textarea>
-                </div>
-                <button onclick="saveAdminChanges()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">حفظ كافة التغييرات</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed bottom-6 left-6 z-50">
-        <button onclick="toggleBot()" class="bg-blue-900 text-white p-5 rounded-3xl shadow-2xl flex items-center gap-2 chat-bounce">
-            <span class="text-2xl">🤖</span>
-            <span class="font-bold text-sm">اسأل المساعد الذكي</span>
+                <button type="button" onclick="sendWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center gap-3 transform active:scale-95 transition-all text-xl">
+            تأكيد الحجز والإرسال عبر الواتساب 💬
         </button>
+    </form>
+</div>
 
-LAYTH AMER ALI, [2/11/2026 10:08 PM]
-<div id="botBox" class="hidden w-80 h-[450px] bg-white shadow-2xl rounded-[2rem] border-2 border-blue-50 flex flex-col mb-4 absolute bottom-20 left-0 overflow-hidden">
-            <div class="bg-blue-900 p-5 text-white font-bold flex justify-between items-center">
-                <span>🤖 مساعد ابو سيف وابو نمر</span>
-                <button onclick="toggleBot()">✕</button>
+<div id="adminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
+        <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
+            <span class="font-black">⚙️ لوحة تحكم المدير</span>
+            <button onclick="document.getElementById('adminPanel').classList.add('hidden')" class="text-xl">✕</button>
+        </div>
+        <div class="p-8 space-y-6">
+            <div>
+                <label class="block font-bold mb-2">تعديل سعر الإيجار</label>
+                <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="أدخل السعر الجديد">
             </div>
-            <div class="flex-1 p-5 bg-slate-50 text-sm overflow-y-auto space-y-4" id="botMessages">
-                <div class="bg-blue-100 text-blue-900 p-3 rounded-2xl rounded-tr-none">
-                    أهلاً بك! أنا الذكاء الاصطناعي لمزرعة ابو سيف وابو نمر. كيف أساعدك في حجزك اليوم؟
-                </div>
-            </div>
-            <div class="p-4 border-t bg-white flex gap-2">
-                <input type="text" id="botInput" placeholder="اسألني أي شيء..." class="flex-1 outline-none text-xs">
-                <button onclick="botAnswer()" class="text-blue-600 font-bold">ارسل</button>
-            </div>
+            <button onclick="saveAdminChanges()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold">حفظ التعديلات</button>
         </div>
     </div>
+</div>
 
-    <script>
-        <script>
+<script>
+// وظيفة فتح بوابة المدير
 function toggleAdminPanel() {
     var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
     if (pin === "1234") {
         var panel = document.getElementById('adminPanel');
         if (panel) {
-            panel.classList.toggle('hidden');
+            panel.classList.remove('hidden');
+            panel.classList.add('flex');
         }
     } else if (pin !== null) {
         alert("الرمز غير صحيح!");
     }
 }
-</script>
+
+// وظيفة حفظ التعديلات
+function saveAdminChanges() {
+    var price = document.getElementById('priceInput').value;
+    if (price) {
+        var display = document.getElementById('displayPrice');
+        if (display) display.innerText = price + " دينار";
+        alert("تم تحديث السعر بنجاح!");
+        document.getElementById('adminPanel').classList.add('hidden');
+    }
 }
-        function saveAdminChanges() {
-            const price = document.getElementById('priceInput').value;
-            if(price) {
-                document.getElementById('displayPrice').innerText = price + " دينار";
-                alert("تم تحديث السعر والتفاصيل بنجاح!");
-                document.getElementById('adminPanel').classList.add('hidden');
-            }
-        }
 
-        // وظائف بوت الذكاء الاصطناعي
-        function toggleBot() { document.getElementById('botBox').classList.toggle('hidden'); }
-        
-        function botAnswer() {
-            const input = document.getElementById('botInput');
-            const messages = document.getElementById('botMessages');
-            if(input.value.trim() !== "") {
-                messages.innerHTML += <div class="bg-gray-200 p-3 rounded-2xl rounded-tl-none self-end text-xs">${input.value}</div>;
-                setTimeout(() => {
-                    messages.innerHTML += <div class="bg-blue-100 text-blue-900 p-3 rounded-2xl rounded-tr-none text-xs">شكراً لسؤالك! بخصوص "${input.value}"، يمكنك التواصل معنا مباشرة عبر الواتساب للحصول على أدق التفاصيل حالياً.</div>;
-                    messages.scrollTop = messages.scrollHeight;
-                }, 1000);
-                input.value = "";
-            }
-        }
-
-        // وظائف الواتساب والإشعارات
-        function sendWhatsApp() {
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            if(!name || !phone) return alert("يرجى إكمال الاسم ورقم الهاتف!");
-
-            const msg = طلب حجز جديد لمزرعة ابو سيف وابو نمر الترفيهية%0Aالاسم: ${name}%0Aالهاتف: ${phone};
-            window.open(`https://wa.me/964XXXXXXXXXX?text=${msg}`, '_blank'); // ضع رقمك هنا
-
-            // إشعار إتمام الحجز
-            setTimeout(() => {
-                alert("✅ شكراً لك! تم استلام طلب الحجز. ستصلك رسالة تأكيد رسمية وتذكير قبل موعد الحجز بـ 24 ساعة.");
-            }, 2000);
-        }
-    </script>
+// وظيفة الواتساب
+function sendWhatsApp() {
+    var name = document.getElementById('custName').value;
+    var phone = document.getElementById('custPhone').value;
+    if (!name || !phone) {
+        alert("يرجى إكمال الاسم ورقم الهاتف!");
+        return;
+    }
+    var msg = "طلب حجز جديد لمزرعة أبو سيف وأبو نمر: \nالاسم: " + name + "\nالهاتف: " + phone;
+    window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
+}
+</script>
 </body>
 </html>
