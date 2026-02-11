@@ -1,4 +1,4 @@
-LAYTH AMER ALI, [2/11/2026 9:53 PM]
+LAYTH AMER ALI, [2/11/2026 10:05 PM]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -20,9 +20,7 @@ LAYTH AMER ALI, [2/11/2026 9:53 PM]
     <nav class="glass-effect sticky top-0 z-50 border-b border-blue-100 p-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-14 h-14 bg-blue-900 rounded-2xl flex items-center justify-center text-white font-black shadow-lg transform rotate-3">
-                    AS
-                </div>
+                <div class="w-14 h-14 bg-blue-900 rounded-2xl flex items-center justify-center text-white font-black shadow-lg transform rotate-3">AS</div>
                 <div>
                     <h1 class="text-xl font-black text-blue-900 leading-none">مزرعة ابو سيف وابو نمر</h1>
                     <p class="text-[10px] text-blue-500 font-bold tracking-[0.2em]">الترفيهية الاستثمارية</p>
@@ -33,27 +31,12 @@ LAYTH AMER ALI, [2/11/2026 9:53 PM]
     </nav>
 
     <section class="max-w-7xl mx-auto p-6 my-8">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-black text-slate-800">📸 كتالوج مرافق المزرعة</h2>
-            <p class="text-slate-500 mt-2">استعرض تفاصيل الفخامة قبل الحجز</p>
-        </div>
+        <h2 class="text-3xl font-black text-center text-slate-800 mb-10">📸 كتالوج مرافق المزرعة</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="photo-card bg-white rounded-3xl overflow-hidden">
-                <div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صورة المسبح</div>
-                <div class="p-4 text-center font-bold text-blue-900">المسبح والجاكوزي</div>
-            </div>
-            <div class="photo-card bg-white rounded-3xl overflow-hidden">
-                <div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صورة المجالس</div>
-                <div class="p-4 text-center font-bold text-blue-900">المجالس الملكية</div>
-            </div>
-            <div class="photo-card bg-white rounded-3xl overflow-hidden">
-                <div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صورة الحديقة</div>
-                <div class="p-4 text-center font-bold text-blue-900">الحدائق والألعاب</div>
-            </div>
-            <div class="photo-card bg-white rounded-3xl overflow-hidden">
-                <div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صور المرفقات</div>
-                <div class="p-4 text-center font-bold text-blue-900">المطبخ والخدمات</div>
-            </div>
+            <div class="photo-card bg-white rounded-3xl overflow-hidden"><div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صورة المسبح</div><div class="p-4 text-center font-bold text-blue-900">المسبح والجاكوزي</div></div>
+            <div class="photo-card bg-white rounded-3xl overflow-hidden"><div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صورة المجالس</div><div class="p-4 text-center font-bold text-blue-900">المجالس الملكية</div></div>
+            <div class="photo-card bg-white rounded-3xl overflow-hidden"><div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صورة الحديقة</div><div class="p-4 text-center font-bold text-blue-900">الحدائق والألعاب</div></div>
+            <div class="photo-card bg-white rounded-3xl overflow-hidden"><div class="h-52 bg-slate-200 flex items-center justify-center text-slate-400">صور المرفقات</div><div class="p-4 text-center font-bold text-blue-900">المطبخ والخدمات</div></div>
         </div>
     </section>
 
@@ -63,114 +46,57 @@ LAYTH AMER ALI, [2/11/2026 9:53 PM]
                 <h3 class="text-3xl font-black mb-2">تأكيد الحجز الذكي</h3>
                 <p class="text-blue-100">السعر الحالي: <span id="displayPrice" class="text-yellow-400 font-bold">250,000 دينار</span></p>
             </div>
-
-            <form class="p-8 space-y-6" id="bookingForm">
+            <form class="p-8 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">الاسم الكامل للمستأجر</label>
-
-LAYTH AMER ALI, [2/11/2026 9:53 PM]
-<input type="text" id="name" required placeholder="الاسم كما في البطاقة" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">رقم الهاتف (واتساب)</label>
-                        <input type="tel" id="phone" required placeholder="07XXXXXXXX" class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50">
-                    </div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">الاسم الكامل</label><input type="text" id="name" required class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50"></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">رقم الهاتف (واتساب)</label><input type="tel" id="phone" required class="w-full p-4 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">نوع المستأجر</label>
-                        <select class="w-full p-4 border rounded-2xl bg-white"><option>عائلة</option><option>شباب</option></select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">مدة التأجير</label>
-                        <select class="w-full p-4 border rounded-2xl bg-white"><option>يوم كامل (مبيت)</option><option>نصف يوم</option></select>
-                    </div>
+LAYTH AMER ALI, [2/11/2026 10:05 PM]
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">نوع المستأجر</label><select class="w-full p-4 border rounded-2xl bg-white"><option>عائلة</option><option>شباب</option></select></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">مدة الحجز</label><select class="w-full p-4 border rounded-2xl bg-white"><option>يوم كامل</option><option>نصف يوم</option></select></div>
                 </div>
-
-                <div class="p-6 border-2 border-dashed border-blue-100 rounded-3xl bg-blue-50/30 text-center">
-                    <p class="font-bold text-blue-900 mb-4">📎 إرفاق الهوية وبطاقة السكن</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="file" class="bg-white p-2 rounded-lg border w-full text-xs">
-                        <input type="file" class="bg-white p-2 rounded-lg border w-full text-xs">
-                    </div>
-                </div>
-
-                <button type="button" onclick="handleBooking()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-5 rounded-2xl text-xl shadow-xl transition-all shadow-green-100">
-                    تأكيد الحجز والإرسال للواتساب 💬
-                </button>
+                <button type="button" onclick="handleBooking()" class="w-full bg-green-600 text-white font-black py-5 rounded-2xl text-xl shadow-xl transition-all">إرسال للواتساب 💬</button>
             </form>
         </div>
     </main>
 
     <div id="adminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
-            <div class="bg-slate-900 p-6 text-white flex justify-between">
-                <span class="font-black">لوحة التحكم الشاملة</span>
-                <button onclick="toggleAdminPanel()">✕</button>
-            </div>
+            <div class="bg-slate-900 p-6 text-white flex justify-between"><span class="font-black">لوحة التحكم الشاملة</span><button onclick="document.getElementById('adminPanel').classList.add('hidden')">✕</button></div>
             <div class="p-8 space-y-6">
-                <div>
-                    <label class="block font-bold mb-2">تعديل سعر الإيجار (دينار)</label>
-                    <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="السعر الجديد">
-                </div>
-                <div>
-                    <label class="block font-bold mb-2">تعديل تفاصيل المزرعة</label>
-                    <textarea class="w-full p-4 border rounded-xl h-24" placeholder="أدخل تفاصيل جديدة للمرافق"></textarea>
-                </div>
-                <button onclick="saveChanges()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">حفظ كافة التعديلات</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed bottom-6 left-6 z-50">
-        <button onclick="toggleBot()" class="bg-blue-900 text-white p-5 rounded-2xl shadow-2xl flex items-center gap-2">
-            <span>🤖</span> <span class="font-bold text-sm">المجيب الآلي</span>
-        </button>
-        <div id="botBox" class="hidden w-80 h-96 bg-white shadow-2xl rounded-3xl border border-blue-100 flex flex-col mb-4 absolute bottom-20 left-0 overflow-hidden">
-            <div class="bg-blue-900 p-4 text-white font-bold">مساعد مزرعة ابو سيف وابو نمر</div>
-            <div class="flex-1 p-4 bg-slate-50 text-sm overflow-y-auto" id="botContent">
-                أهلاً بك! أنا المجيب الآلي. كيف أساعدك في حجز المزرعة اليوم؟
+                <div><label class="block font-bold mb-2">تعديل السعر (دينار)</label><input type="number" id="priceInput" class="w-full p-4 border rounded-xl"></div>
+                <button onclick="saveChanges()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">حفظ التغييرات</button>
             </div>
         </div>
     </div>
 
     <script>
-
-LAYTH AMER ALI, [2/11/2026 9:53 PM]
-function toggleAdminPanel() {
+        function toggleAdminPanel() {
             const pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
-            if(pin === "1234") document.getElementById('adminPanel').classList.toggle('hidden');
-            else if(pin !== null) alert("الرمز غير صحيح!");
+            if(pin === "1234") {
+                document.getElementById('adminPanel').classList.remove('hidden');
+            } else if(pin !== null) {
+                alert("الرمز غير صحيح!");
+            }
         }
 
         function saveChanges() {
             const price = document.getElementById('priceInput').value;
             if(price) {
                 document.getElementById('displayPrice').innerText = price + " دينار";
-                alert("تم تحديث السعر والتفاصيل بنجاح!");
-                toggleAdminPanel();
+                alert("تم تحديث السعر بنجاح!");
+                document.getElementById('adminPanel').classList.add('hidden');
             }
         }
-
-        function toggleBot() { document.getElementById('botBox').classList.toggle('hidden'); }
 
         function handleBooking() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             if(!name || !phone) return alert("يرجى إكمال البيانات!");
-
-            // 6- رابط الواتساب
-            const msg = طلب حجز جديد لمزرعة ابو سيف وابو نمر الترفيهية%0Aالاسم: ${name}%0Aالهاتف: ${phone};
-            window.open(`https://wa.me/964XXXXXXXXXX?text=${msg}`, '_blank'); // استبدل XXXXX برقمك
-
-            // 7- رسالة تأكيد إتمام الحجز
-            setTimeout(() => {
-                alert("✅ تم تأكيد استلام الحجز. ستصلك رسالة تأكيد عبر الواتساب فور مراجعة المستمسكات ودفع العربون.");
-            }, 2000);
-
-            // 8- التنبيه قبل 24 ساعة (هذا يبرمج في السيرفر لاحقاً)
+            const msg = طلب حجز جديد لمزرعة ابو سيف وابو نمر%0Aالاسم: ${name}%0Aالهاتف: ${phone};
+            window.open(`https://wa.me/964XXXXXXXXXX?text=${msg}`, '_blank');
         }
     </script>
 </body>
