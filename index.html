@@ -106,8 +106,8 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
         </button>
     </form>
 </div>
-<div id="newAdminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
- <div id="finalAdminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+
+<div id="finalAdminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
         <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
             <span class="font-black">⚙️ لوحة تحكم المدير</span>
@@ -116,9 +116,47 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
         <div class="p-8 space-y-6">
             <div>
                 <label class="block font-bold mb-2">تعديل السعر</label>
-                <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="أدخل السعر">
+                <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="أدخل السعر الجديد">
             </div>
-            <button type="button" onclick="saveAdminChanges()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold">حفظ</button>
+            <button type="button" onclick="saveAdminChanges()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold">حفظ التعديلات</button>
         </div>
     </div>
-</div>   
+</div>
+
+<script>
+function toggleAdminPanel() {
+    var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
+    if (pin === "1234") {
+        var panel = document.getElementById('finalAdminPanel');
+        if (panel) {
+            panel.classList.remove('hidden');
+            panel.classList.add('flex');
+        }
+    } else if (pin !== null && pin !== "") {
+        alert("الرمز غير صحيح!");
+    }
+}
+
+function saveAdminChanges() {
+    var price = document.getElementById('priceInput').value;
+    if (price) {
+        var display = document.getElementById('displayPrice');
+        if (display) { display.innerText = price + " دينار"; }
+        alert("تم تحديث السعر بنجاح!");
+        document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden');
+    }
+}
+
+function sendWhatsApp() {
+    var name = document.getElementById('custName').value;
+    var phone = document.getElementById('custPhone').value;
+    if (!name || !phone) {
+        alert("يرجى إكمال الاسم ورقم الهاتف!");
+        return;
+    }
+    var msg = "طلب حجز جديد لمزرعة أبو سيف وأبو نمر: \nالاسم: " + name + "\nالهاتف: " + phone;
+    window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
+}
+</script>
+</body>
+</html>
