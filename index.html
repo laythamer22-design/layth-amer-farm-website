@@ -156,7 +156,7 @@ function sendWhatsApp() {
         alert("يرجى إكمال الاسم ورقم الهاتف!");
         return;
     }
-    var msg = "طلب حجز جديد لمزرعة أبو سيف وأبو نمر: \nالاسم: " + name + "\nالهاتف: " + phone;
+    document.getElementById('newAdminPanel').classList.remove('hidden');
     window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
 }
 </script>
