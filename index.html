@@ -153,12 +153,11 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
     </div>
 
     <script>
-        // وظائف بوابة المدير
-       function toggleAdminPanel() {
+        function toggleAdminPanel() {
     const pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
-    if(pin === "1234") {
+    if (pin === "1234") {
         document.getElementById('adminPanel').classList.remove('hidden');
-    } else if(pin !== null) {
+    } else if (pin !== null) {
         alert("الرمز غير صحيح!");
     }
 } 
