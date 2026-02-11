@@ -153,13 +153,19 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
     </div>
 
     <script>
-        function toggleAdminPanel() {
+        <script>
+function toggleAdminPanel() {
     var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
     if (pin === "1234") {
-        document.getElementById('adminPanel').classList.remove('hidden');
+        var panel = document.getElementById('adminPanel');
+        if (panel) {
+            panel.classList.toggle('hidden');
+        }
     } else if (pin !== null) {
         alert("الرمز غير صحيح!");
     }
+}
+</script>
 }
         function saveAdminChanges() {
             const price = document.getElementById('priceInput').value;
