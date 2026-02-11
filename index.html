@@ -106,19 +106,28 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
         </button>
     </form>
 </div>
-
 <div id="finalAdminPanel" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
-        <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
-            <span class="font-black">⚙️ لوحة تحكم المدير</span>
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div class="bg-slate-900 p-6 text-white flex justify-between items-center sticky top-0">
+            <span class="font-black">⚙️ لوحة التحكم الشاملة</span>
             <button type="button" onclick="document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden')" class="text-xl">✕</button>
         </div>
         <div class="p-8 space-y-6">
             <div>
-                <label class="block font-bold mb-2">تعديل السعر</label>
+                <label class="block font-bold mb-2 text-slate-700">تعديل اسم المزرعة:</label>
+                <input type="text" id="editName" class="w-full p-4 border rounded-xl" placeholder="أدخل الاسم الجديد">
+            </div>
+            <div>
+                <label class="block font-bold mb-2 text-slate-700">تعديل السعر (دينار):</label>
                 <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="أدخل السعر الجديد">
             </div>
-            <button type="button" onclick="saveAdminChanges()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold">حفظ التعديلات</button>
+            <div>
+                <label class="block font-bold mb-2 text-slate-700">تعديل وصف المزرعة:</label>
+                <textarea id="editDesc" class="w-full p-4 border rounded-xl h-24" placeholder="اكتب وصفاً جديداً للمزرعة"></textarea>
+            </div>
+            <button type="button" onclick="saveAllChanges()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-black shadow-lg transition-all">
+                حفظ كافة التغييرات ✅
+            </button>
         </div>
     </div>
 </div>
