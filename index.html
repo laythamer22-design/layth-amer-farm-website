@@ -115,24 +115,8 @@ LAYTH AMER ALI, [2/11/2026 10:08 PM]
         <div class="p-8 space-y-6">
             <div>
                 <label class="block font-bold mb-2 text-slate-700">تعديل اسم المزرعة:</label>
-                <input type="text" id="editName" class="w-full p-4 border rounded-xl" placeholder="أدخل الاسم الجديد">
-            </div>
-            <div>
-                <label class="block font-bold mb-2 text-slate-700">تعديل السعر (دينار):</label>
-                <input type="number" id="priceInput" class="w-full p-4 border rounded-xl" placeholder="أدخل السعر الجديد">
-            </div>
-            <div>
-                <label class="block font-bold mb-2 text-slate-700">تعديل وصف المزرعة:</label>
-                <textarea id="editDesc" class="w-full p-4 border rounded-xl h-24" placeholder="اكتب وصفاً جديداً للمزرعة"></textarea>
-            </div>
-            <button type="button" onclick="saveAllChanges()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-black shadow-lg transition-all">
-                حفظ كافة التغييرات ✅
-            </button>
-        </div>
-    </div>
-</div>
-
-<script>
+                <script>
+// هذه الدالة تفتح اللوحة وتطلب الباسورد
 function toggleAdminPanel() {
     var pin = prompt("أدخل رمز المدير للصلاحيات الشاملة:");
     if (pin === "1234") {
@@ -141,30 +125,36 @@ function toggleAdminPanel() {
             panel.classList.remove('hidden');
             panel.classList.add('flex');
         }
-    } else if (pin !== null && pin !== "") {
+    } else if (pin !== null) {
         alert("الرمز غير صحيح!");
     }
 }
 
-function saveAdminChanges() {
-    var price = document.getElementById('priceInput').value;
-    if (price) {
-        var display = document.getElementById('displayPrice');
-        if (display) { display.innerText = price + " دينار"; }
-        alert("تم تحديث السعر بنجاح!");
-        document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden');
+// هذه الدالة هي "الصلاحيات الشاملة" التي تعالج السعر والاسم والوصف
+function saveAllChanges() {
+    // تحديث السعر
+    var newPrice = document.getElementById('priceInput').value;
+    if (newPrice) {
+        var displayPrice = document.getElementById('displayPrice');
+        if (displayPrice) displayPrice.innerText = newPrice + " دينار";
     }
-}
 
-function sendWhatsApp() {
-    var name = document.getElementById('custName').value;
-    var phone = document.getElementById('custPhone').value;
-    if (!name || !phone) {
-        alert("يرجى إكمال الاسم ورقم الهاتف!");
-        return;
+    // تحديث اسم المزرعة
+    var newName = document.getElementById('editName').value;
+    if (newName) {
+        var farmTitle = document.querySelector('h1');
+        if (farmTitle) farmTitle.innerText = newName;
     }
-    var msg = "طلب حجز جديد لمزرعة أبو سيف وأبو نمر: \nالاسم: " + name + "\nالهاتف: " + phone;
-    window.open("https://wa.me/964XXXXXXXXXX?text=" + encodeURIComponent(msg));
+
+    // تحديث الوصف
+    var newDesc = document.getElementById('editDesc').value;
+    if (newDesc) {
+        var description = document.querySelector('p.text-gray-600');
+        if (description) description.innerText = newDesc;
+    }
+
+    alert("تم تحديث كافة تفاصيل الموقع بنجاح!");
+    document.getElementById('finalAdminPanel').classList.replace('flex', 'hidden');
 }
 </script>
 </body>
