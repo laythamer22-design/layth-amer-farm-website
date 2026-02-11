@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة مزرعة ليث عامر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        body { font-family: 'Cairo', sans-serif; background-color: #f7fee7; }
+        .map-shadow { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+    </style>
+</head>
+<body class="min-h-screen">
 
+    <header class="bg-green-800 text-white p-8 shadow-2xl text-center border-b-4 border-yellow-500">
+        <h1 class="text-4xl font-bold">مزرعة ليث عامر 🌴</h1>
+        <p class="text-green-200 mt-2 text-lg">نظام الإدارة الشامل والذكاء الاصطناعي</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-10">
+        
+        <section class="bg-white rounded-3xl shadow-xl overflow-hidden border border-green-100">
+            <div class="p-6 bg-green-50 border-b border-green-100 flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-green-800 flex items-center gap-2">
+                    📍 بوابة الموقع الجغرافي
+                </h2>
+                <span class="bg-green-200 text-green-800 text-xs px-3 py-1 rounded-full font-bold">مباشر</span>
+            </div>
+            
+            <div class="p-6">
+                <div class="rounded-2xl overflow-hidden map-shadow bg-gray-200 h-[450px]">
+                    <iframe 
+                        id="farmMap" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.462828551408!2d43.2842!3d33.4214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDI1JzE3LjAiTiA0M8KwMTcnMDMuMSJF!5e0!3m2!1sar!2siq!4v1645000000000!5m2!1sar!2siq" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <div class="mt-8 p-6 bg-yellow-50 rounded-2xl border-2 border-dashed border-yellow-200">
+                    <h3 class="font-bold text-yellow-800 mb-3 text-lg">تحديث إحداثيات المزرعة (للمدير)</h3>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <input 
+                            type="text" 
+                            id="mapUrlInput" 
+                            placeholder="أدخل رابط التضمين (Embed) من خرائط جوجل هنا..." 
+                            class="flex-1 p-4 rounded-xl border-2 border-gray-200 focus:border-green-500 outline-none transition-all shadow-sm"
+                        >
+                        <button 
+                            onclick="updateMap()" 
+                            class="bg-green-700 hover:bg-green-900 text-white font-bold px-10 py-4 rounded-xl transition-all active:scale-95 shadow-lg"
+                        >
+                            تحديث الخريطة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="fixed bottom-6 left-6 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-green-200 overflow-hidden z-50">
+        <div class="bg-green-800 p-4 text-white font-bold flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <span>🤖 مساعد ليث الذكي</span>
+            </div>
+        </div>
+        <div id="chatBox" class="h-64 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
+            <div class="bg-white p-3 rounded-2xl shadow-sm text-gray-700 self-start border border-gray-100">
+                أهلاً بك يا أستاذ ليث. أنا هنا لمساعدتك في إدارة المزرعة وتتبع المحاصيل. كيف يمكنني خدمتك؟
+            </div>
+        </div>
+        <div class="p-3 border-t bg-white flex gap-2">
+            <input 
+                type="text" 
+                id="chatInput" 
+                placeholder="اسأل عن الري أو الحصاد..." 
+                class="flex-1 p-3 bg-gray-100 rounded-xl outline-none text-sm focus:bg-white focus:ring-2 ring-green-200 transition-all"
+            >
+            <button onclick="sendMsg()" class="bg-green-700 text-white p-3 rounded-xl hover:bg-green-800 transition-all">
+                إرسال
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // دالة تحديث الخريطة
+        function updateMap() {
+            const input = document.getElementById('mapUrlInput').value;
+            const iframe = document.getElementById('farmMap');
+            
+            if (input.includes('src="')) {
+                // استخراج الرابط إذا قام المستخدم بلصق كود الـ iframe بالكامل
+                const url = input.match(/src="([^"]+)"/)[1];
+                iframe.src = url;
+                alert('تم تحديث الموقع الجغرافي بنجاح! ✅');
+            } else if (input.startsWith('http')) {
+                iframe.src = input;
+                alert('تم تحديث الموقع بنجاح! ✅');
+            } else {
+                alert('يرجى إدخال رابط صحيح من خرائط جوجل (رابط تضمين الخريطة).');
+            }
+        }
+
+        // دالة إرسال الرسائل للبوت
+        function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const chatBox = document.getElementById('chatBox');
+            
+            if (input.value.trim() === "") return;
+
+            // إضافة رسالة المستخدم
+            chatBox.innerHTML += `
+                <div class="bg-green-700 text-white p-3 rounded-2xl shadow-sm self-end max-w-[80%] text-sm">
+                    ${input.value}
+                </div>
+            `;
+
+            // رد آلي بسيط (بانتظار ربط API)
+            const userText = input.value;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.innerHTML += `
+                    <div class="bg-white p-3 rounded-2xl shadow-sm text-gray-700 self-start border border-gray-100 italic text-xs">
+                        جاري معالجة طلبك بخصوص "${userText}"...
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
