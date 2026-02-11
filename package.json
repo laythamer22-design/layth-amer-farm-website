@@ -1,10 +1,13 @@
 {
-  "name": "layth-farm-website",
+  "name": "layth-amer-farm-website",
   "version": "1.0.0",
+  "description": "Farm Management Interface",
+  "main": "index.html",
   "scripts": {
-    "start": "serve ."
+    "start": "serve .",
+    "build": "echo 'No build needed' "
   },
   "dependencies": {
-    "serve": "^14.0.0"
+    "serve": "^14.2.1"
   }
 }
