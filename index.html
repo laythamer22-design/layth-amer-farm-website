@@ -3,272 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | نظام الإدارة الملكي</title>
+    <title>نظام الإدارة الملكي | المزرعة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --gold: #c5a059; --dark: #050505; --accent: #1a1a1a; }
-        body { font-family: 'Tajawal', sans-serif; color: white; scroll-behavior: smooth; overflow-x: hidden; background-color: var(--dark); }
-        
-        .main-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; transition: 1s ease-in-out; }
-        .overlay { position: fixed; inset: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(5,5,5,0.95)); z-index: -1; }
+        :root { --gold: #c5a059; --dark: #050505; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark); color: white; scroll-behavior: smooth; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gold-text { background: linear-gradient(135deg, #fceabb, #f8b500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* لوحة المدير المطورة */
+        .main-bg { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; }
         .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #080808; overflow-y: auto; padding: 2rem; }
-        .admin-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 2rem; padding: 2rem; }
-        
-        /* تصميم الألبوم المحترف */
-        .gallery-item { position: relative; border-radius: 2rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.5s; height: 350px; }
-        .gallery-item:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(197, 160, 89, 0.2); }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-        .gallery-item:hover img { transform: scale(1.1); }
-        .img-badge { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: black; padding: 0.2rem 1rem; border-radius: 0.5rem; font-size: 10px; font-weight: 900; }
-
-        .tab-content { display: none; animation: fadeIn 0.5s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        #receiptUI { background: white; color: black; padding: 2rem; width: 450px; border: 15px double var(--gold); position: relative; }
+        .gallery-card { height: 350px; border-radius: 25px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+        #receiptUI { background: white; color: black; padding: 2rem; width: 400px; border: 10px double #c5a059; display: none; margin: 20px auto; border-radius: 15px; }
+        @media print { .no-print { display: none; } body { background: white; } }
     </style>
 </head>
 <body onload="initApp()">
 
-    <div id="dynamicBg" class="main-bg-container"></div>
-    <div class="overlay"></div>
+    <div id="dynamicBg" class="main-bg"></div>
+    <div class="fixed inset-0 bg-black/60 z-[-1]"></div>
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-white/10 px-8 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-amber-200 to-amber-900 rounded-xl rotate-45 flex items-center justify-center">
-                <span class="rotate-[-45deg] font-black text-black">RO</span>
-            </div>
-            <h1 id="farmTitle" class="text-xl font-black gold-text italic uppercase">المزرعة الملكية</h1>
-        </div>
-        <button onclick="openAdmin()" class="bg-amber-600/10 border border-amber-500/30 text-amber-500 px-6 py-2 rounded-full hover:bg-amber-600 hover:text-black transition-all text-xs font-bold">لوحة التحكم</button>
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/10 px-8 py-4 flex justify-between items-center">
+        <h1 id="farmTitle" class="text-xl font-black gold-text italic tracking-widest">ROYAL FARM</h1>
+        <button onclick="openAdmin()" class="bg-amber-600/10 border border-amber-500/50 text-amber-500 px-4 py-2 rounded-lg font-bold text-xs hover:bg-amber-600 hover:text-black transition">لوحة المدير</button>
     </nav>
 
-    <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 id="heroDisplay" class="text-7xl md:text-[10rem] font-black mb-6 gold-text italic tracking-tighter">ROYAL OASIS</h2>
-        <div class="bg-amber-600 text-black px-8 py-3 rounded-full font-black text-lg shadow-2xl">
-            <span id="locationText">أطراف الفلوجة السكنية</span>
+    <section class="pt-32 pb-10 px-6">
+        <div class="max-w-xl mx-auto glass p-8 rounded-[2.5rem] shadow-2xl border-amber-500/20">
+            <h2 class="text-3xl font-black gold-text mb-6 text-center italic">نظام الحجز المباشر</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs text-amber-500 font-bold block mb-2 px-2">اسم المستأجر الكامل</label>
+                    <input type="text" id="custName" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-500 transition-all">
+                </div>
+                <div>
+                    <label class="text-xs text-amber-500 font-bold block mb-2 px-2">تصنيف الحجز</label>
+                    <select id="resType" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none appearance-none">
+                        <option value="عائلي">حجز عائلي خاص</option>
+                        <option value="شبابي">تجمع شبابي</option>
+                        <option value="مناسبة">مناسبة (عيد ميلاد/تخرج)</option>
+                    </select>
+                </div>
+                <button onclick="processBooking()" class="w-full bg-amber-600 text-black font-black py-4 rounded-2xl text-lg hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(197,160,89,0.3)]">تأكيد الحجز واستلام الوصل</button>
+            </div>
         </div>
     </section>
 
-    <section id="gallery" class="py-32 max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-            <h3 class="text-5xl font-black gold-text mb-4">كتالوج المزرعة الملكي</h3>
-            <p class="text-gray-400">استعرض مرافقنا الفاخرة المصورة بدقة عالية</p>
+    <div id="receiptUI" class="shadow-2xl font-bold">
+        <div class="text-center border-b-2 border-black pb-4 mb-4">
+            <h3 class="text-2xl font-black uppercase" id="recFarmName">ROYAL OASIS</h3>
+            <p class="text-[10px] tracking-widest">OFFICIAL BOOKING RECEIPT</p>
         </div>
-        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            </div>
+        <div class="space-y-3 text-right text-sm">
+            <div class="flex justify-between"> <span id="recDate"></span> :التاريخ </div>
+            <div class="flex justify-between font-mono"> <span id="recSerial"></span> :رقم الحجز </div>
+            <hr class="border-black">
+            <div class="flex justify-between"> <span id="recCust"></span> :السيد </div>
+            <div class="flex justify-between"> <span id="recTotal"></span> :المبلغ الكلي </div>
+            <div class="flex justify-between text-green-700 font-black"> <span id="recPaid"></span> :الواصل (50%) </div>
+            <div class="flex justify-between text-red-600"> <span id="recDebt"></span> :المتبقي عند الدخول </div>
+        </div>
+        <div id="qrcode" class="flex justify-center my-6"></div>
+        <button onclick="window.print()" class="no-print w-full bg-black text-white py-3 rounded-xl font-black">طباعة الوصل</button>
+    </div>
+
+    <section class="py-20 max-w-7xl mx-auto px-6">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="h-[2px] flex-1 bg-amber-500/30"></div>
+            <h3 class="text-2xl font-black gold-text">ألبوم مرافق المزرعة (JPG)</h3>
+            <div class="h-[2px] flex-1 bg-amber-500/30"></div>
+        </div>
+        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
     </section>
 
     <div id="adminPanel" class="admin-modal">
         <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-center mb-10">
+            <div class="flex justify-between items-center border-b border-white/10 pb-6 mb-8">
                 <div>
-                    <h2 class="text-4xl font-black gold-text italic">غرفة القيادة والتحكم</h2>
-                    <p class="text-gray-500">تحكم ببيانات الموقع، الصور، والحسابات المالية</p>
+                    <h2 class="text-3xl font-black gold-text italic uppercase">Control Center</h2>
+                    <p class="text-gray-500 text-xs">إدارة العمليات، الحسابات، والمحتوى البصري</p>
                 </div>
-                <button onclick="closeAdmin()" class="bg-red-600/20 text-red-500 px-6 py-2 rounded-xl border border-red-500/50 font-bold">خروج آمن</button>
+                <button onclick="closeAdmin()" class="bg-red-500 text-white px-8 py-2 rounded-xl font-bold">خروج</button>
             </div>
 
-            <div class="flex gap-4 mb-8 overflow-x-auto pb-2">
-                <button onclick="showTab('stats')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">📊 التقارير المالية</button>
-                <button onclick="showTab('settings')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">⚙️ إعدادات الموقع</button>
-                <button onclick="showTab('media')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">🖼️ بوابات الصور (JPG)</button>
-                <button onclick="showTab('bookings')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">📋 سجل الحجوزات</button>
-            </div>
-
-            <div id="tab-stats" class="tab-content active">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="admin-card text-center border-green-500/30">
-                        <p class="text-gray-500 text-xs mb-2">إجمالي الأرباح المستلمة (50%)</p>
-                        <h4 id="statIncome" class="text-4xl font-black text-green-500">0 د.ع</h4>
-                    </div>
-                    <div class="admin-card text-center border-amber-500/30">
-                        <p class="text-gray-500 text-xs mb-2">إجمالي المبالغ المنتظرة (50%)</p>
-                        <h4 id="statDebt" class="text-4xl font-black text-amber-500">0 د.ع</h4>
-                    </div>
-                    <div class="admin-card text-center border-blue-500/30">
-                        <p class="text-gray-500 text-xs mb-2">القيمة الإجمالية للمبيعات</p>
-                        <h4 id="statTotal" class="text-4xl font-black text-blue-500">0 د.ع</h4>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="glass p-8 rounded-[2rem] border-r-8 border-green-500">
+                    <p class="text-gray-400 text-xs font-bold mb-2">إجمالي الواصل (المستلم فعلياً)</p>
+                    <h4 id="statIncome" class="text-3xl font-black text-green-500">0 د.ع</h4>
+                </div>
+                <div class="glass p-8 rounded-[2rem] border-r-8 border-amber-500">
+                    <p class="text-gray-400 text-xs font-bold mb-2">إجمالي المتبقي (في ذمة الزبائن)</p>
+                    <h4 id="statDebt" class="text-3xl font-black text-amber-500">0 د.ع</h4>
+                </div>
+                <div class="glass p-8 rounded-[2rem] border-r-8 border-blue-500">
+                    <p class="text-gray-400 text-xs font-bold mb-2">إجمالي قيمة الحجوزات الكلية</p>
+                    <h4 id="statTotal" class="text-3xl font-black text-blue-500">0 د.ع</h4>
                 </div>
             </div>
 
-            <div id="tab-settings" class="tab-content">
-                <div class="admin-card grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-[2.5rem] space-y-4">
+                    <h5 class="text-amber-500 font-black border-b border-white/10 pb-4 mb-4">1- تفاصيل الموقع الأساسية</h5>
                     <div>
-                        <label class="block text-amber-500 text-xs font-bold mb-2">اسم المزرعة</label>
-                        <input type="text" id="setFarmName" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block text-amber-500 text-xs font-bold mb-2">سعر اليوم الكامل (د.ع)</label>
-                        <input type="number" id="setPrice" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none">
+                        <label class="text-[10px] block mb-1 text-gray-400">اسم المزرعة الصريح</label>
+                        <input type="text" id="setFarmName" class="w-full bg-black/50 p-4 rounded-xl border border-white/10">
                     </div>
                     <div>
-                        <label class="block text-amber-500 text-xs font-bold mb-2">عنوان المزرعة</label>
-                        <input type="text" id="setLoc" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none">
+                        <label class="text-[10px] block mb-1 text-gray-400">سعر الليلة الواحدة (د.ع)</label>
+                        <input type="number" id="setPrice" class="w-full bg-black/50 p-4 rounded-xl border border-white/10">
                     </div>
                     <div>
-                        <label class="block text-amber-500 text-xs font-bold mb-2">رقم واتساب الإدارة</label>
-                        <input type="text" id="setWA" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none">
+                        <label class="text-[10px] block mb-1 text-gray-400">موقع المزرعة الوصفي</label>
+                        <input type="text" id="setLoc" class="w-full bg-black/50 p-4 rounded-xl border border-white/10">
                     </div>
-                    <div class="md:col-span-2 border-t border-white/10 pt-6">
-                        <button onclick="saveAdminSettings()" class="w-full bg-amber-600 text-black py-4 rounded-xl font-black text-xl shadow-xl">حفظ التغييرات الملكية</button>
-                    </div>
+                    <button onclick="saveSettings()" class="w-full bg-white text-black py-4 rounded-xl font-black">حفظ التعديلات الأساسية</button>
                 </div>
-            </div>
 
-            <div id="tab-media" class="tab-content">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="admin-card border-blue-500/30">
-                        <h4 class="text-xl font-black mb-4 flex items-center gap-2 text-blue-500"><i data-lucide="monitor"></i> بوابة ثيم الموقع</h4>
-                        <p class="text-[10px] text-gray-500 mb-4">انسخ رابط صورة JPG لتكون الخلفية الرئيسية للموقع.</p>
-                        <input type="text" id="setMainBg" placeholder="رابط صورة الخلفية الرئيسية..." class="w-full bg-black/40 border border-white/10 p-4 rounded-xl mb-4 text-xs font-mono">
-                        <button onclick="updateVisuals()" class="w-full bg-blue-600 py-3 rounded-xl font-bold">تحديث الثيم العام</button>
+                <div class="glass p-8 rounded-[2.5rem] space-y-4">
+                    <h5 class="text-blue-500 font-black border-b border-white/10 pb-4 mb-4">2- بوابات الميديا (JPG)</h5>
+                    <div>
+                        <label class="text-[10px] block mb-1 text-blue-400 font-bold">بوابة صورة ثيم الموقع العام</label>
+                        <input type="text" id="setMainBg" placeholder="ضع رابط صورة الخلفية هنا" class="w-full bg-black/50 p-4 rounded-xl border border-blue-500/30 text-xs font-mono">
                     </div>
-                    <div class="admin-card border-amber-500/30">
-                        <h4 class="text-xl font-black mb-4 flex items-center gap-2 text-amber-500"><i data-lucide="images"></i> بوابة ألبوم الصور</h4>
-                        <p class="text-[10px] text-gray-500 mb-4">ضع روابط صور المزرعة (JPG/PNG) - رابط واحد في كل سطر.</p>
-                        <textarea id="setCatalogImgs" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl h-32 mb-4 text-xs font-mono" placeholder="رابط الصورة 1&#10;رابط الصورة 2..."></textarea>
-                        <button onclick="updateVisuals()" class="w-full bg-amber-600 text-black py-3 rounded-xl font-bold">تحديث ألبوم الصور</button>
+                    <div>
+                        <label class="text-[10px] block mb-1 text-amber-400 font-bold">بوابة ألبوم مرافق المزرعة (روابط منفصلة)</label>
+                        <textarea id="setCatalogImgs" placeholder="ضع كل رابط صورة في سطر جديد" class="w-full bg-black/50 p-4 rounded-xl border border-amber-500/30 h-32 text-xs font-mono"></textarea>
                     </div>
-                </div>
-            </div>
-
-            <div id="tab-bookings" class="tab-content">
-                <div class="admin-card overflow-x-auto p-0">
-                    <table class="w-full text-right text-xs">
-                        <thead class="bg-white/5 text-amber-500">
-                            <tr>
-                                <th class="p-4">ID السلسلة</th>
-                                <th class="p-4">اسم الزبون</th>
-                                <th class="p-4">الفئة</th>
-                                <th class="p-4">الواصل (50%)</th>
-                                <th class="p-4">المتبقي</th>
-                                <th class="p-4">الحالة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminTableBody"></tbody>
-                    </table>
+                    <button onclick="updateVisuals()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black shadow-lg">تحديث كافة الصور</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialization & Core Logic
-        let db = JSON.parse(localStorage.getItem('royal_oasis_db')) || [];
-        let config = JSON.parse(localStorage.getItem('royal_oasis_config')) || {
-            name: "مزرعة أبو سيف وأبو نمر",
-            loc: "أطراف الفلوجة السكنية",
-            price: 150000,
-            wa: "9647700000000",
-            pass: "1234",
-            bg: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2000&auto=format&fit=crop",
-            catalog: [
-                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000",
-                "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1000",
-                "https://images.unsplash.com/photo-1560749003-d4b1e17818ab?q=80&w=1000"
-            ]
+        let db = JSON.parse(localStorage.getItem('royal_db')) || [];
+        let config = JSON.parse(localStorage.getItem('royal_config')) || {
+            name: "مزرعة العائلة الملكية", price: 200000, loc: "الرمادي - أطراف الفلوجة", 
+            bg: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
+            catalog: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c"], pass: "1234"
         };
 
         function initApp() {
-            lucide.createIcons();
             document.getElementById('farmTitle').innerText = config.name;
-            document.getElementById('heroDisplay').innerText = config.name.split(' ').pop().toUpperCase();
-            document.getElementById('locationText').innerText = config.loc;
             document.getElementById('dynamicBg').style.backgroundImage = `url(${config.bg})`;
             renderCatalog();
             updateStats();
         }
 
-        // Render Professional Catalog
+        function processBooking() {
+            const name = document.getElementById('custName').value;
+            if(!name) return alert("الرجاء كتابة اسم المستأجر");
+
+            const booking = {
+                id: Date.now(),
+                serial: "RF-" + Math.floor(Math.random()*89999 + 10000),
+                name: name,
+                type: document.getElementById('resType').value,
+                total: config.price,
+                date: new Date().toLocaleDateString('ar-EG')
+            };
+
+            db.push(booking);
+            localStorage.setItem('royal_db', JSON.stringify(db));
+            showReceipt(booking);
+            updateStats();
+        }
+
+        function showReceipt(b) {
+            const ui = document.getElementById('receiptUI');
+            ui.style.display = 'block';
+            document.getElementById('recFarmName').innerText = config.name;
+            document.getElementById('recCust').innerText = b.name;
+            document.getElementById('recTotal').innerText = b.total.toLocaleString() + " د.ع";
+            document.getElementById('recPaid').innerText = (b.total * 0.5).toLocaleString() + " د.ع";
+            document.getElementById('recDebt').innerText = (b.total * 0.5).toLocaleString() + " د.ع";
+            document.getElementById('recSerial').innerText = b.serial;
+            document.getElementById('recDate').innerText = b.date;
+
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), { text: b.serial, width: 120, height: 120 });
+            ui.scrollIntoView({ behavior: 'smooth' });
+        }
+
         function renderCatalog() {
-            const grid = document.getElementById('catalogGrid');
-            grid.innerHTML = config.catalog.map((url, i) => `
-                <div class="gallery-item glass">
-                    <img src="${url}" alt="المرفق الملكي">
-                    <div class="img-badge">IMAGE JPG</div>
-                    <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
-                        <p class="text-amber-500 font-black italic">الجناح الملكي #${i+1}</p>
+            document.getElementById('catalogGrid').innerHTML = config.catalog.map((url, i) => `
+                <div class="gallery-card glass group">
+                    <img src="${url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                        <span class="text-amber-500 font-black italic text-sm">مرفق JPG #${i+1}</span>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Tab System
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-        }
-
-        // Admin Management
         function openAdmin() {
-            const p = prompt("أدخل رمز الإدارة:");
-            if(p === config.pass) {
+            if(prompt("كلمة سر المدير:") === config.pass) {
                 document.getElementById('adminPanel').style.display = 'block';
-                loadAdminFields();
-                renderBookings();
-            } else { alert("رمز خاطئ!"); }
+                document.getElementById('setFarmName').value = config.name;
+                document.getElementById('setPrice').value = config.price;
+                document.getElementById('setLoc').value = config.loc;
+                document.getElementById('setMainBg').value = config.bg;
+                document.getElementById('setCatalogImgs').value = config.catalog.join('\n');
+                updateStats();
+            }
         }
 
-        function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
-
-        function loadAdminFields() {
-            document.getElementById('setFarmName').value = config.name;
-            document.getElementById('setPrice').value = config.price;
-            document.getElementById('setLoc').value = config.loc;
-            document.getElementById('setWA').value = config.wa;
-            document.getElementById('setMainBg').value = config.bg;
-            document.getElementById('setCatalogImgs').value = config.catalog.join('\n');
-        }
-
-        function saveAdminSettings() {
+        function saveSettings() {
             config.name = document.getElementById('setFarmName').value;
-            config.price = document.getElementById('setPrice').value;
+            config.price = parseInt(document.getElementById('setPrice').value);
             config.loc = document.getElementById('setLoc').value;
-            config.wa = document.getElementById('setWA').value;
-            localStorage.setItem('royal_oasis_config', JSON.stringify(config));
-            alert("تم حفظ البيانات الأساسية ✅");
+            localStorage.setItem('royal_config', JSON.stringify(config));
+            alert("تم تحديث البيانات ✅");
             location.reload();
         }
 
         function updateVisuals() {
             config.bg = document.getElementById('setMainBg').value;
-            config.catalog = document.getElementById('setCatalogImgs').value.split('\n').filter(l => l.trim() !== "");
-            localStorage.setItem('royal_oasis_config', JSON.stringify(config));
-            alert("تم تحديث الميديا بنجاح ✅");
+            config.catalog = document.getElementById('setCatalogImgs').value.split('\n').filter(r => r.trim() !== "");
+            localStorage.setItem('royal_config', JSON.stringify(config));
+            alert("تم تحديث البوابات البصرية ✅");
             location.reload();
         }
 
-        function renderBookings() {
-            const tbody = document.getElementById('adminTableBody');
-            tbody.innerHTML = db.slice().reverse().map(b => `
-                <tr class="border-b border-white/5">
-                    <td class="p-4 font-mono">#${b.serial || b.id.toString().slice(-4)}</td>
-                    <td class="p-4 font-bold">${b.name}</td>
-                    <td class="p-4">${b.type}</td>
-                    <td class="p-4 text-green-500">${(b.total * 0.5).toLocaleString()}</td>
-                    <td class="p-4 text-amber-500">${(b.total * 0.5).toLocaleString()}</td>
-                    <td class="p-4"><span class="bg-green-600/20 text-green-500 px-2 py-1 rounded">مؤكد</span></td>
-                </tr>
-            `).join('');
-            updateStats();
+        function updateStats() {
+            let total = 0;
+            db.forEach(b => total += b.total);
+            document.getElementById('statTotal').innerText = total.toLocaleString() + " د.ع";
+            document.getElementById('statIncome').innerText = (total * 0.5).toLocaleString() + " د.ع";
+            document.getElementById('statDebt').innerText = (total * 0.5).toLocaleString() + " د.ع";
         }
 
-        function updateStats() {
-            let paid = 0;
-            db.forEach(b => paid += (b.total * 0.5));
-            document.getElementById('statIncome').innerText = paid.toLocaleString() + " د.ع";
-            document.getElementById('statDebt').innerText = paid.toLocaleString() + " د.ع";
-            document.getElementById('statTotal').innerText = (paid * 2).toLocaleString() + " د.ع";
-        }
+        function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
     </script>
 </body>
 </html>
