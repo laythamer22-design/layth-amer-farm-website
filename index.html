@@ -1,10 +1,10 @@
-LAYTH AMER ALI, [2/12/2026 3:11 AM]
+LAYTH AMER ALI, [2/12/2026 3:16 AM]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مزرعة أبو سيف وأبو نمر | الحجز الملكي</title>
+    <title>نظام الحجز الملكي | مزرعة أبو سيف وأبو نمر</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -13,7 +13,6 @@ LAYTH AMER ALI, [2/12/2026 3:11 AM]
         .gold-grad { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); }
         .gold-text { background: linear-gradient(to bottom, #fef3c7, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .admin-panel { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 15px; }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -26,200 +25,148 @@ LAYTH AMER ALI, [2/12/2026 3:11 AM]
     <main class="max-w-4xl mx-auto p-6 space-y-12 pb-24">
         
         <section class="text-center space-y-4 pt-8">
-            <h2 class="text-4xl md:text-6xl font-black gold-text">احجز إقامتك الفاخرة</h2>
-            <div class="glass p-6 rounded-3xl inline-block shadow-2xl border-yellow-500/20">
-                <p class="text-slate-400 text-xs uppercase tracking-widest mb-1">السعر الأساسي لليلة</p>
+            <h2 class="text-4xl md:text-6xl font-black gold-text">فخامة الإقامة والخصوصية</h2>
+            <div class="glass p-6 rounded-3xl inline-block shadow-2xl">
+                <p class="text-slate-400 text-xs uppercase tracking-widest mb-1">سعر الليلة</p>
                 <div id="mainPrice" class="text-5xl font-black text-white tracking-tighter">150 دينار</div>
             </div>
         </section>
 
-        <section class="glass rounded-[2.5rem] p-8 border-l-4 border-l-yellow-600 shadow-2xl">
-            <h3 class="font-bold text-lg mb-4 flex items-center gap-2 italic">🤖 مساعدك الشخصي الذكي</h3>
-            <div id="chatBox" class="h-40 overflow-y-auto space-y-3 mb-4 text-sm scrollbar-hide">
-                <div class="bg-white/5 p-3 rounded-2xl rounded-tr-none border border-white/5">مرحباً بك.. كيف يمكنني خدمتك في تفاصيل المزرعة اليوم؟</div>
-            </div>
-            <div class="flex gap-2">
-                <input type="text" id="chatInput" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-sm focus:border-yellow-500/50" placeholder="اسأل عن المسبح، الموقع، المرافق...">
-                <button onclick="handleChat()" class="gold-grad text-slate-900 px-6 rounded-2xl font-black hover:scale-95 transition">إرسال</button>
-            </div>
-        </section>
-
         <section class="glass rounded-[3rem] p-8 md:p-12 border border-white/10 shadow-2xl relative">
-            <h3 class="text-3xl font-black text-center mb-10 gold-text">تفاصيل الحجز والتحقق</h3>
+            <h3 class="text-3xl font-black text-center mb-10 gold-text">استمارة الحجز الرسمية</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">الاسم الرباعي الكامل</label>
-                        <input type="text" id="userName" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-500" placeholder="ليث عامر...">
+                        <label class="block text-xs font-bold text-gray-500 mb-2">الاسم الكامل</label>
+                        <input type="text" id="userName" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-500" placeholder="الاسم كما في الهوية">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">رقم الهاتف النشط</label>
+                        <label class="block text-xs font-bold text-gray-500 mb-2">رقم الهاتف</label>
                         <input type="tel" id="userPhone" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-left" dir="ltr" placeholder="+964">
                     </div>
                     <div>
-
-LAYTH AMER ALI, [2/12/2026 3:11 AM]
-<label class="block text-xs font-bold text-gray-500 mb-2">نوع الحجز</label>
-                        <select id="bookingType" class="w-full bg-slate-800 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-500">
-                            <option value="عائلة">عائلة (خصوصية تامة)</option>
+                        <label class="block text-xs font-bold text-gray-500 mb-2">نوع الحجز</label>
+                        <select id="bookingType" class="w-full bg-slate-800 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-500 text-sm">
+                            <option value="عائلة">عائلة (أجواء عائلية آمنة)</option>
                             <option value="شباب">شباب</option>
-                            <option value="مناسبة خاصة">مناسبة / حفلة خاصة</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">تاريخ بداية الحجز 📅</label>
-                        <input type="date" id="checkIn" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none">
+                        <label class="block text-xs font-bold text-gray-500 mb-2">تاريخ الحجز (من - إلى) 📅</label>
+                        <div class="flex gap-2">
+                            <input type="date" id="checkIn" class="flex-1 bg-white/5 border border-white/10 p-3 rounded-xl outline-none text-xs">
+                            <input type="date" id="checkOut" class="flex-1 bg-white/5 border border-white/10 p-3 rounded-xl outline-none text-xs">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">تاريخ نهاية الحجز 📅</label>
-                        <input type="date" id="checkOut" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-yellow-600 mb-2">صورة المستمسكات الرسمية (هوية/جواز) 📁</label>
-                        <input type="file" id="userIdFile" class="w-full bg-white/5 border border-dashed border-white/20 p-4 rounded-2xl text-xs">
+
+LAYTH AMER ALI, [2/12/2026 3:16 AM]
+<div class="p-4 bg-yellow-500/5 border border-yellow-500/20 rounded-2xl">
+                        <label class="block text-xs font-bold text-yellow-600 mb-3 text-center">المستمسكات المطلوبة (إلزامي) 📁</label>
+                        <div class="space-y-3">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[10px] text-gray-400">البطاقة الموحدة:</span>
+                                <input type="file" id="idCard" class="text-[10px] text-gray-500">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[10px] text-gray-400">بطاقة السكن:</span>
+                                <input type="file" id="resCard" class="text-[10px] text-gray-500">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <button onclick="confirmBooking()" class="w-full mt-12 gold-grad text-slate-900 font-black py-6 rounded-3xl text-xl shadow-2xl shadow-yellow-500/20 hover:opacity-90 transition transform active:scale-95">إرسال الطلب للمراجعة والواتساب 💬</button>
+            <button onclick="confirmBooking()" class="w-full mt-10 gold-grad text-slate-900 font-black py-6 rounded-3xl text-xl shadow-2xl hover:opacity-90 transition transform active:scale-95">إرسال الطلب عبر واتساب 💬</button>
         </section>
     </main>
 
     <div id="adminModal" class="admin-panel">
         <div class="bg-slate-900 w-full max-w-4xl rounded-[3rem] border border-white/10 shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto">
             <div class="p-8 border-b border-white/5 flex justify-between items-center sticky top-0 bg-slate-900 z-10">
-                <h3 class="text-2xl font-black gold-text">المركز القيادي للمزرعة</h3>
+                <h3 class="text-2xl font-black gold-text">لوحة الإدارة الكاملة</h3>
                 <button onclick="closeAdmin()" class="text-gray-500 text-2xl">✕</button>
             </div>
             
-            <div class="p-8 space-y-10">
+            <div class="p-8 space-y-8">
                 <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
-                        <label class="block text-xs font-bold text-gray-500 mb-2">تغيير اسم المزرعة</label>
-                        <input type="text" id="newFarmName" class="w-full bg-transparent border-b border-white/10 p-2 outline-none font-bold">
+                    <div class="bg-white/5 p-6 rounded-3xl">
+                        <label class="text-xs font-bold text-gray-500">اسم المزرعة</label>
+                        <input type="text" id="newFarmName" class="w-full bg-transparent border-b border-white/10 p-2 outline-none">
                     </div>
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
-                        <label class="block text-xs font-bold text-gray-500 mb-2">السعر الحالي</label>
-                        <input type="number" id="newPrice" class="w-full bg-transparent border-b border-white/10 p-2 outline-none font-bold">
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="block text-sm font-black text-yellow-500">🧠 تلقين المجيب الآلي (معلومات المزرعة بالكامل):</label>
-                    <textarea id="aiBrain" class="w-full bg-white/5 border border-white/10 p-5 rounded-3xl h-32 outline-none text-sm" placeholder="اكتب هنا كل شيء: عمق المسبح، عدد الغرف، نوع التدفئة، هل مسموح الشواء..."></textarea>
-                </div>
-
-                <div class="space-y-4">
-                    <h4 class="font-bold text-xl gold-text">📑 تقارير الحجوزات التفصيلية:</h4>
-                    <div class="bg-black/40 rounded-3xl overflow-hidden border border-white/5 overflow-x-auto">
-                        <table class="w-full text-right text-xs">
-                            <thead class="bg-white/5 text-gray-400">
-                                <tr>
-
-LAYTH AMER ALI, [2/12/2026 3:11 AM]
-<th class="p-4">الزبون</th>
-                                    <th class="p-4">التاريخ</th>
-                                    <th class="p-4">النوع</th>
-                                    <th class="p-4">المستمسكات</th>
-                                    <th class="p-4 text-center">الحالة</th>
-                                </tr>
-                            </thead>
-                            <tbody id="reportList">
-                                <tr id="emptyRow"><td colspan="5" class="p-10 text-center text-gray-600 italic">بانتظار حجوزات جديدة...</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="bg-white/5 p-6 rounded-3xl">
+                        <label class="text-xs font-bold text-gray-500">السعر</label>
+                        <input type="number" id="newPrice" class="w-full bg-transparent border-b border-white/10 p-2 outline-none">
                     </div>
                 </div>
 
-                <div class="p-6 bg-red-900/20 rounded-3xl border border-red-500/10 flex items-center justify-between gap-4">
-                    <div class="flex-1">
-                        <label class="text-[10px] font-bold text-red-500">تغيير رمز الدخول السري</label>
-                        <input type="password" id="passChange" class="w-full bg-transparent outline-none text-lg font-black" placeholder="رمز جديد">
-                    </div>
-                    <button onclick="changePass()" class="bg-red-600 text-white px-8 py-3 rounded-2xl font-bold">تحديث</button>
+                <div class="bg-black/40 rounded-3xl overflow-hidden border border-white/5">
+                    <table class="w-full text-right text-[11px]">
+                        <thead class="bg-white/5 text-gray-400">
+                            <tr>
+                                <th class="p-4">الزبون</th>
+                                <th class="p-4">الفترة</th>
+                                <th class="p-4 text-center">الموحدة/السكن</th>
+                                <th class="p-4 text-center">الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportList">
+                            <tr id="emptyRow"><td colspan="4" class="p-10 text-center text-gray-600 italic">لا توجد طلبات جديدة</td></tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <button onclick="saveAll()" class="w-full gold-grad text-slate-900 py-6 rounded-3xl font-black text-xl shadow-xl transition-all active:scale-95">حفظ وتأمين كافة التغييرات ✅</button>
+                <button onclick="saveAll()" class="w-full gold-grad text-slate-900 py-6 rounded-3xl font-black text-xl shadow-xl transition-all">حفظ التغييرات ✅</button>
             </div>
         </div>
     </div>
 
     <script>
         let currentPass = "1234";
-        let aiMemory = "مرحباً بك.. مزرعتنا توفر خصوصية تامة للعوائل مع مسبح مغطى وشوايات حديثة.";
 
         function openAdmin() {
-            let p = prompt("أدخل رمز المدير السري:");
-            if (p === currentPass) {
-                document.getElementById('adminModal').style.display = 'flex';
-            } else if (p !== null) { alert("خطأ في الرمز!"); }
+            let p = prompt("أدخل رمز المدير:");
+            if (p === currentPass) { document.getElementById('adminModal').style.display = 'flex'; }
+            else if (p !== null) { alert("خطأ!"); }
         }
 
         function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
 
         function saveAll() {
             let n = document.getElementById('newFarmName').value;
-            let p = document.getElementById('newPrice').value;
-            let b = document.getElementById('aiBrain').value;
+            let p = document.getElementById('newPrice').
+
+LAYTH AMER ALI, [2/12/2026 3:16 AM]
+value;
             if (n) document.querySelector('h1').innerHTML = مزرعة <span class="gold-text">${n}</span>;
             if (p) document.getElementById('mainPrice').innerText = p + " دينار";
-            if (b) aiMemory = b;
-            alert("تم التحديث بنجاح!");
+            alert("تم التحديث!");
             closeAdmin();
-        }
-
-        function changePass() {
-            let np = document.getElementById('passChange').value;
-            if (np.length < 4) { alert("الرمز ضعيف!"); return; }
-            currentPass = np;
-            alert("تم تغيير كلمة السر!");
-        }
-
-        function handleChat() {
-            let i = document.getElementById('chatInput');
-            let b = document.getElementById('chatBox');
-            if (i.value.trim()) {
-                b.innerHTML += <div class="text-xs bg-yellow-500/10 p-3 rounded-2xl rounded-tl-none mr-auto border border-yellow-500/20 text-yellow-500 w-fit">${i.value}</div>;
-                setTimeout(() => {
-                    b.innerHTML += <div class="text-xs bg-white/5 p-3 rounded-2xl rounded-tr-none max-w-[85%] border border-white/5 shadow-xl">🤖: ${aiMemory}</div>;
-                    b.scrollTop = b.scrollHeight;
-                }, 600);
-                i.value = "";
-            }
         }
 
         function confirmBooking() {
             let name = document.getElementById('userName').value;
-            let phone = document.getElementById('userPhone').value;
-            let type = document.getElementById('bookingType').value;
             let dateIn = document.getElementById('checkIn').value;
             let dateOut = document.getElementById('checkOut').value;
+            let id = document.getElementById('idCard').files[0];
+            let res = document.getElementById('resCard').files[0];
             
-            if (!name  !phone  !dateIn || !dateOut) { alert("يرجى إكمال جميع الحقول الإلزامية والتواريخ!"); return; }
+            if (!name  !dateIn  !dateOut  !id  !res) { alert("يرجى إكمال كافة البيانات ورفع البطاقة الموحدة وبطاقة السكن!"); return; }
             
-            let list = document.
-
-LAYTH AMER ALI, [2/12/2026 3:11 AM]
-getElementById('reportList');
-            let empty = document.getElementById('emptyRow');
-            if (empty) empty.remove();
+            let list = document.getElementById('reportList');
+            if (document.getElementById('emptyRow')) document.getElementById('emptyRow').remove();
             
             list.innerHTML = `<tr class="border-b border-white/5">
-                <td class="p-4 font-bold text-white">${name}</td>
-                <td class="p-4 text-gray-400">${dateIn} إلى ${dateOut}</td>
-                <td class="p-4">${type}</td>
-                <td class="p-4 text-blue-400 italic">مرفقة ✔️</td>
-                <td class="p-4 text-center">
-                    <button onclick="this.innerText='تم الدفع ✅'; this.className='text-green-500 font-bold'" class="text-yellow-500 underline">تأكيد دفع؟</button>
-                </td>
+                <td class="p-4 font-bold">${name}</td>
+                <td class="p-4">${dateIn} إلى ${dateOut}</td>
+                <td class="p-4 text-center text-green-500">تم الرفع ✅</td>
+                <td class="p-4 text-center"><button class="text-yellow-500 underline" onclick="this.innerText='تم الدفع ✅'">تأكيد؟</button></td>
             </tr>` + list.innerHTML;
 
-            let waMsg = طلب حجز فخم:\nالاسم: ${name}\nالهاتف: ${phone}\nالتاريخ: من ${dateIn} إلى ${dateOut}\nالنوع: ${type}\nالمستمسكات: تم رفعها في الموقع.;
-            window.open(`https://wa.me/964XXXXXXXXXX?text=${encodeURIComponent(waMsg)}`);
+            window.open(`https://wa.me/964XXXXXXXXXX?text=${encodeURIComponent("طلب حجز جديد:\nالاسم: " + name + "\nالفترة: " + dateIn + " إلى " + dateOut + "\nتم رفع الموحدة وبطاقة السكن.")}`);
         }
     </script>
 </body>
