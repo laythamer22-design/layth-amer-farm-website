@@ -10,19 +10,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root { --gold: #c5a059; --dark: #050505; --accent: #1a1a1a; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--dark); color: white; scroll-behavior: smooth; overflow-x: hidden; }
         
-        /* الثيم الجديد الجذاب */
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/v4S6Y6Q/photo-4.jpg');
-            background-size: cover; background-attachment: fixed; background-position: center;
+        /* الخلفية الاحترافية للموقع بالكامل */
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            color: white; 
+            scroll-behavior: smooth; 
+            overflow-x: hidden;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://i.ibb.co/v4S6Y6Q/photo-4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* تجعل الخلفية ثابتة أثناء التمرير لمظهر عصري */
+            background-repeat: no-repeat;
         }
 
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gold-text { background: linear-gradient(135deg, #fceabb, #f8b500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; overflow-y: auto; padding: 2rem; }
         
-        /* سلايدر الصور التلقائي */
         .auto-slider img { position: absolute; inset:0; opacity:0; transition: opacity 1.5s ease-in-out; width:100%; height:100%; object-fit:cover; }
         .auto-slider img.active { opacity:1; }
 
@@ -33,10 +39,10 @@
         .map-point { position: absolute; background: #c5a059; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 15px #c5a059; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
-        .location-badge { background: linear-gradient(45deg, #1a1a1a, #c5a059); border-radius: 50px; padding: 10px 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .location-badge { background: linear-gradient(45deg, rgba(26,26,26,0.8), rgba(197,160,89,0.8)); border-radius: 50px; padding: 10px 25px; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
-<body class="hero-bg">
+<body>
 
     <nav class="fixed top-0 w-full z-[100] glass border-b border-white/10 px-8 py-5 flex justify-between items-center">
         <div class="flex items-center gap-3">
@@ -51,14 +57,14 @@
         </div>
     </nav>
 
-    <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 id="heroDisplay" class="text-6xl md:text-9xl font-black mb-4 gold-text">THE ROYAL OASIS</h2>
-        <div class="location-badge mb-8">
+    <section class="h-screen flex flex-col items-center justify-center text-center px-4 bg-black/20">
+        <h2 id="heroDisplay" class="text-6xl md:text-9xl font-black mb-4 gold-text drop-shadow-2xl">THE ROYAL OASIS</h2>
+        <div class="location-badge mb-8 backdrop-blur-sm">
             <p id="locationText" class="text-sm md:text-xl font-bold tracking-[3px]">أطراف الفلوجة السكنية</p>
         </div>
         
         <div class="flex flex-wrap justify-center gap-4">
-            <a href="https://maps.google.com/?q=33.375336,43.726315" target="_blank" class="flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-black text-xs hover:bg-amber-500 transition-all">
+            <a href="https://maps.google.com/?q=33.375336,43.726315" target="_blank" class="flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-black text-xs hover:bg-amber-500 transition-all shadow-xl">
                 <i data-lucide="map-pin"></i> Google Maps
             </a>
             <a href="https://waze.com/ul?ll=33.3500,43.7833&navigate=yes" target="_blank" class="flex items-center gap-2 bg-[#33ccff] text-white px-8 py-4 rounded-full font-black text-xs hover:shadow-[0_0_20px_rgba(51,204,255,0.5)] transition-all">
@@ -92,7 +98,7 @@
     <section id="map-section" class="py-20 max-w-7xl mx-auto px-6">
         <div class="text-center mb-10">
             <h3 class="text-3xl font-black gold-text italic">خارطة الرفاهية</h3>
-            <p class="text-gray-500">توزيع المرافق الحقيقي في مزرعتنا</p>
+            <p class="text-gray-300">توزيع المرافق الحقيقي في مزرعتنا</p>
         </div>
         <div class="relative rounded-[3rem] overflow-hidden border border-white/10 glass h-[500px]">
             <img id="mapImg" src="https://i.ibb.co/mFm7X8J/photo-10.jpg" class="w-full h-full object-cover opacity-30">
@@ -111,31 +117,31 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-4">
-                    <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-amber-500">
-                    <input type="text" id="custPhone" placeholder="رقم الواتساب للتواصل والتذكير" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-amber-500">
-                    <select id="custType" class="w-full bg-slate-900 p-5 rounded-2xl border border-white/10">
-                        <option>عائلة 👨‍👩‍👧‍👦</option>
-                        <option>شباب 👨‍👦‍👦</option>
+                    <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full bg-white/10 p-5 rounded-2xl border border-white/10 outline-none focus:border-amber-500 text-white placeholder:text-gray-400">
+                    <input type="text" id="custPhone" placeholder="رقم الواتساب للتواصل والتذكير" class="w-full bg-white/10 p-5 rounded-2xl border border-white/10 outline-none focus:border-amber-500 text-white placeholder:text-gray-400">
+                    <select id="custType" class="w-full bg-black/60 p-5 rounded-2xl border border-white/10 text-white">
+                        <option class="bg-gray-900">عائلة 👨‍👩‍👧‍👦</option>
+                        <option class="bg-gray-900">شباب 👨‍👦‍👦</option>
                     </select>
                     <div class="grid grid-cols-2 gap-4">
-                        <select id="custDuration" class="bg-slate-900 p-5 rounded-2xl border border-white/10" onchange="toggleFatra()">
-                            <option value="1">يوم كامل (24س)</option>
-                            <option value="0.5">نصف يوم (12س)</option>
+                        <select id="custDuration" class="bg-black/60 p-5 rounded-2xl border border-white/10 text-white" onchange="toggleFatra()">
+                            <option value="1" class="bg-gray-900">يوم كامل (24س)</option>
+                            <option value="0.5" class="bg-gray-900">نصف يوم (12س)</option>
                         </select>
-                        <select id="selectedFatra" class="hidden bg-amber-600/20 p-5 rounded-2xl border border-amber-500/30">
-                            <option value="صباحي">حجز صباحي</option>
-                            <option value="مسائي">حجز مسائي</option>
+                        <select id="selectedFatra" class="hidden bg-amber-600/40 p-5 rounded-2xl border border-amber-500/30 text-white">
+                            <option value="صباحي" class="bg-gray-900">حجز صباحي</option>
+                            <option value="مسائي" class="bg-gray-900">حجز مسائي</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 text-center">
-                    <label id="labelId" class="border-2 border-dashed border-white/20 p-8 rounded-3xl cursor-pointer hover:border-amber-500 transition-all">
+                    <label id="labelId" class="border-2 border-dashed border-white/20 p-8 rounded-3xl cursor-pointer hover:border-amber-500 transition-all bg-black/20">
                         <i data-lucide="contact-2" class="mx-auto mb-2 opacity-50"></i>
                         <span class="text-[10px] block uppercase">البطاقة الموحدة</span>
                         <input type="file" id="inputId" class="hidden" onchange="uploadDone('labelId')">
                     </label>
-                    <label id="labelHome" class="border-2 border-dashed border-white/20 p-8 rounded-3xl cursor-pointer hover:border-amber-500 transition-all">
+                    <label id="labelHome" class="border-2 border-dashed border-white/20 p-8 rounded-3xl cursor-pointer hover:border-amber-500 transition-all bg-black/20">
                         <i data-lucide="home" class="mx-auto mb-2 opacity-50"></i>
                         <span class="text-[10px] block uppercase">بطاقة السكن</span>
                         <input type="file" id="inputHome" class="hidden" onchange="uploadDone('labelHome')">
@@ -143,9 +149,9 @@
                 </div>
             </div>
 
-            <div class="bg-amber-500/10 p-6 rounded-3xl border border-amber-500/20 flex justify-between items-center">
+            <div class="bg-amber-500/20 p-6 rounded-3xl border border-amber-500/20 flex justify-between items-center backdrop-blur-md">
                 <div>
-                    <p class="text-xs text-gray-400">الإجمالي: <span id="totalVal">150,000</span> د.ع</p>
+                    <p class="text-xs text-gray-300">الإجمالي: <span id="totalVal">150,000</span> د.ع</p>
                     <p class="text-lg font-black text-amber-500">المقدم (50%): <span id="downVal">75,000</span> د.ع</p>
                 </div>
                 <button onclick="requestWhatsApp()" class="bg-amber-600 px-10 py-4 rounded-2xl font-black text-black shadow-xl hover:scale-105 transition-all">تأكيد الحجز والدفع 💳</button>
@@ -159,13 +165,14 @@
             <button onclick="toggleChat()" class="text-gray-400">×</button>
         </div>
         <div id="chatContent" class="h-48 overflow-y-auto text-[10px] space-y-2 mb-4">
-            <p class="bg-white/5 p-2 rounded-lg">أهلاً بك! أنا البوت الخاص بمزرعة أبو سيف وأبو نمر. اسألني عن المرافق أو الأسعار.</p>
+            <p class="bg-white/10 p-2 rounded-lg">أهلاً بك! أنا البوت الخاص بمزرعة أبو سيف وأبو نمر. اسألني عن المرافق أو الأسعار.</p>
         </div>
         <div class="flex gap-2">
-            <input type="text" id="chatInput" placeholder="اسألني أي شيء..." class="flex-1 bg-black/40 border border-white/10 p-2 rounded-xl text-xs outline-none">
+            <input type="text" id="chatInput" placeholder="اسألني أي شيء..." class="flex-1 bg-black/60 border border-white/10 p-2 rounded-xl text-xs outline-none text-white">
             <button onclick="aiResponse()" class="bg-amber-600 p-2 rounded-xl"><i data-lucide="send" class="w-4 h-4 text-black"></i></button>
         </div>
     </div>
+    
     <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-amber-600 rounded-full flex items-center justify-center shadow-2xl z-50">
         <i data-lucide="bot" class="text-black"></i>
     </button>
@@ -176,7 +183,6 @@
                 <h2 class="text-4xl font-black gold-text italic uppercase">إدارة السيطرة الملكية</h2>
                 <button onclick="document.getElementById('adminPanel').style.display='none'" class="bg-red-600/20 text-red-500 px-6 py-2 rounded-full font-bold">إغلاق</button>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 <div class="glass p-6 rounded-3xl"><p class="text-xs text-gray-500">الحجوزات</p><h4 id="statCount" class="text-3xl font-black">0</h4></div>
                 <div class="glass p-6 rounded-3xl"><p class="text-xs text-gray-500">الأرباح (المقدمات)</p><h4 id="statIncome" class="text-3xl font-black text-green-500">0 د.ع</h4></div>
@@ -237,6 +243,7 @@
     <script>
         lucide.createIcons();
         
+        // Scripts remain unchanged to maintain previous logic
         let db = JSON.parse(localStorage.getItem('farm_db_final')) || [];
         let config = JSON.parse(localStorage.getItem('farm_config_final')) || {
             name: "أبو سيف وأبو نمر",
@@ -250,12 +257,10 @@
             sig: ""
         };
 
-        // تحديث الواجهة من الإعدادات
         document.getElementById('farmTitle').innerText = config.name;
         document.getElementById('heroDisplay').innerText = config.name.toUpperCase();
         document.getElementById('locationText').innerText = config.loc;
 
-        // سلايدر الصور التلقائي
         let currentSlide = 0;
         const slides = document.querySelectorAll('.auto-slider img');
         setInterval(() => {
