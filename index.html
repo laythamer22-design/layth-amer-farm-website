@@ -11,13 +11,28 @@
     <style>
         :root { --gold: #c5a059; --dark: #050505; --accent: #1a1a1a; }
         body { font-family: 'Tajawal', sans-serif; color: white; scroll-behavior: smooth; overflow-x: hidden; background-color: var(--dark); }
-        .main-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; transition: 1s ease; }
+        
+        .main-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; transition: 1s ease-in-out; }
         .overlay { position: fixed; inset: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(5,5,5,0.95)); z-index: -1; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gold-text { background: linear-gradient(135deg, #fceabb, #f8b500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #080808; overflow-y: auto; }
-        .tab-btn.active { border-bottom: 3px solid var(--gold); color: var(--gold); }
-        .category-badge { background: rgba(197, 160, 89, 0.1); border: 1px solid var(--gold); color: var(--gold); padding: 2px 10px; border-radius: 5px; font-size: 10px; }
+        
+        /* لوحة المدير المطورة */
+        .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #080808; overflow-y: auto; padding: 2rem; }
+        .admin-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 2rem; padding: 2rem; }
+        
+        /* تصميم الألبوم المحترف */
+        .gallery-item { position: relative; border-radius: 2rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.5s; height: 350px; }
+        .gallery-item:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(197, 160, 89, 0.2); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .img-badge { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: black; padding: 0.2rem 1rem; border-radius: 0.5rem; font-size: 10px; font-weight: 900; }
+
+        .tab-content { display: none; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        #receiptUI { background: white; color: black; padding: 2rem; width: 450px; border: 15px double var(--gold); position: relative; }
     </style>
 </head>
 <body onload="initApp()">
@@ -30,117 +45,116 @@
             <div class="w-12 h-12 bg-gradient-to-br from-amber-200 to-amber-900 rounded-xl rotate-45 flex items-center justify-center">
                 <span class="rotate-[-45deg] font-black text-black">RO</span>
             </div>
-            <div>
-                <h1 id="farmTitle" class="text-xl font-black gold-text">المزرعة الملكية</h1>
-            </div>
+            <h1 id="farmTitle" class="text-xl font-black gold-text italic uppercase">المزرعة الملكية</h1>
         </div>
-        <div class="flex gap-6 items-center">
-            <button onclick="openAdmin()" class="text-[10px] border border-amber-500/30 px-4 py-2 rounded-lg hover:bg-amber-600 hover:text-black transition">لوحة التحكم</button>
-        </div>
+        <button onclick="openAdmin()" class="bg-amber-600/10 border border-amber-500/30 text-amber-500 px-6 py-2 rounded-full hover:bg-amber-600 hover:text-black transition-all text-xs font-bold">لوحة التحكم</button>
     </nav>
 
     <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 id="heroDisplay" class="text-6xl md:text-9xl font-black mb-6 gold-text italic">ROYAL OASIS</h2>
-        <div class="location-badge mb-10">
-            <p id="locationText" class="text-black font-bold px-6 py-2 bg-amber-500 rounded-full">أطراف الفلوجة</p>
+        <h2 id="heroDisplay" class="text-7xl md:text-[10rem] font-black mb-6 gold-text italic tracking-tighter">ROYAL OASIS</h2>
+        <div class="bg-amber-600 text-black px-8 py-3 rounded-full font-black text-lg shadow-2xl">
+            <span id="locationText">أطراف الفلوجة السكنية</span>
         </div>
     </section>
 
-    <section id="gallery" class="py-20 max-w-7xl mx-auto px-6">
-        <div class="text-center mb-12">
-            <h3 class="text-4xl font-black gold-text mb-2">الكتالوج الملكي المطور</h3>
-            <p class="text-gray-500">تمتع بمشاهدة مرافقنا مقسمة حسب الفخامة</p>
+    <section id="gallery" class="py-32 max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h3 class="text-5xl font-black gold-text mb-4">كتالوج المزرعة الملكي</h3>
+            <p class="text-gray-400">استعرض مرافقنا الفاخرة المصورة بدقة عالية</p>
         </div>
-        
-        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
             </div>
     </section>
 
     <div id="adminPanel" class="admin-modal">
-        <div class="max-w-6xl mx-auto p-8">
-            <div class="flex justify-between items-center border-b border-white/10 pb-6 mb-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-10">
                 <div>
-                    <h2 class="text-3xl font-black gold-text italic">غرفة العمليات الملكية</h2>
-                    <p class="text-gray-500 text-sm">أهلاً بك يا مدير، كل شيء تحت سيطرتك هنا</p>
+                    <h2 class="text-4xl font-black gold-text italic">غرفة القيادة والتحكم</h2>
+                    <p class="text-gray-500">تحكم ببيانات الموقع، الصور، والحسابات المالية</p>
                 </div>
-                <button onclick="closeAdmin()" class="bg-red-500/10 text-red-500 px-6 py-2 rounded-xl border border-red-500/50">إغلاق اللوحة</button>
+                <button onclick="closeAdmin()" class="bg-red-600/20 text-red-500 px-6 py-2 rounded-xl border border-red-500/50 font-bold">خروج آمن</button>
             </div>
 
-            <div class="flex gap-8 mb-10 border-b border-white/5">
-                <button onclick="switchTab('tab-stats')" class="tab-btn active pb-4 font-bold">المؤشرات المالية</button>
-                <button onclick="switchTab('tab-settings')" class="tab-btn pb-4 font-bold">إعدادات الموقع</button>
-                <button onclick="switchTab('tab-media')" class="tab-btn pb-4 font-bold">بوابات الصور والثيم</button>
-                <button onclick="switchTab('tab-archive')" class="tab-btn pb-4 font-bold">أرشيف الحجوزات</button>
+            <div class="flex gap-4 mb-8 overflow-x-auto pb-2">
+                <button onclick="showTab('stats')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">📊 التقارير المالية</button>
+                <button onclick="showTab('settings')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">⚙️ إعدادات الموقع</button>
+                <button onclick="showTab('media')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">🖼️ بوابات الصور (JPG)</button>
+                <button onclick="showTab('bookings')" class="tab-btn bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:border-amber-500 transition-all font-bold">📋 سجل الحجوزات</button>
             </div>
 
-            <div id="tab-stats" class="tab-content">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div class="glass p-8 rounded-3xl border-r-4 border-green-500">
-                        <p class="text-gray-500 text-xs mb-1">الواصل الفعلي (50%)</p>
-                        <h4 id="statIncome" class="text-3xl font-black text-green-500">0 د.ع</h4>
+            <div id="tab-stats" class="tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="admin-card text-center border-green-500/30">
+                        <p class="text-gray-500 text-xs mb-2">إجمالي الأرباح المستلمة (50%)</p>
+                        <h4 id="statIncome" class="text-4xl font-black text-green-500">0 د.ع</h4>
                     </div>
-                    <div class="glass p-8 rounded-3xl border-r-4 border-amber-500">
-                        <p class="text-gray-500 text-xs mb-1">المتبقي في ذمة الزبائن</p>
-                        <h4 id="statDebt" class="text-3xl font-black text-amber-500">0 د.ع</h4>
+                    <div class="admin-card text-center border-amber-500/30">
+                        <p class="text-gray-500 text-xs mb-2">إجمالي المبالغ المنتظرة (50%)</p>
+                        <h4 id="statDebt" class="text-4xl font-black text-amber-500">0 د.ع</h4>
                     </div>
-                    <div class="glass p-8 rounded-3xl border-r-4 border-blue-500">
-                        <p class="text-gray-500 text-xs mb-1">إجمالي قيمة الحجوزات</p>
-                        <h4 id="statTotal" class="text-3xl font-black text-blue-500">0 د.ع</h4>
+                    <div class="admin-card text-center border-blue-500/30">
+                        <p class="text-gray-500 text-xs mb-2">القيمة الإجمالية للمبيعات</p>
+                        <h4 id="statTotal" class="text-4xl font-black text-blue-500">0 د.ع</h4>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-settings" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-4">
-                    <label class="block text-amber-500 text-xs font-bold">اسم المزرعة التجاري</label>
-                    <input type="text" id="setFarmName" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none focus:border-amber-500">
-                    
-                    <label class="block text-amber-500 text-xs font-bold">سعر الحجز (يوم كامل)</label>
-                    <input type="number" id="setPrice" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-
-                    <label class="block text-amber-500 text-xs font-bold">موقع المزرعة (النص الظاهر)</label>
-                    <input type="text" id="setLoc" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                </div>
-                <div class="space-y-4">
-                    <label class="block text-amber-500 text-xs font-bold">رقم الواتساب الخاص بالإدارة</label>
-                    <input type="text" id="setWA" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                    
-                    <label class="block text-amber-500 text-xs font-bold">كلمة مرور لوحة التحكم</label>
-                    <input type="password" id="setPass" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-
-                    <button onclick="saveAdminSettings()" class="w-full bg-amber-600 py-4 rounded-xl text-black font-black mt-4">حفظ كافة التغييرات</button>
-                </div>
-            </div>
-
-            <div id="tab-media" class="tab-content hidden space-y-12">
-                <div class="glass p-8 rounded-3xl border border-blue-500/30">
-                    <h4 class="text-xl font-black mb-4 flex items-center gap-2"><i data-lucide="image"></i> بوابة الثيم العام للموقع</h4>
-                    <p class="text-xs text-gray-500 mb-4">هذه الصورة ستكون الخلفية الرئيسية للموقع (يفضل صيغة JPG عالية الدقة)</p>
-                    <input type="text" id="setMainBg" placeholder="ضع رابط الصورة هنا (JPG)" class="w-full bg-black/40 p-4 rounded-xl border border-white/10 mb-4">
-                    <button onclick="updateVisuals()" class="bg-blue-600 px-8 py-3 rounded-xl font-bold">تحديث خلفية الموقع</button>
-                </div>
-
-                <div class="glass p-8 rounded-3xl border border-amber-500/30">
-                    <h4 class="text-xl font-black mb-4 flex items-center gap-2"><i data-lucide="layout-grid"></i> بوابة إدارة ألبوم الصور</h4>
-                    <p class="text-xs text-gray-500 mb-4">أضف روابط صور مرافق المزرعة (رابط واحد في كل سطر)</p>
-                    <textarea id="setCatalogImgs" class="w-full bg-black/40 p-4 rounded-xl border border-white/10 h-48 mb-4 font-mono text-xs" placeholder="https://example.com/photo1.jpg"></textarea>
-                    <button onclick="updateVisuals()" class="bg-amber-600 px-8 py-3 rounded-xl font-bold text-black">تحديث الألبوم الملكي</button>
+            <div id="tab-settings" class="tab-content">
+                <div class="admin-card grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-amber-500 text-xs font-bold mb-2">اسم المزرعة</label>
+                        <input type="text" id="setFarmName" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-amber-500 text-xs font-bold mb-2">سعر اليوم الكامل (د.ع)</label>
+                        <input type="number" id="setPrice" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-amber-500 text-xs font-bold mb-2">عنوان المزرعة</label>
+                        <input type="text" id="setLoc" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-amber-500 text-xs font-bold mb-2">رقم واتساب الإدارة</label>
+                        <input type="text" id="setWA" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none">
+                    </div>
+                    <div class="md:col-span-2 border-t border-white/10 pt-6">
+                        <button onclick="saveAdminSettings()" class="w-full bg-amber-600 text-black py-4 rounded-xl font-black text-xl shadow-xl">حفظ التغييرات الملكية</button>
+                    </div>
                 </div>
             </div>
 
-            <div id="tab-archive" class="tab-content hidden">
-                <div class="glass rounded-3xl overflow-hidden">
-                    <table class="w-full text-right">
-                        <thead class="bg-white/5 text-amber-500 text-xs">
+            <div id="tab-media" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="admin-card border-blue-500/30">
+                        <h4 class="text-xl font-black mb-4 flex items-center gap-2 text-blue-500"><i data-lucide="monitor"></i> بوابة ثيم الموقع</h4>
+                        <p class="text-[10px] text-gray-500 mb-4">انسخ رابط صورة JPG لتكون الخلفية الرئيسية للموقع.</p>
+                        <input type="text" id="setMainBg" placeholder="رابط صورة الخلفية الرئيسية..." class="w-full bg-black/40 border border-white/10 p-4 rounded-xl mb-4 text-xs font-mono">
+                        <button onclick="updateVisuals()" class="w-full bg-blue-600 py-3 rounded-xl font-bold">تحديث الثيم العام</button>
+                    </div>
+                    <div class="admin-card border-amber-500/30">
+                        <h4 class="text-xl font-black mb-4 flex items-center gap-2 text-amber-500"><i data-lucide="images"></i> بوابة ألبوم الصور</h4>
+                        <p class="text-[10px] text-gray-500 mb-4">ضع روابط صور المزرعة (JPG/PNG) - رابط واحد في كل سطر.</p>
+                        <textarea id="setCatalogImgs" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl h-32 mb-4 text-xs font-mono" placeholder="رابط الصورة 1&#10;رابط الصورة 2..."></textarea>
+                        <button onclick="updateVisuals()" class="w-full bg-amber-600 text-black py-3 rounded-xl font-bold">تحديث ألبوم الصور</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-bookings" class="tab-content">
+                <div class="admin-card overflow-x-auto p-0">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-white/5 text-amber-500">
                             <tr>
-                                <th class="p-4">المستأجر</th>
-                                <th class="p-4">النوع</th>
-                                <th class="p-4">المبلغ الكلي</th>
+                                <th class="p-4">ID السلسلة</th>
+                                <th class="p-4">اسم الزبون</th>
+                                <th class="p-4">الفئة</th>
                                 <th class="p-4">الواصل (50%)</th>
-                                <th class="p-4">الإجراء</th>
+                                <th class="p-4">المتبقي</th>
+                                <th class="p-4">الحالة</th>
                             </tr>
                         </thead>
-                        <tbody id="adminTableBody" class="text-sm"></tbody>
+                        <tbody id="adminTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -148,7 +162,7 @@
     </div>
 
     <script>
-        // Logic & Data Management
+        // Initialization & Core Logic
         let db = JSON.parse(localStorage.getItem('royal_oasis_db')) || [];
         let config = JSON.parse(localStorage.getItem('royal_oasis_config')) || {
             name: "مزرعة أبو سيف وأبو نمر",
@@ -171,43 +185,42 @@
             document.getElementById('locationText').innerText = config.loc;
             document.getElementById('dynamicBg').style.backgroundImage = `url(${config.bg})`;
             renderCatalog();
+            updateStats();
         }
 
-        // Professional Gallery Rendering
+        // Render Professional Catalog
         function renderCatalog() {
             const grid = document.getElementById('catalogGrid');
-            grid.innerHTML = config.catalog.map((img, i) => `
-                <div class="glass p-2 rounded-[2rem] group cursor-pointer overflow-hidden">
-                    <div class="h-64 rounded-[1.8rem] overflow-hidden relative">
-                        <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        <div class="absolute top-4 right-4 category-badge">صورة JPG</div>
+            grid.innerHTML = config.catalog.map((url, i) => `
+                <div class="gallery-item glass">
+                    <img src="${url}" alt="المرفق الملكي">
+                    <div class="img-badge">IMAGE JPG</div>
+                    <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+                        <p class="text-amber-500 font-black italic">الجناح الملكي #${i+1}</p>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Tab Switching Logic
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.remove('hidden');
-            event.target.classList.add('active');
-            if(tabId === 'tab-stats' || tabId === 'tab-archive') renderAdminData();
+        // Tab System
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
         }
 
-        // Admin Panel Functions
+        // Admin Management
         function openAdmin() {
-            const p = prompt("رمز الدخول الملكي:");
+            const p = prompt("أدخل رمز الإدارة:");
             if(p === config.pass) {
                 document.getElementById('adminPanel').style.display = 'block';
-                fillAdminFields();
-                renderAdminData();
-            } else { alert("عذراً، الرمز غير صحيح"); }
+                loadAdminFields();
+                renderBookings();
+            } else { alert("رمز خاطئ!"); }
         }
 
         function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
 
-        function fillAdminFields() {
+        function loadAdminFields() {
             document.getElementById('setFarmName').value = config.name;
             document.getElementById('setPrice').value = config.price;
             document.getElementById('setLoc').value = config.loc;
@@ -221,42 +234,40 @@
             config.price = document.getElementById('setPrice').value;
             config.loc = document.getElementById('setLoc').value;
             config.wa = document.getElementById('setWA').value;
-            config.pass = document.getElementById('setPass').value || config.pass;
             localStorage.setItem('royal_oasis_config', JSON.stringify(config));
-            alert("تم حفظ الإعدادات بنجاح ✅");
+            alert("تم حفظ البيانات الأساسية ✅");
             location.reload();
         }
 
         function updateVisuals() {
             config.bg = document.getElementById('setMainBg').value;
-            config.catalog = document.getElementById('setCatalogImgs').value.split('\n').filter(url => url.trim() !== "");
+            config.catalog = document.getElementById('setCatalogImgs').value.split('\n').filter(l => l.trim() !== "");
             localStorage.setItem('royal_oasis_config', JSON.stringify(config));
-            alert("تم تحديث الصور بنجاح ✅");
+            alert("تم تحديث الميديا بنجاح ✅");
             location.reload();
         }
 
-        function renderAdminData() {
+        function renderBookings() {
             const tbody = document.getElementById('adminTableBody');
-            let totalIncome = 0;
-            let totalDebt = 0;
-            
-            tbody.innerHTML = db.slice().reverse().map(b => {
-                totalIncome += (b.total * 0.5);
-                totalDebt += (b.total * 0.5);
-                return `
-                    <tr class="border-b border-white/5">
-                        <td class="p-4 font-bold">${b.name}</td>
-                        <td class="p-4">${b.type}</td>
-                        <td class="p-4">${b.total.toLocaleString()}</td>
-                        <td class="p-4 text-green-500">${(b.total * 0.5).toLocaleString()}</td>
-                        <td class="p-4"><button class="bg-white/10 px-3 py-1 rounded">عرض</button></td>
-                    </tr>
-                `;
-            }).join('');
+            tbody.innerHTML = db.slice().reverse().map(b => `
+                <tr class="border-b border-white/5">
+                    <td class="p-4 font-mono">#${b.serial || b.id.toString().slice(-4)}</td>
+                    <td class="p-4 font-bold">${b.name}</td>
+                    <td class="p-4">${b.type}</td>
+                    <td class="p-4 text-green-500">${(b.total * 0.5).toLocaleString()}</td>
+                    <td class="p-4 text-amber-500">${(b.total * 0.5).toLocaleString()}</td>
+                    <td class="p-4"><span class="bg-green-600/20 text-green-500 px-2 py-1 rounded">مؤكد</span></td>
+                </tr>
+            `).join('');
+            updateStats();
+        }
 
-            document.getElementById('statIncome').innerText = totalIncome.toLocaleString() + " د.ع";
-            document.getElementById('statDebt').innerText = totalDebt.toLocaleString() + " د.ع";
-            document.getElementById('statTotal').innerText = (totalIncome + totalDebt).toLocaleString() + " د.ع";
+        function updateStats() {
+            let paid = 0;
+            db.forEach(b => paid += (b.total * 0.5));
+            document.getElementById('statIncome').innerText = paid.toLocaleString() + " د.ع";
+            document.getElementById('statDebt').innerText = paid.toLocaleString() + " د.ع";
+            document.getElementById('statTotal').innerText = (paid * 2).toLocaleString() + " د.ع";
         }
     </script>
 </body>
