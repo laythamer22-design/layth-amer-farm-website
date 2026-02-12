@@ -3,224 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الإدارة الفاخر | مزرعة أبو سيف وأبو نمر</title>
+    <title>نظام الإدارة الملكي | ROYAL RESORT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --gold: #d97706; --dark: #020617; }
-        body { font-family: 'Tajawal', sans-serif; background: #020617; color: white; scroll-behavior: smooth; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .admin-view { display: none; position: fixed; inset: 0; z-index: 9999; background: #020617; overflow-y: auto; padding: 2rem; }
-        .receipt-style { background: white; color: black; font-family: 'Courier New', Courier, monospace; padding: 2rem; border-radius: 5px; width: 350px; }
-        .qr-placeholder canvas { margin: 0 auto; width: 100px !important; height: 100px !important; }
-        .video-container iframe, .video-container video { width: 100%; border-radius: 2rem; border: 1px solid var(--gold); }
+        :root { --gold: #d4af37; --royal: #0c1421; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--royal); color: white; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        .admin-panel { display: none; position: fixed; inset: 0; z-index: 9999; background: #050a12; overflow-y: auto; padding: 2rem; }
+        
+        /* تصميم الوصل الملكي */
+        #receiptPrint { background: white; color: black; padding: 3rem; width: 400px; border: 8px double #d4af37; border-radius: 2px; display: none; margin: 0 auto; position: relative; }
+        .stamp-box { position: absolute; bottom: 40px; left: 40px; width: 100px; transform: rotate(-15deg); opacity: 0.8; }
+        
+        .btn-gold { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: black; font-weight: 900; }
+        .status-pending { color: #f59e0b; font-weight: bold; }
+        .status-paid { color: #10b981; font-weight: bold; }
     </style>
 </head>
-<body class="bg-[#020617]">
+<body>
 
     <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 px-8 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-amber-600 rounded-2xl flex items-center justify-center font-black shadow-lg shadow-amber-900/40">AN</div>
-            <h1 class="text-xl font-black tracking-widest text-amber-500">ROYAL RESORT</h1>
-        </div>
-        <button onclick="checkAdmin()" class="bg-white/5 hover:bg-amber-600 p-3 rounded-xl transition-all">
-            <i data-lucide="shield-check" class="w-6 h-6"></i>
-        </button>
+        <h1 class="text-2xl font-black text-amber-500 italic">مزرعة <span id="mainTitle">أبو سيف وأبو نمر</span></h1>
+        <button onclick="openAdmin()" class="bg-amber-600/20 text-amber-500 p-2 rounded-lg border border-amber-600/30">⚙️ لوحة الإدارة</button>
     </nav>
 
-    <section class="pt-32 px-6 max-w-7xl mx-auto space-y-12">
-        <div class="text-center space-y-4">
-            <h2 class="text-5xl font-black text-amber-500 italic">تجربة بصرية لا منتهية</h2>
-            <p class="text-gray-400">استعرض مرافق المزرعة من خلال الألبوم الشامل</p>
-        </div>
-        
-        <div id="mediaGallery" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=1000" class="rounded-[2rem] h-64 w-full object-cover border border-white/10 shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1000" class="rounded-[2rem] h-64 w-full object-cover border border-white/10 shadow-2xl">
-            <div class="video-container col-span-1 md:col-span-3">
-                <video controls class="shadow-2xl shadow-amber-900/20">
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                    متصفحك لا يدعم عرض الفيديو.
-                </video>
-            </div>
+    <section class="pt-32 px-6 max-w-7xl mx-auto space-y-12 text-center">
+        <div class="rounded-[3rem] overflow-hidden border border-amber-600/30 shadow-2xl shadow-amber-900/20">
+            <video autoplay muted loop class="w-full h-[60vh] object-cover">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-villa-with-a-pool-at-sunset-2826-large.mp4" type="video/mp4">
+            </video>
         </div>
     </section>
 
-    <section class="max-w-4xl mx-auto py-32 px-6">
-        <div class="glass p-10 rounded-[3rem] space-y-8 border-amber-600/20">
-            <h3 class="text-3xl font-black text-center text-white">تثبيت حجز ملكي</h3>
+    <section id="bookingSection" class="max-w-4xl mx-auto py-20 px-6">
+        <div class="glass p-10 rounded-[3rem] space-y-8 border-t-4 border-amber-500">
+            <h2 class="text-3xl font-black text-center">بوابة حجز النخبة</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="text" id="guestName" placeholder="الاسم الكامل" class="bg-white/5 p-4 rounded-2xl border border-white/10 outline-none">
-                <input type="tel" id="guestPhone" placeholder="رقم الهاتف" class="bg-white/5 p-4 rounded-2xl border border-white/10 outline-none text-left" dir="ltr">
-                
-                <div class="p-4 border-2 border-dashed border-white/20 rounded-2xl text-center cursor-pointer hover:border-amber-500 transition-all" onclick="document.getElementById('file1').click()">
-                    <i data-lucide="image" class="mx-auto mb-2 opacity-50"></i>
-                    <span class="text-xs text-gray-400">رفع البطاقة الموحدة</span>
-                    <input type="file" id="file1" class="hidden">
-                </div>
-                <div class="p-4 border-2 border-dashed border-white/20 rounded-2xl text-center cursor-pointer hover:border-amber-500 transition-all" onclick="document.getElementById('file2').click()">
-                    <i data-lucide="map-pin" class="mx-auto mb-2 opacity-50"></i>
-                    <span class="text-xs text-gray-400">رفع بطاقة السكن</span>
-                    <input type="file" id="file2" class="hidden">
+                <input type="text" id="uName" placeholder="الاسم الكامل" class="bg-white/5 p-4 rounded-xl border border-white/10 outline-none focus:border-amber-500">
+                <input type="tel" id="uPhone" placeholder="رقم الواتساب" class="bg-white/5 p-4 rounded-xl border border-white/10 outline-none text-left" dir="ltr">
+                <div class="col-span-1 md:col-span-2 flex gap-4">
+                    <div class="flex-1 p-4 border border-dashed border-white/20 rounded-xl text-center cursor-pointer" onclick="document.getElementById('f1').click()">
+                        <i data-lucide="upload" class="mx-auto w-4 h-4 opacity-40"></i>
+                        <span class="text-[10px]">رفع البطاقة الموحدة</span>
+                        <input type="file" id="f1" class="hidden">
+                    </div>
+                    <div class="flex-1 p-4 border border-dashed border-white/20 rounded-xl text-center cursor-pointer" onclick="document.getElementById('f2').click()">
+                        <i data-lucide="upload" class="mx-auto w-4 h-4 opacity-40"></i>
+                        <span class="text-[10px]">رفع بطاقة السكن</span>
+                        <input type="file" id="f2" class="hidden">
+                    </div>
                 </div>
             </div>
-            
-            <button onclick="processBooking()" class="w-full bg-amber-600 hover:bg-amber-500 py-6 rounded-3xl font-black text-2xl shadow-xl shadow-amber-900/30 transition-all">إصدار الوصل وتثبيت الحجز 🧾</button>
+            <button onclick="requestBooking()" class="w-full btn-gold py-5 rounded-2xl text-xl transition-all hover:tracking-widest">إرسال الطلب عبر الواتساب للتدقيق 📱</button>
+            <p class="text-[10px] text-center text-gray-500 italic">سيتم تدقيق المستمسكات قبل إصدار الوصل المالي.</p>
         </div>
     </section>
 
-    <div id="adminPanel" class="admin-view">
-        <div class="max-w-6xl mx-auto space-y-12 pb-20">
-            <div class="flex justify-between items-center border-b border-white/10 pb-6">
-                <h2 class="text-4xl font-black text-amber-500">نظام أتمتة البيانات</h2>
-                <button onclick="document.getElementById('adminPanel').style.display='none'" class="bg-white/10 px-6 py-2 rounded-xl">خروج</button>
+    <div id="adminPanel" class="admin-panel text-white">
+        <div class="max-w-6xl mx-auto space-y-10">
+            <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                <h3 class="text-3xl font-black text-amber-500">منظومة الإدارة الذكية</h3>
+                <button onclick="document.getElementById('adminPanel').style.display='none'" class="text-red-500">إغلاق</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-xs text-gray-400">إجمالي الحجوزات</p>
-                    <h4 id="totalBookings" class="text-3xl font-black">0</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass p-6 rounded-2xl space-y-4">
+                    <h4 class="text-xs font-bold uppercase text-amber-500">صلاحيات المدير</h4>
+                    <input type="text" id="setAdminWA" placeholder="رقم واتساب المزرعة" class="w-full bg-white/5 p-3 rounded-lg border border-white/10">
+                    <div class="p-4 border border-dashed border-amber-600/30 rounded-lg text-center">
+                        <p class="text-[10px] mb-2">رفع ختم/توقيع المدير (PNG شفاف)</p>
+                        <input type="file" id="sigInput" onchange="uploadSignature(this)">
+                    </div>
                 </div>
-                <div class="glass p-6 rounded-3xl border-green-500/20">
-                    <p class="text-xs text-gray-400">الدخل الكلي (50%)</p>
-                    <h4 id="totalIncome" class="text-3xl font-black text-green-500">0 د.ع</h4>
+                <div class="glass p-6 rounded-2xl">
+                    <h4 class="text-xs font-bold uppercase text-blue-400">ملخص الحسابات</h4>
+                    <div id="statsBox" class="mt-4 text-2xl font-black">جاري التحميل...</div>
                 </div>
             </div>
 
-            <div class="glass rounded-3xl overflow-hidden">
-                <table class="w-full text-right">
-                    <thead class="bg-white/5">
+            <div class="glass rounded-2xl overflow-hidden">
+                <table class="w-full text-right text-sm">
+                    <thead class="bg-amber-600 text-black font-bold">
                         <tr>
-                            <th class="p-4 text-xs">المستأجر</th>
-                            <th class="p-4 text-xs">التاريخ</th>
-                            <th class="p-4 text-xs">الحالة</th>
-                            <th class="p-4 text-xs">الإجراء</th>
+                            <th class="p-4">#</th>
+                            <th class="p-4">الزبون</th>
+                            <th class="p-4">الحالة</th>
+                            <th class="p-4">إجراء</th>
                         </tr>
                     </thead>
-                    <tbody id="bookingTable" class="text-sm">
-                        </tbody>
+                    <tbody id="dbTable"></tbody>
                 </table>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass p-8 rounded-3xl space-y-4">
-                    <h4 class="font-bold text-amber-500">إدارة الألبوم (رفع صور/فيديو)</h4>
-                    <input type="text" id="mediaUrl" placeholder="رابط الصورة أو الفيديو" class="w-full bg-black/40 p-3 rounded-xl border border-white/10">
-                    <button onclick="addToGallery()" class="w-full bg-amber-600 py-3 rounded-xl font-bold">إضافة للألبوم</button>
-                </div>
-                <div class="glass p-8 rounded-3xl space-y-4">
-                    <h4 class="font-bold text-blue-500">تغيير الباركود (رابط الحسابات)</h4>
-                    <input type="text" id="qrLink" value="https://instagram.com/your_farm" class="w-full bg-black/40 p-3 rounded-xl border border-white/10">
-                    <p class="text-[10px] text-gray-500">هذا الرابط سيفتح للزبون عند مسح باركود الوصل</p>
-                </div>
             </div>
         </div>
     </div>
 
-    <div id="receiptModal" class="fixed inset-0 z-[10001] bg-black/95 hidden flex items-center justify-center p-6">
-        <div class="receipt-style text-center space-y-4 shadow-[0_0_50px_rgba(217,119,6,0.2)]">
-            <h2 class="text-2xl font-black underline">وصل حجز إلكتروني</h2>
-            <div class="text-right text-xs space-y-2 py-4 border-y border-black/10">
-                <p><strong>رقم الوصل:</strong> <span id="rNum">#1029</span></p>
-                <p><strong>الاسم:</strong> <span id="rName">-</span></p>
-                <p><strong>التاريخ:</strong> <span id="rDate">-</span></p>
-                <p><strong>المقدم المدفوع (50%):</strong> <span id="rPaid" class="font-bold">-</span></p>
-                <p><strong>المتبقي:</strong> <span id="rRemain" class="font-bold">-</span></p>
+    <div id="receiptContainer" class="fixed inset-0 bg-black/90 hidden z-[10000] flex items-center justify-center p-4">
+        <div id="receiptPrint">
+            <div class="text-center space-y-2 mb-6">
+                <h1 id="rFarmName" class="text-2xl font-black tracking-tighter">مزرعة أبو سيف وأبو نمر</h1>
+                <p class="text-[10px] uppercase tracking-[5px] border-b border-black pb-2">وصل مالي رسمي - OFFICIAL RECEIPT</p>
             </div>
-            <div id="qrcode" class="qr-placeholder py-4"></div>
-            <p class="text-[9px] font-bold">امسح الباركود أعلاه للوصول إلى الموقع والحسابات</p>
-            <button onclick="window.print()" class="bg-black text-white px-8 py-2 rounded-full text-xs no-print">طباعة الوصل</button>
-            <button onclick="location.reload()" class="text-black/40 block w-full text-[10px] no-print">إغلاق</button>
+            <div class="space-y-3 text-[12px] font-mono">
+                <div class="flex justify-between"><span>رقم التسلسل:</span> <span id="rID" class="font-bold">#0001</span></div>
+                <div class="flex justify-between"><span>الزبون:</span> <span id="rCust">-</span></div>
+                <div class="flex justify-between"><span>التاريخ:</span> <span id="rDate">-</span></div>
+                <div class="flex justify-between border-t border-black pt-2"><span>المقدم (50%):</span> <span id="rPrice">75,000 IQD</span></div>
+                <div class="flex justify-between text-gray-500"><span>المتبقي:</span> <span>75,000 IQD</span></div>
+            </div>
+            <div id="rQR" class="flex justify-center my-6"></div>
+            <div class="text-[9px] text-center border-t border-dotted border-black pt-4">حالة الدفع: مؤكدة من قبل الإدارة ✅</div>
+            
+            <img id="sigImg" src="" class="stamp-box">
+            
+            <div class="mt-10 flex gap-2 no-print">
+                <button onclick="window.print()" class="flex-1 bg-black text-white p-2 text-xs font-bold">طباعة / حفظ</button>
+                <button onclick="document.getElementById('receiptContainer').style.display='none'" class="flex-1 border border-black p-2 text-xs">إغلاق</button>
+            </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        let db = JSON.parse(localStorage.getItem('farm_db')) || [];
-        let adminPass = "1234";
+        let farmAdminWA = "9647700000000";
+        let signatureData = "";
+        let bookings = JSON.parse(localStorage.getItem('royal_db')) || [];
 
-        function checkAdmin() {
-            let p = prompt("رمز الدخول للمدير:");
-            if(p === adminPass) {
+        function uploadSignature(input) {
+            const reader = new FileReader();
+            reader.onload = function(e) { 
+                signatureData = e.target.result; 
+                document.getElementById('sigImg').src = signatureData;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        function requestBooking() {
+            const name = document.getElementById('uName').value;
+            const phone = document.getElementById('uPhone').value;
+            if(!name || !phone) return alert("يرجى إدخال البيانات!");
+
+            // إضافة طلب حجز "معلق" في السيستم
+            const newReq = {
+                id: bookings.length + 1,
+                name: name,
+                phone: phone,
+                status: 'معلق',
+                date: new Date().toLocaleDateString('ar-EG')
+            };
+            bookings.push(newReq);
+            localStorage.setItem('royal_db', JSON.stringify(bookings));
+
+            // توجيه للواتساب لإرسال الصور والدفع
+            const msg = `طلب حجز جديد:\nالاسم: ${name}\nالهاتف: ${phone}\n(يرجى إرسال صور المستمسكات هنا وإكمال دفع العربون لتفعيل الوصل)`;
+            window.open(`https://wa.me/${farmAdminWA}?text=${encodeURIComponent(msg)}`);
+            alert("تم إرسال طلبك. الوصل سيصدر بعد تأكيد المدير للدفع.");
+        }
+
+        function openAdmin() {
+            let p = prompt("أدخل رمز المدير:");
+            if(p === "1234") {
                 renderAdmin();
-                document.getElementById('adminPanel').style.display='block';
+                document.getElementById('adminPanel').style.display = 'block';
             }
         }
 
-        function processBooking() {
-            const name = document.getElementById('guestName').value;
-            const phone = document.getElementById('guestPhone').value;
-            if(!name || !phone) return alert("أكمل البيانات أولاً");
-
-            const newBooking = {
-                id: Math.floor(Math.random() * 9000) + 1000,
-                name: name,
-                date: new Date().toLocaleDateString('ar-EG'),
-                paid: 75000,
-                remain: 75000,
-                status: 'قيد التنفيذ'
-            };
-
-            db.push(newBooking);
-            localStorage.setItem('farm_db', JSON.stringify(db));
-
-            // ملء الوصل
-            document.getElementById('rNum').innerText = "#" + newBooking.id;
-            document.getElementById('rName').innerText = name;
-            document.getElementById('rDate').innerText = newBooking.date;
-            document.getElementById('rPaid').innerText = "75,000 د.ع";
-            document.getElementById('rRemain').innerText = "75,000 د.ع";
-
-            // توليد الباركود
-            document.getElementById("qrcode").innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), {
-                text: document.getElementById('qrLink').value,
-                width: 100,
-                height: 100
-            });
-
-            document.getElementById('receiptModal').style.display = 'flex';
-        }
-
         function renderAdmin() {
-            const table = document.getElementById('bookingTable');
+            const table = document.getElementById('dbTable');
             table.innerHTML = "";
             let income = 0;
-            db.forEach((b, index) => {
-                income += b.paid;
+            bookings.forEach((b, idx) => {
+                if(b.status === 'تم الدفع') income += 75000;
                 table.innerHTML += `
-                    <tr class="border-b border-white/5 hover:bg-white/5">
+                    <tr class="border-b border-white/5">
+                        <td class="p-4 font-mono">#${b.id.toString().padStart(4, '0')}</td>
                         <td class="p-4">${b.name}</td>
-                        <td class="p-4">${b.date}</td>
-                        <td class="p-4"><span class="bg-amber-600/20 text-amber-500 px-2 py-1 rounded-full text-[10px]">${b.status}</span></td>
+                        <td class="p-4 ${b.status === 'معلق' ? 'status-pending' : 'status-paid'}">${b.status}</td>
                         <td class="p-4">
-                            <button onclick="deleteBooking(${index})" class="text-red-500">حذف</button>
+                            ${b.status === 'معلق' ? `<button onclick="approveBooking(${idx})" class="bg-green-600 px-3 py-1 rounded text-[10px]">تأكيد الدفع ✅</button>` : `<button onclick="showReceipt(${idx})" class="bg-blue-600 px-3 py-1 rounded text-[10px]">عرض الوصل</button>`}
                         </td>
                     </tr>
                 `;
             });
-            document.getElementById('totalBookings').innerText = db.length;
-            document.getElementById('totalIncome').innerText = income.toLocaleString() + " د.ع";
+            document.getElementById('statsBox').innerText = income.toLocaleString() + " دينار عراقي";
         }
 
-        function deleteBooking(index) {
-            db.splice(index, 1);
-            localStorage.setItem('farm_db', JSON.stringify(db));
+        function approveBooking(index) {
+            bookings[index].status = 'تم الدفع';
+            localStorage.setItem('royal_db', JSON.stringify(bookings));
             renderAdmin();
+            alert("تم تأكيد الدفع. الآن يمكن للزبون استلام الوصل.");
         }
 
-        function addToGallery() {
-            const url = document.getElementById('mediaUrl').value;
-            if(!url) return;
-            const gallery = document.getElementById('mediaGallery');
-            if(url.includes('mp4') || url.includes('youtube')) {
-                gallery.innerHTML += `<div class="video-container col-span-3"><video controls><source src="${url}"></video></div>`;
-            } else {
-                gallery.innerHTML += `<img src="${url}" class="rounded-[2rem] h-64 w-full object-cover border border-white/10 shadow-2xl">`;
-            }
-            alert("تمت الإضافة للألبوم!");
+        function showReceipt(index) {
+            const b = bookings[index];
+            document.getElementById('rID').innerText = "#" + b.id.toString().padStart(4, '0');
+            document.getElementById('rCust').innerText = b.name;
+            document.getElementById('rDate').innerText = b.date;
+            
+            document.getElementById('rQR').innerHTML = "";
+            new QRCode(document.getElementById("rQR"), {
+                text: "https://royal-farm-verify.com/id=" + b.id,
+                width: 80, height: 80
+            });
+
+            document.getElementById('receiptContainer').style.display = 'flex';
+            document.getElementById('receiptPrint').style.display = 'block';
         }
     </script>
 </body>
