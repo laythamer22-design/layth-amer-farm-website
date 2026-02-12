@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مزرعة أبو سيف وأبو نمر | الفخامة الملكية</title>
+    <title>نظام الإدارة الملكي | مزرعة أبو سيف وأبو نمر</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,186 +13,197 @@
         .gold-grad { background: linear-gradient(135deg, #f59e0b 0%, #78350f 100%); }
         .gold-text { background: linear-gradient(to bottom, #fef3c7, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .admin-panel { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.98); align-items: center; justify-content: center; padding: 20px; }
+        .invoice-overlay { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
         .bg-pattern { background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png'); }
-        .gallery-img:hover { transform: scale(1.05); transition: 0.4s; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-pattern">
 
     <nav class="sticky top-0 z-50 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
-        <h1 class="font-black text-2xl tracking-tight">مزرعة <span id="farmLogoName" class="gold-text">أبو سيف وأبو نمر</span></h1>
-        <div class="flex gap-4 items-center">
-            <a href="#gallery" class="text-xs hover:text-yellow-500 transition">الصور</a>
-            <a href="#location" class="text-xs hover:text-yellow-500 transition">الموقع</a>
-            <button onclick="openAdmin()" class="gold-grad px-5 py-2 rounded-full text-xs font-black text-white shadow-lg shadow-yellow-900/20">⚙️ الإدارة</button>
-        </div>
+        <h1 class="font-black text-2xl tracking-tight text-white">مزرعة <span id="farmLogoName" class="gold-text">أبو سيف وأبو نمر</span></h1>
+        <button onclick="openAdmin()" class="gold-grad px-5 py-2 rounded-full text-xs font-black text-white shadow-lg transition hover:scale-105">⚙️ لوحة التحكم</button>
     </nav>
 
-    <header class="relative h-[70vh] flex items-center justify-center text-center p-6 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#020617] z-10"></div>
+    <header class="relative h-[50vh] flex items-center justify-center text-center p-6">
         <div class="z-20 space-y-6">
-            <h2 id="heroTitle" class="text-5xl md:text-8xl font-black gold-text drop-shadow-2xl">فخامة الإقامة والخصوصية</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto text-lg">استمتع بتجربة ملكية فريدة في قلب الطبيعة، حيث تلتقي الرفاهية بالهدوء المطلق.</p>
-            <div class="glass p-6 rounded-[2rem] inline-block">
-                <p class="text-yellow-600 text-xs font-bold uppercase tracking-widest mb-1">سعر الليلة الحصري</p>
-                <div id="mainPrice" class="text-5xl font-black text-white tracking-tighter">150 دينار</div>
+            <h2 class="text-5xl md:text-7xl font-black gold-text drop-shadow-2xl italic">فخامة لا تضاهى</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="glass p-4 rounded-3xl border border-yellow-600/20 shadow-2xl">
+                    <p class="text-yellow-600 text-[10px] font-bold uppercase mb-1">الإقامة لليلة</p>
+                    <div id="mainPrice" class="text-3xl font-black text-white tracking-tighter">150 دينار</div>
+                </div>
+                <div class="glass p-4 rounded-3xl border border-blue-500/20 shadow-2xl">
+                    <p class="text-blue-400 text-[10px] font-bold uppercase mb-1">مبلغ التأمين (مسترد)</p>
+                    <div id="insurPrice" class="text-3xl font-black text-white tracking-tighter">50 دينار</div>
+                </div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-6 space-y-24 pb-32">
-
+    <main class="max-w-6xl mx-auto p-6 space-y-20 pb-32">
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div class="glass rounded-[3rem] p-8 border border-white/10 shadow-2xl space-y-8">
-                <h3 class="text-3xl font-black gold-text">حجز الموعد الملكي</h3>
+            <div class="glass rounded-[3rem] p-8 border border-white/10 shadow-2xl space-y-6">
+                <h3 class="text-3xl font-black gold-text italic">حجز الموعد الملكي</h3>
                 <div class="space-y-4">
-                    <input type="text" id="userName" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-600 transition" placeholder="الاسم الكامل">
-                    <input type="tel" id="userPhone" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-left" dir="ltr" placeholder="+964">
+                    <input type="text" id="userName" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-600 text-white" placeholder="الاسم الكامل">
+                    <input type="tel" id="userPhone" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-left text-white font-mono" dir="ltr" placeholder="+964">
                     <div class="flex gap-4">
-                        <input type="date" id="checkIn" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs">
-                        <input type="date" id="checkOut" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs">
+                        <input type="date" id="checkIn" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs text-white">
+                        <input type="date" id="checkOut" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs text-white">
                     </div>
-                    <div class="p-6 bg-yellow-500/5 border border-yellow-500/20 rounded-3xl">
-                        <p class="text-center text-xs text-yellow-600 font-bold mb-4 italic">تطلب المستمسكات الرسمية عند تأكيد الحجز</p>
-                        <button onclick="confirmBooking()" class="w-full gold-grad text-white font-black py-5 rounded-2xl text-lg shadow-xl hover:scale-[1.02] transition active:scale-95">تأكيد الحجز عبر واتساب 💬</button>
-                    </div>
+                    <button onclick="confirmBooking()" class="w-full gold-grad text-white font-black py-5 rounded-2xl text-xl shadow-xl transition active:scale-95 shadow-yellow-900/20">تأكيد الحجز وتوليد الفاتورة 🧾</button>
                 </div>
             </div>
 
             <div id="gallery" class="space-y-6">
-                <h3 class="text-3xl font-black gold-text italic">كتالوج المزرعة</h3>
-                <div class="grid grid-cols-2 gap-4" id="imageGallery">
-                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070" class="gallery-img w-full h-48 object-cover rounded-3xl border border-white/10">
-                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071" class="gallery-img w-full h-48 object-cover rounded-3xl border border-white/10">
-                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070" class="gallery-img w-full h-48 object-cover rounded-3xl border border-white/10 col-span-2">
+                <h3 class="text-3xl font-black gold-text italic text-center">الكتالوج</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070" class="w-full h-40 object-cover rounded-3xl border border-white/10 grayscale hover:grayscale-0 transition duration-500 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071" class="w-full h-40 object-cover rounded-3xl border border-white/10 grayscale hover:grayscale-0 transition duration-500 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070" class="w-full h-40 object-cover rounded-3xl border border-white/10 grayscale hover:grayscale-0 transition duration-500 shadow-lg col-span-2">
                 </div>
             </div>
         </section>
 
-        <section id="location" class="glass rounded-[3rem] p-8 border border-white/10 overflow-hidden">
-            <h3 class="text-3xl font-black mb-8 gold-text">موقع المزرعة</h3>
-            <div class="rounded-3xl overflow-hidden h-96 border border-white/20">
-                <iframe id="mapFrame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13615.48512!2d44.36!3d33.31!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDE4JzM2LjAiTiA0NMKwMjEnMzYuMCJF!5e0!3m2!1sar!2siq!4v1620000000000!5m2!1sar!2siq" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <section id="location" class="glass rounded-[3rem] p-2 border border-white/10 overflow-hidden shadow-2xl">
+            <div class="rounded-[2.8rem] overflow-hidden h-80">
+                <iframe id="mapFrame" src="http://googleusercontent.com/maps.google.com/8..." width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </section>
     </main>
 
     <div id="aiChat" class="fixed bottom-6 right-6 z-50">
         <div id="chatBox" class="hidden glass w-80 mb-4 rounded-3xl border border-yellow-600/30 shadow-2xl overflow-hidden flex flex-col h-96">
-            <div class="bg-yellow-600 p-4 font-black text-sm flex justify-between">
-                <span>🤖 مساعد المزرعة الذكي</span>
+            <div class="bg-yellow-600 p-4 font-black text-sm flex justify-between text-white">
+                <span>🤖 مساعد المزرعة</span>
                 <button onclick="toggleChat()">✕</button>
             </div>
-            <div id="chatBody" class="p-4 flex-1 overflow-y-auto text-xs space-y-3">
-                <p class="bg-white/5 p-3 rounded-2xl">أهلاً بك! أنا البوت الذكي لمزرعة أبو سيف وأبو نمر. اسألني عن الأسعار، المرافق، أو الموقع.</p>
+            <div id="chatBody" class="p-4 flex-1 overflow-y-auto text-[11px] space-y-3">
+                <p id="botWelcomeMsg" class="bg-white/5 p-3 rounded-2xl text-gray-300">أهلاً بك! أنا هنا لمساعدتك في كل استفسارات المزرعة.</p>
             </div>
             <div class="p-3 bg-white/5 flex gap-2">
-                <input type="text" id="aiInput" class="flex-1 bg-black/20 border border-white/10 rounded-xl p-2 text-xs" placeholder="اكتب سؤالك...">
-                <button onclick="askAI()" class="bg-yellow-600 px-3 py-1 rounded-xl text-xs font-bold">إرسال</button>
+                <input type="text" id="aiInput" class="flex-1 bg-black/20 border border-white/10 rounded-xl p-2 text-xs text-white" placeholder="اكتب سؤالك...">
+                <button onclick="askAI()" class="bg-yellow-600 px-3 py-1 rounded-xl text-xs font-bold text-white">إرسال</button>
             </div>
         </div>
-        <button onclick="toggleChat()" class="gold-grad w-16 h-16 rounded-full flex items-center justify-center shadow-2xl animate-bounce">
+        <button onclick="toggleChat()" class="gold-grad w-14 h-14 rounded-full flex items-center justify-center shadow-2xl">
             <i data-lucide="bot" class="text-white"></i>
         </button>
     </div>
 
     <div id="adminModal" class="admin-panel">
-        <div class="glass w-full max-w-2xl rounded-[3rem] p-10 space-y-8 overflow-y-auto max-h-[90vh]">
-            <div class="flex justify-between items-center">
-                <h3 class="text-3xl font-black gold-text">إدارة المزرعة الملكية</h3>
-                <button onclick="closeAdmin()" class="text-gray-500">✕</button>
-            </div>
-            
+        <div class="glass w-full max-w-4xl rounded-[3rem] p-8 space-y-6 overflow-y-auto max-h-[90vh]">
+            <h3 class="text-2xl font-black gold-text border-b border-white/10 pb-4">الإعدادات المتقدمة</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="text-[10px] text-gray-500 font-bold uppercase">اسم المزرعة</label>
-                    <input type="text" id="admFarmName" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl">
+                <div class="space-y-4 bg-white/5 p-6 rounded-3xl">
+                    <p class="text-yellow-600 font-bold text-[10px] uppercase">الأسعار والمعلومات</p>
+                    <input type="text" id="admFarmName" placeholder="اسم المزرعة" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm text-white">
+                    <input type="number" id="admPrice" placeholder="سعر الإقامة" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm text-white">
+                    <input type="number" id="admInsur" placeholder="مبلغ التأمين المسترد" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm text-white">
+                    <input type="text" id="admMap" placeholder="رابط الخريطة" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm text-white">
                 </div>
-                <div>
-                    <label class="text-[10px] text-gray-500 font-bold uppercase">سعر الليلة</label>
-                    <input type="number" id="admPrice" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl">
-                </div>
-                <div class="col-span-2">
-                    <label class="text-[10px] text-gray-500 font-bold uppercase">رابط الخريطة (Embed URL)</label>
-                    <input type="text" id="admMap" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl" placeholder="رابط Google Maps iframe">
-                </div>
-                <div class="col-span-2">
-                    <label class="text-[10px] text-gray-500 font-bold uppercase">تغيير رمز الدخول للمدير</label>
-                    <input type="password" id="admPass" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl">
+                <div class="space-y-4 bg-white/5 p-6 rounded-3xl">
+                    <p class="text-blue-400 font-bold text-[10px] uppercase">برمجة البوت والحماية</p>
+                    <input type="text" id="admBotWelcome" placeholder="رسالة الترحيب" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm text-white">
+                    <textarea id="admBotInfo" placeholder="معلومات للمساعد (عن المزرعة)" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm h-20 text-white"></textarea>
+                    <input type="password" id="admPass" placeholder="تغيير رمز دخول المدير" class="w-full bg-black/20 border border-white/10 p-3 rounded-xl text-sm text-white">
                 </div>
             </div>
+            <button onclick="applyAdminChanges()" class="w-full gold-grad text-white py-5 rounded-2xl font-black text-xl">تحديث كافة البيانات ✅</button>
+            <button onclick="closeAdmin()" class="w-full bg-white/5 text-gray-500 py-3 rounded-2xl text-xs">خروج</button>
+        </div>
+    </div>
 
-            <button onclick="applyAdminChanges()" class="w-full gold-grad text-white py-5 rounded-2xl font-black text-xl">حفظ كافة التعديلات ✅</button>
+    <div id="invoiceOverlay" class="invoice-overlay">
+        <div class="glass w-full max-w-sm rounded-[3rem] p-8 border border-yellow-600/30 text-center space-y-6 relative">
+            <h4 class="text-2xl font-black gold-text">فاتورة الحجز الرسمي</h4>
+            <div class="text-right space-y-3 bg-white/5 p-5 rounded-3xl border border-white/10 text-[12px]">
+                <div class="flex justify-between border-b border-white/5 pb-2"><span>الزبون:</span> <span id="invName" class="text-white">-</span></div>
+                <div class="flex justify-between border-b border-white/5 pb-2"><span>من:</span> <span id="invIn" class="text-white">-</span></div>
+                <div class="flex justify-between border-b border-white/5 pb-2"><span>إلى:</span> <span id="invOut" class="text-white">-</span></div>
+                <div class="flex justify-between border-b border-white/10 pb-2 text-yellow-500 font-bold"><span>سعر الإقامة:</span> <span id="invMainP">-</span></div>
+                <div class="flex justify-between border-b border-white/10 pb-2 text-blue-400 font-bold"><span>التأمين (مسترد):</span> <span id="invInsP">-</span></div>
+                <div class="flex justify-between pt-2 text-white font-black text-lg"><span>المجموع الكلي:</span> <span id="invTotal">-</span></div>
+            </div>
+            <p class="text-[10px] text-gray-500 italic">ملاحظة: مبلغ التأمين يسترد بالكامل عند انتهاء الإقامة وسلامة المرفقات.</p>
+            <button onclick="closeInvoice()" class="w-full gold-grad text-white py-4 rounded-2xl font-black">إرسال الفاتورة للواتساب 📱</button>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
         let adminPass = "1234";
+        let botKnowledge = "مزرعتنا توفر لك أفضل الأجواء الترفيهية مع نظام أمان وخصوصية تام.";
 
-        // Admin Functions
         function openAdmin() {
-            let p = prompt("أدخل رمز المدير للوصول للبوابة:");
+            let p = prompt("أدخل رمز المدير:");
             if (p === adminPass) document.getElementById('adminModal').style.display = 'flex';
-            else if(p !== null) alert("عذراً، الرمز خاطئ.");
         }
         function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
 
         function applyAdminChanges() {
-            const newName = document.getElementById('admFarmName').value;
-            const newPrice = document.getElementById('admPrice').value;
-            const newMap = document.getElementById('admMap').value;
-            const newPass = document.getElementById('admPass').value;
+            const n = document.getElementById('admFarmName').value;
+            const pr = document.getElementById('admPrice').value;
+            const ins = document.getElementById('admInsur').value;
+            const m = document.getElementById('admMap').value;
+            const bW = document.getElementById('admBotWelcome').value;
+            const bI = document.getElementById('admBotInfo').value;
+            const nP = document.getElementById('admPass').value;
 
-            if(newName) {
-                document.getElementById('farmLogoName').innerText = newName;
-                document.title = "مزرعة " + newName;
-            }
-            if(newPrice) document.getElementById('mainPrice').innerText = newPrice + " دينار";
-            if(newMap) document.getElementById('mapFrame').src = newMap;
-            if(newPass) adminPass = newPass;
+            if(n) { document.getElementById('farmLogoName').innerText = n; document.title = n; }
+            if(pr) document.getElementById('mainPrice').innerText = pr + " دينار";
+            if(ins) document.getElementById('insurPrice').innerText = ins + " دينار";
+            if(m) document.getElementById('mapFrame').src = m;
+            if(bW) document.getElementById('botWelcomeMsg').innerText = bW;
+            if(bI) botKnowledge = bI;
+            if(nP) adminPass = nP;
 
-            alert("تم تحديث كافة تفاصيل المزرعة بنجاح!");
+            alert("تم تحديث النظام الملكي!");
             closeAdmin();
         }
 
-        // Chatbot Functions
-        function toggleChat() {
-            const chat = document.getElementById('chatBox');
-            chat.classList.toggle('hidden');
-        }
+        function toggleChat() { document.getElementById('chatBox').classList.toggle('hidden'); }
 
         function askAI() {
-            const input = document.getElementById('aiInput');
-            const body = document.getElementById('chatBody');
-            if(!input.value) return;
-
-            body.innerHTML += `<p class="bg-yellow-600/20 p-3 rounded-2xl text-left self-end">${input.value}</p>`;
+            const inp = document.getElementById('aiInput');
+            const b = document.getElementById('chatBody');
+            if(!inp.value) return;
+            b.innerHTML += `<p class="bg-yellow-600/20 p-2 rounded-xl text-left self-end ml-4 text-white">${inp.value}</p>`;
             
-            let reply = "أهلاً بك ليث، المزرعة تضم مسبحاً ملكياً، مساحات خضراء، ونظام خصوصية عالي. للحجز يرجى استخدام الاستمارة.";
-            if(input.value.includes("سعر")) reply = "سعر الليلة الحالية هو " + document.getElementById('mainPrice').innerText;
-            if(input.value.includes("موقع")) reply = "تقع المزرعة في منطقة هادئة وراقية، يمكنك رؤية الخريطة أسفل الصفحة.";
+            let reply = "بصفتي المساعد الذكي: " + botKnowledge;
+            if(inp.value.includes("سعر")) reply = "سعر الإقامة الحالي " + document.getElementById('mainPrice').innerText;
+            if(inp.value.includes("تأمين") || inp.value.includes("تامين")) reply = "مبلغ التأمين المسترد هو " + document.getElementById('insurPrice').innerText + "، يُدفع عند الحجز ويسترد عند المغادرة.";
 
             setTimeout(() => {
-                body.innerHTML += `<p class="bg-white/5 p-3 rounded-2xl">🤖 ${reply}</p>`;
-                body.scrollTop = body.scrollHeight;
+                b.innerHTML += `<p class="bg-white/5 p-3 rounded-2xl text-gray-300">🤖 ${reply}</p>`;
+                b.scrollTop = b.scrollHeight;
             }, 600);
-            input.value = "";
+            inp.value = "";
         }
 
-        // Booking Function
         function confirmBooking() {
             const name = document.getElementById('userName').value;
-            const phone = document.getElementById('userPhone').value;
-            const price = document.getElementById('mainPrice').innerText;
+            const cin = document.getElementById('checkIn').value;
+            const cout = document.getElementById('checkOut').value;
+            const p = parseInt(document.getElementById('mainPrice').innerText);
+            const i = parseInt(document.getElementById('insurPrice').innerText);
             
-            if(!name || !phone) { alert("أدخل اسمك ورقمك لإكمال الحجز"); return; }
+            if(!name || !cin || !cout) { alert("يرجى إكمال البيانات"); return; }
 
-            const msg = `طلب حجز ملكي جديد:\nالاسم: ${name}\nالهاتف: ${phone}\nالسعر المتفق عليه: ${price}\nأرجو تزويدي بموعد الحضور.`;
+            document.getElementById('invName').innerText = name;
+            document.getElementById('invIn').innerText = cin;
+            document.getElementById('invOut').innerText = cout;
+            document.getElementById('invMainP').innerText = p + " دينار";
+            document.getElementById('invInsP').innerText = i + " دينار";
+            document.getElementById('invTotal').innerText = (p + i) + " دينار";
+            document.getElementById('invoiceOverlay').style.display = 'flex';
+        }
+
+        function closeInvoice() {
+            const name = document.getElementById('invName').innerText;
+            const msg = `فاتورة حجز جديدة:\nالزبون: ${name}\nالفترة: من ${document.getElementById('invIn').innerText} إلى ${document.getElementById('invOut').innerText}\nسعر الإقامة: ${document.getElementById('invMainP').innerText}\nمبلغ التأمين: ${document.getElementById('invInsP').innerText}\nالمجموع الكلي: ${document.getElementById('invTotal').innerText}`;
             window.open(`https://wa.me/9647700000000?text=${encodeURIComponent(msg)}`);
+            document.getElementById('invoiceOverlay').style.display = 'none';
         }
     </script>
 </body>
