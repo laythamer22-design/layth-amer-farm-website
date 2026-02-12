@@ -3,362 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | مزرعة أبو سيف وأبو نمر</title>
+    <title>مزرعة أبو سيف وأبو نمر | النسخة الملكية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --gold: #c5a059; --dark: #050505; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--dark); color: white; scroll-behavior: smooth; overflow-x: hidden; }
+        :root { --royal-blue: #0a192f; --gold: #d4af37; --accent: #112240; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--royal-blue); color: white; scroll-behavior: smooth; }
         
-        /* Background Theme */
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000');
-            background-size: cover; background-attachment: fixed; background-position: center;
-        }
-
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gold-text { background: linear-gradient(135deg, #fceabb, #f8b500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; overflow-y: auto; padding: 2rem; }
+        .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #fceabb 50%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: rgba(17, 34, 64, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 2rem; }
         
-        /* Receipt Style */
-        #receiptUI { background: white; color: black; padding: 2.5rem; width: 400px; border: 10px double var(--gold); border-radius: 4px; position: relative; }
-        .sig-stamp { position: absolute; bottom: 30px; left: 30px; width: 100px; transform: rotate(-15deg); filter: grayscale(1); opacity: 0.7; }
-
-        /* Chatbot UI */
-        .chat-box { position: fixed; bottom: 20px; right: 20px; width: 300px; z-index: 50; display: none; }
+        /* Auto-Slider Animation */
+        .slider-img { transition: opacity 1s ease-in-out; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+        .slider-img.active { opacity: 1; }
         
-        /* Interactive Map */
-        .map-point { position: absolute; background: #c5a059; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 15px #c5a059; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+        .admin-panel { display: none; position: fixed; inset: 0; z-index: 9999; background: #020c1b; overflow-y: auto; padding: 2rem; }
+        #receiptPrint { background: white; color: black; padding: 2rem; width: 380px; border: 8px double var(--gold); margin: 0 auto; position: relative; }
+        
+        .map-btn { background: linear-gradient(45deg, #05d5ff, #0055ff); border: none; transition: 0.3s; }
+        .map-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 85, 255, 0.4); }
     </style>
 </head>
-<body class="hero-bg">
+<body>
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-white/10 px-8 py-5 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-700 rounded-full flex items-center justify-center font-black text-black">AN</div>
-            <h1 id="farmTitle" class="text-xl font-black gold-text italic tracking-tighter uppercase">أبو سيف وأبو نمر</h1>
+    <nav class="fixed top-0 w-full z-50 glass-card !rounded-none border-b border-gold/20 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <h1 id="brandName" class="text-2xl font-black gold-gradient">مزرعة أبو سيف وأبو نمر</h1>
         </div>
-        <div class="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest">
-            <a href="#gallery" class="hover:text-amber-500">الألبوم</a>
-            <a href="#booking" class="hover:text-amber-500">حجز</a>
-            <button onclick="openAdmin()" class="bg-amber-600/20 text-amber-500 px-4 py-2 rounded-full border border-amber-500/30">الإدارة</button>
-        </div>
+        <button onclick="openAdmin()" class="bg-gold/10 text-gold border border-gold/50 px-6 py-2 rounded-full text-xs font-bold hover:bg-gold hover:text-black transition">لوحة التحكم</button>
     </nav>
 
-    <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 id="heroDisplay" class="text-6xl md:text-9xl font-black mb-4 gold-text">THE ROYAL OASIS</h2>
-        <p class="text-lg md:text-2xl tracking-[10px] uppercase font-light">Experience Grandeur</p>
-        <a href="#booking" class="mt-12 bg-white text-black px-12 py-4 rounded-full font-black text-xs hover:bg-amber-500 transition-all">ابدأ الحجز الآن</a>
-    </section>
-
-    <section id="gallery" class="py-20 max-w-7xl mx-auto px-6 space-y-20">
-        <div class="rounded-[4rem] overflow-hidden glass p-4 border border-amber-500/20 shadow-2xl">
-            <video id="mainVideo" autoplay muted loop class="w-full h-[70vh] object-cover rounded-[3rem]">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-villa-with-a-pool-at-sunset-2826-large.mp4" type="video/mp4">
-            </video>
+    <section class="relative h-screen w-full overflow-hidden">
+        <div id="heroSlider">
+            <img src="https://i.ibb.co/v4S6Y6Q/photo-4.jpg" class="slider-img active">
+            <img src="https://i.ibb.co/C0mXm6H/photo-6.jpg" class="slider-img">
+            <img src="https://i.ibb.co/mFm7X8J/photo-10.jpg" class="slider-img">
         </div>
-
-        <div id="imageAlbum" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1000" class="rounded-3xl h-64 w-full object-cover">
-            <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=1000" class="rounded-3xl h-64 w-full object-cover">
-            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1000" class="rounded-3xl h-64 w-full object-cover">
-            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000" class="rounded-3xl h-64 w-full object-cover">
-        </div>
-    </section>
-
-    <section class="py-20 max-w-7xl mx-auto px-6">
-        <div class="text-center mb-10">
-            <h3 class="text-3xl font-black gold-text">كتلوك الخارطة والتصميم الداخلي</h3>
-            <p class="text-gray-500">توزيع المرافق والرفاهية</p>
-        </div>
-        <div class="relative rounded-[3rem] overflow-hidden border border-white/10 glass h-[500px]">
-            <img id="mapImg" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000" class="w-full h-full object-cover opacity-40">
-            <div class="map-point top-1/4 left-1/3" title="المسبح"></div>
-            <div class="map-point top-1/2 right-1/4" title="صالة الـ VIP"></div>
-            <div class="map-point bottom-1/4 left-1/2" title="الحدائق الخارجية"></div>
+        <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-4">
+            <h2 class="text-5xl md:text-8xl font-black mb-4 gold-gradient">فخامة بلا حدود</h2>
+            <p id="locationText" class="text-xl md:text-2xl tracking-[5px] font-light">أطراف الفلوجة السكنية</p>
+            
+            <div class="mt-8 flex gap-4">
+                <a href="https://www.google.com/maps?q=33.3500,43.7833" target="_blank" class="map-btn flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm">
+                    <i data-lucide="map-pin"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?ll=33.3500,43.7833&navigate=yes" target="_blank" class="bg-[#33ccff] flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm">
+                    <i data-lucide="navigation"></i> Waze
+                </a>
+            </div>
         </div>
     </section>
 
-    <section id="booking" class="py-32 max-w-5xl mx-auto px-6">
-        <div class="glass p-12 rounded-[4rem] border-t-2 border-amber-500/50 shadow-2xl space-y-10">
-            <div class="text-center">
-                <h3 class="text-4xl font-black mb-2">تثبيت حجز ملكي</h3>
-                <p class="text-amber-500 font-bold">50% مقدم لتثبيت الحجز - 50% عند المغادرة</p>
+    <section id="booking" class="py-20 px-6 max-w-6xl mx-auto">
+        <div class="glass-card p-8 md:p-16 space-y-12">
+            <div class="text-center space-y-4">
+                <h3 class="text-4xl font-black">حجز الجناح الملكي</h3>
+                <div class="h-1 w-24 bg-gold mx-auto rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-4">
-                    <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none">
-                    <select id="custType" class="w-full bg-slate-900 p-5 rounded-2xl border border-white/10">
-                        <option>عائلة 👨‍👩‍👧‍👦</option>
-                        <option>شباب 👨‍👦‍👦</option>
-                    </select>
-                    <select id="custDuration" class="w-full bg-slate-900 p-5 rounded-2xl border border-white/10" onchange="updatePriceDisplay()">
-                        <option value="1">يوم كامل (24 ساعة)</option>
-                        <option value="0.5">نصف يوم (12 ساعة)</option>
-                    </select>
+                <div class="space-y-6">
+                    <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none focus:border-gold">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <select id="custType" class="bg-accent p-4 rounded-xl border border-white/10">
+                            <option>عائلة 👨‍👩‍👧‍👦</option>
+                            <option>شباب 👨‍👦‍👦</option>
+                        </select>
+                        <select id="custDuration" class="bg-accent p-4 rounded-xl border border-white/10" onchange="toggleTimeSlots()">
+                            <option value="24">يوم كامل</option>
+                            <option value="12">نصف يوم (12 ساعة)</option>
+                        </select>
+                    </div>
+
+                    <div id="timeSlotContainer" class="hidden animate-fade-in">
+                        <p class="text-xs text-gold mb-2">اختر الفترة المفضلة:</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="selectSlot('morning')" id="slotM" class="p-3 border border-white/20 rounded-xl text-xs hover:bg-gold/20">صباحي (الاستلام 8ص)</button>
+                            <button onclick="selectSlot('evening')" id="slotE" class="p-3 border border-white/20 rounded-xl text-xs hover:bg-gold/20">مسائي (الاستلام 8م)</button>
+                        </div>
+                    </div>
+
+                    <input type="date" id="bookDate" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 text-center">
-                    <label id="labelId" class="border-2 border-dashed border-white/20 p-8 rounded-3xl cursor-pointer hover:border-amber-500 transition-all">
-                        <i data-lucide="contact-2" class="mx-auto mb-2 opacity-50"></i>
-                        <span class="text-[10px] block">البطاقة الموحدة</span>
-                        <input type="file" id="inputId" class="hidden" onchange="uploadDone('labelId')">
-                    </label>
-                    <label id="labelHome" class="border-2 border-dashed border-white/20 p-8 rounded-3xl cursor-pointer hover:border-amber-500 transition-all">
-                        <i data-lucide="home" class="mx-auto mb-2 opacity-50"></i>
-                        <span class="text-[10px] block">بطاقة السكن</span>
-                        <input type="file" id="inputHome" class="hidden" onchange="uploadDone('labelHome')">
-                    </label>
+                <div class="grid grid-cols-1 gap-4">
+                    <div onclick="document.getElementById('f1').click()" class="border-2 border-dashed border-gold/30 p-8 rounded-3xl text-center cursor-pointer hover:bg-gold/5 transition">
+                        <i data-lucide="upload-cloud" class="mx-auto text-gold mb-2"></i>
+                        <span class="text-xs block">رفع البطاقة الموحدة</span>
+                        <input type="file" id="f1" class="hidden">
+                    </div>
+                    <div onclick="document.getElementById('f2').click()" class="border-2 border-dashed border-gold/30 p-8 rounded-3xl text-center cursor-pointer hover:bg-gold/5 transition">
+                        <i data-lucide="shield-check" class="mx-auto text-gold mb-2"></i>
+                        <span class="text-xs block">رفع بطاقة السكن</span>
+                        <input type="file" id="f2" class="hidden">
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-amber-500/10 p-6 rounded-3xl border border-amber-500/20 flex justify-between items-center">
-                <div>
-                    <p class="text-xs text-gray-400">الإجمالي: <span id="totalVal">150,000</span> د.ع</p>
-                    <p class="text-lg font-black text-amber-500">المقدم (50%): <span id="downVal">75,000</span> د.ع</p>
+            <div class="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-right">
+                    <p class="text-xs text-gray-400">نظام الدفع: 50% مقدم لتثبيت الحجز</p>
+                    <h4 class="text-3xl font-black text-gold">المبلغ: <span id="priceLabel">150,000</span> د.ع</h4>
                 </div>
-                <button onclick="requestWhatsApp()" class="bg-amber-600 px-10 py-4 rounded-2xl font-black text-black shadow-xl hover:scale-105 transition-all">تأكيد الحجز والدفع 💳</button>
+                <button onclick="processBooking()" class="w-full md:w-auto bg-gold text-black px-12 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 transition">تأكيد وتحويل للواتساب 📱</button>
             </div>
         </div>
     </section>
 
-    <div id="aiChat" class="chat-box glass p-4 rounded-3xl border border-amber-500/30 shadow-2xl">
-        <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-            <span class="text-xs font-black gold-text">مساعد المزرعة الذكي</span>
-            <button onclick="toggleChat()" class="text-gray-400">×</button>
-        </div>
-        <div id="chatContent" class="h-48 overflow-y-auto text-[10px] space-y-2 mb-4">
-            <p class="bg-white/5 p-2 rounded-lg">أهلاً بك! أنا البوت الخاص بمزرعة أبو سيف وأبو نمر. كيف أخدمك؟</p>
-        </div>
-        <div class="flex gap-2">
-            <input type="text" id="chatInput" placeholder="اسألني أي شيء..." class="flex-1 bg-black/40 border border-white/10 p-2 rounded-xl text-xs outline-none">
-            <button onclick="aiResponse()" class="bg-amber-600 p-2 rounded-xl"><i data-lucide="send" class="w-4 h-4 text-black"></i></button>
-        </div>
-    </div>
-    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-amber-600 rounded-full flex items-center justify-center shadow-2xl z-50">
-        <i data-lucide="bot" class="text-black"></i>
-    </button>
-
-    <div id="adminPanel" class="admin-modal">
-        <div class="max-w-6xl mx-auto space-y-10 pb-20">
+    <div id="adminView" class="admin-panel text-white">
+        <div class="max-w-6xl mx-auto space-y-10">
             <div class="flex justify-between items-center border-b border-white/10 pb-6">
-                <h2 class="text-4xl font-black gold-text italic uppercase">إدارة الملكية المطلقة</h2>
-                <button onclick="document.getElementById('adminPanel').style.display='none'" class="bg-red-600/20 text-red-500 px-6 py-2 rounded-full font-bold">إغلاق</button>
+                <h2 class="text-3xl font-black gold-gradient italic">لوحة التحكم الإمبراطورية</h2>
+                <button onclick="document.getElementById('adminView').style.display='none'" class="bg-red-600 px-6 py-2 rounded-xl font-bold">إغلاق</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-xs text-gray-500">إجمالي الحجوزات</p>
-                    <h4 id="statCount" class="text-3xl font-black">0</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 space-y-4">
+                    <h3 class="font-bold border-b border-gold/20 pb-2">إعدادات الموقع</h3>
+                    <input type="text" id="setLoc" placeholder="تغيير عنوان الموقع" class="w-full bg-black/40 p-3 rounded-lg text-xs">
+                    <input type="text" id="setMaps" placeholder="رابط جوجل ماب الجديد" class="w-full bg-black/40 p-3 rounded-lg text-xs">
+                    <input type="text" id="setWA" placeholder="رقم واتساب المدير" class="w-full bg-black/40 p-3 rounded-lg text-xs">
+                    <button onclick="saveAdminSettings()" class="w-full bg-gold text-black py-2 rounded-lg font-bold text-xs">حفظ التغييرات</button>
                 </div>
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-xs text-gray-500">الدخل الكلي (أسبوعي/شهري)</p>
-                    <h4 id="statIncome" class="text-3xl font-black text-green-500">0 د.ع</h4>
+
+                <div class="glass-card p-6 space-y-4">
+                    <h3 class="font-bold border-b border-gold/20 pb-2">ساعات الاستلام</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="timeM" placeholder="الصباحي (مثلاً 8ص)" class="w-1/2 bg-black/40 p-3 rounded-lg text-xs">
+                        <input type="text" id="timeE" placeholder="المسائي (مثلاً 8م)" class="w-1/2 bg-black/40 p-3 rounded-lg text-xs">
+                    </div>
+                    <h3 class="font-bold border-b border-gold/20 pb-2">التوقيع والختم</h3>
+                    <input type="file" onchange="loadSignature(this)" class="text-[10px]">
+                </div>
+
+                <div class="glass-card p-6 flex flex-col justify-center items-center text-center">
+                    <p class="text-xs text-gray-400">إجمالي الأرباح</p>
+                    <h4 id="totalRevenue" class="text-4xl font-black text-green-500">0 د.ع</h4>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="glass p-8 rounded-[3rem] space-y-6">
-                    <h4 class="font-black text-amber-500 uppercase tracking-widest">صلاحيات التعديل</h4>
-                    <div class="space-y-4">
-                        <input type="text" id="setFarmName" placeholder="تغيير اسم المزرعة" class="w-full bg-white/5 p-4 rounded-xl border border-white/10">
-                        <input type="number" id="setBasePrice" placeholder="تغيير السعر الأساسي" class="w-full bg-white/5 p-4 rounded-xl border border-white/10">
-                        <input type="text" id="setWANumber" placeholder="تغيير رقم واتساب المزرعة" class="w-full bg-white/5 p-4 rounded-xl border border-white/10">
-                        <input type="password" id="setAdminPass" placeholder="تغيير باسوورد المدير" class="w-full bg-white/5 p-4 rounded-xl border border-white/10">
-                        <textarea id="setBotInfo" placeholder="تعديل معلومات البوت (ماذا يجيب؟)" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 h-24"></textarea>
-                        <div class="p-4 border-2 border-dashed border-amber-600/30 rounded-xl">
-                            <p class="text-[10px] mb-2">توقيع المدير (صورة PNG)</p>
-                            <input type="file" onchange="uploadSig(this)">
-                        </div>
-                    </div>
-                    <button onclick="saveAdminSettings()" class="w-full bg-amber-600 py-4 rounded-2xl font-black text-black">حفظ كافة التغييرات ✅</button>
-                </div>
-
-                <div class="glass p-8 rounded-[3rem] space-y-6 overflow-hidden">
-                    <h4 class="font-black text-blue-500 uppercase tracking-widest">الأرشفة والتقارير</h4>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right text-xs">
-                            <thead class="bg-white/5">
-                                <tr>
-                                    <th class="p-3">#</th>
-                                    <th class="p-3">الزبون</th>
-                                    <th class="p-3">الحالة</th>
-                                    <th class="p-3">إجراء</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dbTable"></tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="glass-card overflow-hidden">
+                <table class="w-full text-right text-xs">
+                    <thead class="bg-gold text-black">
+                        <tr><th class="p-4">ت</th><th class="p-4">الزبون</th><th class="p-4">التاريخ</th><th class="p-4">الحالة</th><th class="p-4">إجراء</th></tr>
+                    </thead>
+                    <tbody id="adminTable"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <div id="receiptModal" class="fixed inset-0 z-[10001] bg-black/95 hidden flex flex-col items-center justify-center p-6">
-        <div id="receiptUI">
-            <div class="text-center space-y-2 mb-6 border-b border-black pb-4">
-                <h2 id="rFarmName" class="text-2xl font-black italic">مزرعة أبو سيف وأبو نمر</h2>
-                <p class="text-[9px] uppercase tracking-[5px]">فاتورة حجز إلكترونية - OFFICIAL INVOICE</p>
+    <div id="receiptModal" class="fixed inset-0 bg-black/95 z-[10000] hidden flex flex-col items-center justify-center p-4">
+        <div id="receiptPrint">
+            <div class="text-center mb-6">
+                <h1 class="text-xl font-black">مزرعة أبو سيف وأبو نمر</h1>
+                <p class="text-[9px] border-b border-black pb-1 uppercase tracking-widest">وصل تأكيد حجز - OFFICIAL RECEIPT</p>
             </div>
             <div class="space-y-3 text-[11px] font-mono">
-                <div class="flex justify-between"><span>رقم الوصل:</span> <span id="rID" class="font-bold">#0001</span></div>
+                <div class="flex justify-between"><span>الرقم التسلسلي:</span> <span id="rSeq">#0001</span></div>
+                <div class="flex justify-between"><span>الاسم:</span> <span id="rCust">-</span></div>
                 <div class="flex justify-between"><span>التاريخ:</span> <span id="rDate">-</span></div>
-                <div class="flex justify-between"><span>المستأجر:</span> <span id="rCust">-</span></div>
                 <div class="flex justify-between font-bold border-t border-black pt-2"><span>المقدم (50%):</span> <span id="rPaid">-</span></div>
-                <div class="flex justify-between text-gray-500"><span>المتبقي (عند المغادرة):</span> <span id="rRem">-</span></div>
+                <div class="flex justify-between text-gray-500"><span>المتبقي:</span> <span id="rRem">-</span></div>
             </div>
             <div id="qrcode" class="flex justify-center my-6"></div>
-            <img id="rSig" src="" class="sig-stamp">
-            <p class="text-[8px] text-center border-t border-dotted border-black pt-4">حالة الدفع: مؤكدة ومؤرشفة من قبل المدير ✅</p>
-            <div class="mt-8 no-print flex gap-2">
-                <button onclick="window.print()" class="flex-1 bg-black text-white py-2 rounded-lg text-xs">طباعة / PDF</button>
-                <button onclick="location.reload()" class="flex-1 border border-black py-2 rounded-lg text-xs">إغلاق</button>
-            </div>
+            <img id="adminSig" src="" class="absolute bottom-10 left-10 w-24 opacity-80">
+            <div class="text-[8px] text-center mt-6 text-gray-400">تنبيه: سيصلك إشعار تذكير قبل 24 ساعة من الموعد ✅</div>
+            <button onclick="window.print()" class="w-full mt-6 bg-black text-white py-2 text-xs no-print">تحميل PDF</button>
         </div>
+        <button onclick="location.reload()" class="mt-6 text-white/30 text-xs no-print">إغلاق</button>
     </div>
 
     <script>
         lucide.createIcons();
         
-        let db = JSON.parse(localStorage.getItem('farm_db')) || [];
-        let config = JSON.parse(localStorage.getItem('farm_config')) || {
-            name: "أبو سيف وأبو نمر",
-            price: 150000,
+        let db = JSON.parse(localStorage.getItem('farm_db_pro')) || [];
+        let config = JSON.parse(localStorage.getItem('farm_config_pro')) || {
+            loc: "أطراف الفلوجة السكنية",
             wa: "9647700000000",
-            pass: "1234",
-            bot: "المزرعة تقع في بغداد، توفر مسبحاً ملكياً وغرف VIP. الحجز يتطلب دفع 50% مقدماً.",
+            price: 150000,
+            maps: "https://www.google.com/maps?q=33.3500,43.7833",
+            timeM: "8 صباحاً",
+            timeE: "8 مساءً",
             sig: ""
         };
 
-        // Initialize UI from config
-        document.getElementById('farmTitle').innerText = config.name;
-        document.getElementById('heroDisplay').innerText = config.name.toUpperCase();
+        let selectedSlot = "";
 
-        function uploadDone(id) {
-            const el = document.getElementById(id);
-            el.style.borderColor = "#10b981";
-            el.style.background = "rgba(16, 185, 129, 0.1)";
-            el.innerHTML = '<i data-lucide="check-circle" class="mx-auto text-green-500 mb-2"></i><span class="text-[10px] text-green-500">تم الرفع بنجاح</span>';
-            lucide.createIcons();
-        }
+        // Auto Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-img');
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 5000);
 
-        function updatePriceDisplay() {
+        function toggleTimeSlots() {
             const dur = document.getElementById('custDuration').value;
-            const total = config.price * dur;
-            document.getElementById('totalVal').innerText = total.toLocaleString();
-            document.getElementById('downVal').innerText = (total * 0.5).toLocaleString();
+            const container = document.getElementById('timeSlotContainer');
+            container.style.display = (dur == "12") ? "block" : "none";
+            document.getElementById('priceLabel').innerText = (dur == "24" ? 150000 : 80000).toLocaleString();
         }
 
-        function requestWhatsApp() {
+        function selectSlot(type) {
+            selectedSlot = type;
+            document.getElementById('slotM').classList.remove('bg-gold', 'text-black');
+            document.getElementById('slotE').classList.remove('bg-gold', 'text-black');
+            document.getElementById(type === 'morning' ? 'slotM' : 'slotE').classList.add('bg-gold', 'text-black');
+        }
+
+        function processBooking() {
             const name = document.getElementById('custName').value;
-            const idFile = document.getElementById('inputId').files[0];
-            if(!name || !idFile) return alert("يرجى إكمال البيانات ورفع المستمسكات!");
+            const date = document.getElementById('bookDate').value;
+            if(!name || !date) return alert("يرجى إكمال البيانات المطلوبة!");
 
             const newBooking = {
                 id: db.length + 1,
                 name: name,
-                date: new Date().toLocaleDateString('ar-EG'),
-                status: 'بانتظار تأكيد المدير',
-                total: config.price * document.getElementById('custDuration').value,
-                paid: false
+                date: date,
+                slot: selectedSlot || "يوم كامل",
+                paid: false,
+                total: document.getElementById('custDuration').value == "24" ? 150000 : 80000
             };
             db.push(newBooking);
-            localStorage.setItem('farm_db', JSON.stringify(db));
+            localStorage.setItem('farm_db_pro', JSON.stringify(db));
 
-            const msg = `طلب حجز جديد من: ${name}\nالنوع: ${document.getElementById('custType').value}\nالمبلغ المطلوب: ${newBooking.total * 0.5} د.ع\n(يرجى تأكيد استلام المبلغ في لوحة الإدارة لإصدار الوصل)`;
+            // Reminder Simulation (Browser Notification)
+            if (Notification.permission === "granted") {
+                setTimeout(() => {
+                    new Notification("تذكير حجز", { body: `عزيزي ${name}، نذكرك بموعد حجزك في مزرعة أبو سيف غداً.` });
+                }, 2000); 
+            }
+
+            const msg = `طلب حجز جديد باسم: ${name}\nالتاريخ: ${date}\nالفترة: ${newBooking.slot}\nيرجى تأكيد استلام المقدم 50%`;
             window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(msg)}`);
-            alert("تم إرسال طلبك. الوصل سيصدر فور تأكيد المدير للدفع.");
         }
 
         function openAdmin() {
-            if(prompt("رمز دخول المدير:") === config.pass) {
+            if(prompt("كلمة السر:") === "1234") {
                 renderAdmin();
-                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminView').style.display = 'block';
             }
         }
 
-        function uploadSig(input) {
+        function loadSignature(input) {
             const reader = new FileReader();
             reader.onload = (e) => config.sig = e.target.result;
             reader.readAsDataURL(input.files[0]);
         }
 
         function saveAdminSettings() {
-            config.name = document.getElementById('setFarmName').value || config.name;
-            config.price = document.getElementById('setBasePrice').value || config.price;
-            config.wa = document.getElementById('setWANumber').value || config.wa;
-            config.pass = document.getElementById('setAdminPass').value || config.pass;
-            config.bot = document.getElementById('setBotInfo').value || config.bot;
-            localStorage.setItem('farm_config', JSON.stringify(config));
-            alert("تم تحديث كافة تفاصيل المزرعة!");
-            location.reload();
+            config.loc = document.getElementById('setLoc').value || config.loc;
+            config.wa = document.getElementById('setWA').value || config.wa;
+            config.timeM = document.getElementById('timeM').value || config.timeM;
+            config.timeE = document.getElementById('timeE').value || config.timeE;
+            localStorage.setItem('farm_config_pro', JSON.stringify(config));
+            alert("تم التحديث!"); location.reload();
         }
 
         function renderAdmin() {
-            const table = document.getElementById('dbTable');
+            const table = document.getElementById('adminTable');
             table.innerHTML = "";
-            let income = 0;
+            let revenue = 0;
             db.forEach((b, i) => {
-                if(b.paid) income += b.total * 0.5;
+                if(b.paid) revenue += (b.total * 0.5);
                 table.innerHTML += `<tr class="border-b border-white/5">
-                    <td class="p-3">#${b.id.toString().padStart(4, '0')}</td>
-                    <td class="p-3">${b.name}</td>
-                    <td class="p-3 ${b.paid ? 'text-green-500' : 'text-amber-500'} font-bold">${b.status}</td>
-                    <td class="p-3">
-                        ${!b.paid ? `<button onclick="confirmPay(${i})" class="bg-green-600 px-3 py-1 rounded">تأكيد الدفع ✅</button>` : `<button onclick="showReceipt(${i})" class="text-blue-400">فتح الوصل</button>`}
+                    <td class="p-4">#${b.id}</td>
+                    <td class="p-4">${b.name}</td>
+                    <td class="p-4">${b.date}</td>
+                    <td class="p-4 ${b.paid ? 'text-green-500' : 'text-amber-500'} font-bold">${b.paid ? 'مؤكد' : 'قيد الانتظار'}</td>
+                    <td class="p-4">
+                        ${!b.paid ? `<button onclick="confirmPay(${i})" class="bg-green-600 px-3 py-1 rounded">تأكيد الدفع</button>` : `<button onclick="showReceipt(${i})" class="text-blue-400">فتح الوصل</button>`}
                     </td>
                 </tr>`;
             });
-            document.getElementById('statCount').innerText = db.length;
-            document.getElementById('statIncome').innerText = income.toLocaleString() + " د.ع";
+            document.getElementById('totalRevenue').innerText = revenue.toLocaleString() + " د.ع";
         }
 
         function confirmPay(i) {
             db[i].paid = true;
-            db[i].status = "مؤكد (تم الدفع)";
-            localStorage.setItem('farm_db', JSON.stringify(db));
+            localStorage.setItem('farm_db_pro', JSON.stringify(db));
             renderAdmin();
         }
 
         function showReceipt(i) {
             const b = db[i];
-            document.getElementById('rID').innerText = "#" + b.id.toString().padStart(4, '0');
-            document.getElementById('rDate').innerText = b.date;
+            document.getElementById('rSeq').innerText = "#" + b.id.toString().padStart(4, '0');
             document.getElementById('rCust').innerText = b.name;
+            document.getElementById('rDate').innerText = b.date;
             document.getElementById('rPaid').innerText = (b.total * 0.5).toLocaleString() + " د.ع";
             document.getElementById('rRem').innerText = (b.total * 0.5).toLocaleString() + " د.ع";
-            document.getElementById('rSig').src = config.sig;
-            document.getElementById('rFarmName').innerText = config.name;
-
+            document.getElementById('adminSig').src = config.sig;
+            
             document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), { text: "Verify: "+b.id, width: 80, height: 80 });
-
+            new QRCode(document.getElementById("qrcode"), { text: config.maps, width: 80, height: 80 });
+            
             document.getElementById('receiptModal').style.display = 'flex';
         }
 
-        // Chatbot Logic
-        function toggleChat() { 
-            const box = document.getElementById('aiChat');
-            box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function aiResponse() {
-            const inp = document.getElementById('chatInput');
-            const cont = document.getElementById('chatContent');
-            if(!inp.value) return;
-            cont.innerHTML += `<p class="bg-amber-600/10 p-2 rounded-lg border border-amber-500/20 text-right">${inp.value}</p>`;
-            setTimeout(() => {
-                cont.innerHTML += `<p class="bg-white/5 p-2 rounded-lg">بناءً على معلومات الإدارة: ${config.bot}</p>`;
-                cont.scrollTop = cont.scrollHeight;
-            }, 600);
-            inp.value = "";
-        }
-
-        updatePriceDisplay();
+        // Request notification permission
+        if (Notification.permission !== "denied") Notification.requestPermission();
     </script>
 </body>
 </html>
