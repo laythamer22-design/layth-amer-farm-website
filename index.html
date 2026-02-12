@@ -1,172 +1,198 @@
-LAYTH AMER ALI, [2/12/2026 3:16 AM]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الحجز الملكي | مزرعة أبو سيف وأبو نمر</title>
+    <title>مزرعة أبو سيف وأبو نمر | الفخامة الملكية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #020617; color: #f8fafc; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .gold-grad { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); }
+        body { font-family: 'Tajawal', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .gold-grad { background: linear-gradient(135deg, #f59e0b 0%, #78350f 100%); }
         .gold-text { background: linear-gradient(to bottom, #fef3c7, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .admin-panel { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 15px; }
+        .admin-panel { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.98); align-items: center; justify-content: center; padding: 20px; }
+        .bg-pattern { background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png'); }
+        .gallery-img:hover { transform: scale(1.05); transition: 0.4s; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
     </style>
 </head>
-<body>
+<body class="bg-pattern">
 
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto border-b border-white/5">
-        <h1 class="font-black text-2xl tracking-tight">مزرعة <span class="gold-text">أبو سيف وأبو نمر</span></h1>
-        <button onclick="openAdmin()" class="glass px-6 py-2 rounded-full text-xs font-bold border border-white/10 hover:bg-white/10 transition">⚙️ بوابة الإدارة</button>
+    <nav class="sticky top-0 z-50 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
+        <h1 class="font-black text-2xl tracking-tight">مزرعة <span id="farmLogoName" class="gold-text">أبو سيف وأبو نمر</span></h1>
+        <div class="flex gap-4 items-center">
+            <a href="#gallery" class="text-xs hover:text-yellow-500 transition">الصور</a>
+            <a href="#location" class="text-xs hover:text-yellow-500 transition">الموقع</a>
+            <button onclick="openAdmin()" class="gold-grad px-5 py-2 rounded-full text-xs font-black text-white shadow-lg shadow-yellow-900/20">⚙️ الإدارة</button>
+        </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto p-6 space-y-12 pb-24">
-        
-        <section class="text-center space-y-4 pt-8">
-            <h2 class="text-4xl md:text-6xl font-black gold-text">فخامة الإقامة والخصوصية</h2>
-            <div class="glass p-6 rounded-3xl inline-block shadow-2xl">
-                <p class="text-slate-400 text-xs uppercase tracking-widest mb-1">سعر الليلة</p>
+    <header class="relative h-[70vh] flex items-center justify-center text-center p-6 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#020617] z-10"></div>
+        <div class="z-20 space-y-6">
+            <h2 id="heroTitle" class="text-5xl md:text-8xl font-black gold-text drop-shadow-2xl">فخامة الإقامة والخصوصية</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg">استمتع بتجربة ملكية فريدة في قلب الطبيعة، حيث تلتقي الرفاهية بالهدوء المطلق.</p>
+            <div class="glass p-6 rounded-[2rem] inline-block">
+                <p class="text-yellow-600 text-xs font-bold uppercase tracking-widest mb-1">سعر الليلة الحصري</p>
                 <div id="mainPrice" class="text-5xl font-black text-white tracking-tighter">150 دينار</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 space-y-24 pb-32">
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div class="glass rounded-[3rem] p-8 border border-white/10 shadow-2xl space-y-8">
+                <h3 class="text-3xl font-black gold-text">حجز الموعد الملكي</h3>
+                <div class="space-y-4">
+                    <input type="text" id="userName" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-600 transition" placeholder="الاسم الكامل">
+                    <input type="tel" id="userPhone" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-left" dir="ltr" placeholder="+964">
+                    <div class="flex gap-4">
+                        <input type="date" id="checkIn" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs">
+                        <input type="date" id="checkOut" class="flex-1 bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs">
+                    </div>
+                    <div class="p-6 bg-yellow-500/5 border border-yellow-500/20 rounded-3xl">
+                        <p class="text-center text-xs text-yellow-600 font-bold mb-4 italic">تطلب المستمسكات الرسمية عند تأكيد الحجز</p>
+                        <button onclick="confirmBooking()" class="w-full gold-grad text-white font-black py-5 rounded-2xl text-lg shadow-xl hover:scale-[1.02] transition active:scale-95">تأكيد الحجز عبر واتساب 💬</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gallery" class="space-y-6">
+                <h3 class="text-3xl font-black gold-text italic">كتالوج المزرعة</h3>
+                <div class="grid grid-cols-2 gap-4" id="imageGallery">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070" class="gallery-img w-full h-48 object-cover rounded-3xl border border-white/10">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071" class="gallery-img w-full h-48 object-cover rounded-3xl border border-white/10">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070" class="gallery-img w-full h-48 object-cover rounded-3xl border border-white/10 col-span-2">
+                </div>
             </div>
         </section>
 
-        <section class="glass rounded-[3rem] p-8 md:p-12 border border-white/10 shadow-2xl relative">
-            <h3 class="text-3xl font-black text-center mb-10 gold-text">استمارة الحجز الرسمية</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">الاسم الكامل</label>
-                        <input type="text" id="userName" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-500" placeholder="الاسم كما في الهوية">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">رقم الهاتف</label>
-                        <input type="tel" id="userPhone" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-left" dir="ltr" placeholder="+964">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">نوع الحجز</label>
-                        <select id="bookingType" class="w-full bg-slate-800 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-500 text-sm">
-                            <option value="عائلة">عائلة (أجواء عائلية آمنة)</option>
-                            <option value="شباب">شباب</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 mb-2">تاريخ الحجز (من - إلى) 📅</label>
-                        <div class="flex gap-2">
-                            <input type="date" id="checkIn" class="flex-1 bg-white/5 border border-white/10 p-3 rounded-xl outline-none text-xs">
-                            <input type="date" id="checkOut" class="flex-1 bg-white/5 border border-white/10 p-3 rounded-xl outline-none text-xs">
-                        </div>
-                    </div>
-
-LAYTH AMER ALI, [2/12/2026 3:16 AM]
-<div class="p-4 bg-yellow-500/5 border border-yellow-500/20 rounded-2xl">
-                        <label class="block text-xs font-bold text-yellow-600 mb-3 text-center">المستمسكات المطلوبة (إلزامي) 📁</label>
-                        <div class="space-y-3">
-                            <div class="flex flex-col gap-1">
-                                <span class="text-[10px] text-gray-400">البطاقة الموحدة:</span>
-                                <input type="file" id="idCard" class="text-[10px] text-gray-500">
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-[10px] text-gray-400">بطاقة السكن:</span>
-                                <input type="file" id="resCard" class="text-[10px] text-gray-500">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section id="location" class="glass rounded-[3rem] p-8 border border-white/10 overflow-hidden">
+            <h3 class="text-3xl font-black mb-8 gold-text">موقع المزرعة</h3>
+            <div class="rounded-3xl overflow-hidden h-96 border border-white/20">
+                <iframe id="mapFrame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13615.48512!2d44.36!3d33.31!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDE4JzM2LjAiTiA0NMKwMjEnMzYuMCJF!5e0!3m2!1sar!2siq!4v1620000000000!5m2!1sar!2siq" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-
-            <button onclick="confirmBooking()" class="w-full mt-10 gold-grad text-slate-900 font-black py-6 rounded-3xl text-xl shadow-2xl hover:opacity-90 transition transform active:scale-95">إرسال الطلب عبر واتساب 💬</button>
         </section>
     </main>
 
+    <div id="aiChat" class="fixed bottom-6 right-6 z-50">
+        <div id="chatBox" class="hidden glass w-80 mb-4 rounded-3xl border border-yellow-600/30 shadow-2xl overflow-hidden flex flex-col h-96">
+            <div class="bg-yellow-600 p-4 font-black text-sm flex justify-between">
+                <span>🤖 مساعد المزرعة الذكي</span>
+                <button onclick="toggleChat()">✕</button>
+            </div>
+            <div id="chatBody" class="p-4 flex-1 overflow-y-auto text-xs space-y-3">
+                <p class="bg-white/5 p-3 rounded-2xl">أهلاً بك! أنا البوت الذكي لمزرعة أبو سيف وأبو نمر. اسألني عن الأسعار، المرافق، أو الموقع.</p>
+            </div>
+            <div class="p-3 bg-white/5 flex gap-2">
+                <input type="text" id="aiInput" class="flex-1 bg-black/20 border border-white/10 rounded-xl p-2 text-xs" placeholder="اكتب سؤالك...">
+                <button onclick="askAI()" class="bg-yellow-600 px-3 py-1 rounded-xl text-xs font-bold">إرسال</button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="gold-grad w-16 h-16 rounded-full flex items-center justify-center shadow-2xl animate-bounce">
+            <i data-lucide="bot" class="text-white"></i>
+        </button>
+    </div>
+
     <div id="adminModal" class="admin-panel">
-        <div class="bg-slate-900 w-full max-w-4xl rounded-[3rem] border border-white/10 shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto">
-            <div class="p-8 border-b border-white/5 flex justify-between items-center sticky top-0 bg-slate-900 z-10">
-                <h3 class="text-2xl font-black gold-text">لوحة الإدارة الكاملة</h3>
-                <button onclick="closeAdmin()" class="text-gray-500 text-2xl">✕</button>
+        <div class="glass w-full max-w-2xl rounded-[3rem] p-10 space-y-8 overflow-y-auto max-h-[90vh]">
+            <div class="flex justify-between items-center">
+                <h3 class="text-3xl font-black gold-text">إدارة المزرعة الملكية</h3>
+                <button onclick="closeAdmin()" class="text-gray-500">✕</button>
             </div>
             
-            <div class="p-8 space-y-8">
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-white/5 p-6 rounded-3xl">
-                        <label class="text-xs font-bold text-gray-500">اسم المزرعة</label>
-                        <input type="text" id="newFarmName" class="w-full bg-transparent border-b border-white/10 p-2 outline-none">
-                    </div>
-                    <div class="bg-white/5 p-6 rounded-3xl">
-                        <label class="text-xs font-bold text-gray-500">السعر</label>
-                        <input type="number" id="newPrice" class="w-full bg-transparent border-b border-white/10 p-2 outline-none">
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">اسم المزرعة</label>
+                    <input type="text" id="admFarmName" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl">
                 </div>
-
-                <div class="bg-black/40 rounded-3xl overflow-hidden border border-white/5">
-                    <table class="w-full text-right text-[11px]">
-                        <thead class="bg-white/5 text-gray-400">
-                            <tr>
-                                <th class="p-4">الزبون</th>
-                                <th class="p-4">الفترة</th>
-                                <th class="p-4 text-center">الموحدة/السكن</th>
-                                <th class="p-4 text-center">الإجراء</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reportList">
-                            <tr id="emptyRow"><td colspan="4" class="p-10 text-center text-gray-600 italic">لا توجد طلبات جديدة</td></tr>
-                        </tbody>
-                    </table>
+                <div>
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">سعر الليلة</label>
+                    <input type="number" id="admPrice" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl">
                 </div>
-
-                <button onclick="saveAll()" class="w-full gold-grad text-slate-900 py-6 rounded-3xl font-black text-xl shadow-xl transition-all">حفظ التغييرات ✅</button>
+                <div class="col-span-2">
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">رابط الخريطة (Embed URL)</label>
+                    <input type="text" id="admMap" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl" placeholder="رابط Google Maps iframe">
+                </div>
+                <div class="col-span-2">
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">تغيير رمز الدخول للمدير</label>
+                    <input type="password" id="admPass" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl">
+                </div>
             </div>
+
+            <button onclick="applyAdminChanges()" class="w-full gold-grad text-white py-5 rounded-2xl font-black text-xl">حفظ كافة التعديلات ✅</button>
         </div>
     </div>
 
     <script>
-        let currentPass = "1234";
+        lucide.createIcons();
+        let adminPass = "1234";
 
+        // Admin Functions
         function openAdmin() {
-            let p = prompt("أدخل رمز المدير:");
-            if (p === currentPass) { document.getElementById('adminModal').style.display = 'flex'; }
-            else if (p !== null) { alert("خطأ!"); }
+            let p = prompt("أدخل رمز المدير للوصول للبوابة:");
+            if (p === adminPass) document.getElementById('adminModal').style.display = 'flex';
+            else if(p !== null) alert("عذراً، الرمز خاطئ.");
         }
-
         function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
 
-        function saveAll() {
-            let n = document.getElementById('newFarmName').value;
-            let p = document.getElementById('newPrice').
+        function applyAdminChanges() {
+            const newName = document.getElementById('admFarmName').value;
+            const newPrice = document.getElementById('admPrice').value;
+            const newMap = document.getElementById('admMap').value;
+            const newPass = document.getElementById('admPass').value;
 
-LAYTH AMER ALI, [2/12/2026 3:16 AM]
-value;
-            if (n) document.querySelector('h1').innerHTML = مزرعة <span class="gold-text">${n}</span>;
-            if (p) document.getElementById('mainPrice').innerText = p + " دينار";
-            alert("تم التحديث!");
+            if(newName) {
+                document.getElementById('farmLogoName').innerText = newName;
+                document.title = "مزرعة " + newName;
+            }
+            if(newPrice) document.getElementById('mainPrice').innerText = newPrice + " دينار";
+            if(newMap) document.getElementById('mapFrame').src = newMap;
+            if(newPass) adminPass = newPass;
+
+            alert("تم تحديث كافة تفاصيل المزرعة بنجاح!");
             closeAdmin();
         }
 
-        function confirmBooking() {
-            let name = document.getElementById('userName').value;
-            let dateIn = document.getElementById('checkIn').value;
-            let dateOut = document.getElementById('checkOut').value;
-            let id = document.getElementById('idCard').files[0];
-            let res = document.getElementById('resCard').files[0];
-            
-            if (!name  !dateIn  !dateOut  !id  !res) { alert("يرجى إكمال كافة البيانات ورفع البطاقة الموحدة وبطاقة السكن!"); return; }
-            
-            let list = document.getElementById('reportList');
-            if (document.getElementById('emptyRow')) document.getElementById('emptyRow').remove();
-            
-            list.innerHTML = `<tr class="border-b border-white/5">
-                <td class="p-4 font-bold">${name}</td>
-                <td class="p-4">${dateIn} إلى ${dateOut}</td>
-                <td class="p-4 text-center text-green-500">تم الرفع ✅</td>
-                <td class="p-4 text-center"><button class="text-yellow-500 underline" onclick="this.innerText='تم الدفع ✅'">تأكيد؟</button></td>
-            </tr>` + list.innerHTML;
+        // Chatbot Functions
+        function toggleChat() {
+            const chat = document.getElementById('chatBox');
+            chat.classList.toggle('hidden');
+        }
 
-            window.open(`https://wa.me/964XXXXXXXXXX?text=${encodeURIComponent("طلب حجز جديد:\nالاسم: " + name + "\nالفترة: " + dateIn + " إلى " + dateOut + "\nتم رفع الموحدة وبطاقة السكن.")}`);
+        function askAI() {
+            const input = document.getElementById('aiInput');
+            const body = document.getElementById('chatBody');
+            if(!input.value) return;
+
+            body.innerHTML += `<p class="bg-yellow-600/20 p-3 rounded-2xl text-left self-end">${input.value}</p>`;
+            
+            let reply = "أهلاً بك ليث، المزرعة تضم مسبحاً ملكياً، مساحات خضراء، ونظام خصوصية عالي. للحجز يرجى استخدام الاستمارة.";
+            if(input.value.includes("سعر")) reply = "سعر الليلة الحالية هو " + document.getElementById('mainPrice').innerText;
+            if(input.value.includes("موقع")) reply = "تقع المزرعة في منطقة هادئة وراقية، يمكنك رؤية الخريطة أسفل الصفحة.";
+
+            setTimeout(() => {
+                body.innerHTML += `<p class="bg-white/5 p-3 rounded-2xl">🤖 ${reply}</p>`;
+                body.scrollTop = body.scrollHeight;
+            }, 600);
+            input.value = "";
+        }
+
+        // Booking Function
+        function confirmBooking() {
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            const price = document.getElementById('mainPrice').innerText;
+            
+            if(!name || !phone) { alert("أدخل اسمك ورقمك لإكمال الحجز"); return; }
+
+            const msg = `طلب حجز ملكي جديد:\nالاسم: ${name}\nالهاتف: ${phone}\nالسعر المتفق عليه: ${price}\nأرجو تزويدي بموعد الحضور.`;
+            window.open(`https://wa.me/9647700000000?text=${encodeURIComponent(msg)}`);
         }
     </script>
 </body>
