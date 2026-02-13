@@ -3,334 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | نظام الإدارة الملكي المطور</title>
+    <title>The Royal Oasis | النظام المتكامل</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
+
     <style>
-        :root { --gold: #c5a059; --dark: #050505; --accent: #1a1a1a; }
-        body { font-family: 'Tajawal', sans-serif; color: white; scroll-behavior: smooth; overflow-x: hidden; background-color: var(--dark); }
-        .main-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; transition: 1s ease-in-out; }
-        .overlay { position: fixed; inset: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(5,5,5,0.95)); z-index: -1; }
+        :root { --gold: #c5a059; --dark: #050505; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark); color: white; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gold-text { background: linear-gradient(135deg, #fceabb, #f8b500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; overflow-y: auto; padding: 2rem; }
-        #receiptUI { background: white; color: black; padding: 2rem; width: 450px; border: 15px double var(--gold); position: relative; }
-        .location-badge { background: linear-gradient(45deg, #c5a059, #8e6d31); border-radius: 50px; padding: 12px 30px; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.3); }
-        
-        /* Swiper Custom */
-        .swiper { width: 100%; height: 400px; border-radius: 2rem; }
+        .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; overflow-y: auto; padding: 1.5rem; }
+        .swiper { width: 100%; height: 450px; border-radius: 2rem; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-        .tab-btn.active { background: var(--gold); color: black; }
-        
-        @media print { .no-print { display: none; } body { background: white; } }
     </style>
 </head>
 <body onload="initApp()">
 
-    <div id="dynamicBg" class="main-bg-container"></div>
-    <div class="overlay"></div>
+    <div id="dynamicBg" class="fixed inset-0 z-[-1] bg-cover bg-center transition-all duration-1000" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2000');"></div>
+    <div class="fixed inset-0 z-[-1] bg-black/60"></div>
 
     <nav class="fixed top-0 w-full z-[100] glass border-b border-white/10 px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <div class="w-14 h-14 bg-gradient-to-br from-amber-200 via-amber-500 to-amber-900 rounded-2xl rotate-45 flex items-center justify-center shadow-2xl">
-                <span class="rotate-[-45deg] font-black text-black text-xl">RO</span>
-            </div>
-            <div>
-                <h1 id="farmTitle" class="text-2xl font-black gold-text italic tracking-tighter uppercase">المزرعة الملكية</h1>
-                <p id="siteTagline" class="text-[8px] uppercase tracking-[4px] opacity-60">The Royal Oasis Experience</p>
-            </div>
+            <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center font-black text-black">RO</div>
+            <h1 id="farmTitle" class="text-xl font-black gold-text italic">المزرعة الملكية</h1>
         </div>
-        <div class="hidden lg:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">
-            <a href="#gallery" class="hover:text-amber-500 transition-all">الكتالوج</a>
-            <button onclick="openAdmin()" class="bg-amber-600/10 border border-amber-500/30 text-amber-500 px-6 py-2 rounded-full hover:bg-amber-600 hover:text-black transition-all">بوابة المدير</button>
-        </div>
+        <button onclick="openAdmin()" class="text-[10px] border border-amber-500/50 text-amber-500 px-4 py-1 rounded-full uppercase tracking-widest">Admin</button>
     </nav>
 
-    <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 id="heroDisplay" class="text-7xl md:text-[10rem] font-black mb-6 gold-text leading-none italic uppercase">ROYAL OASIS</h2>
-        <div class="location-badge mb-10 group cursor-pointer" id="gpsTrigger">
-            <div class="flex items-center gap-3">
-                <i data-lucide="map-pin" class="text-black animate-bounce"></i>
-                <p id="locationText" class="text-black font-black text-lg font-mono">أطراف الفلوجة السكنية</p>
-            </div>
+    <section id="booking" class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-black gold-text mb-2">احجز عطلتك الملكية</h2>
+            <p class="text-gray-400 text-sm">أدخل بياناتك وسيتم التواصل معك لتأكيد الحجز</p>
         </div>
-        
-        <div class="flex flex-wrap justify-center gap-6">
-            <a id="googleMapsBtn" href="#" target="_blank" class="glass px-10 py-5 rounded-2xl flex items-center gap-3 hover:scale-105 transition-all">
-                <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" class="w-6" alt="">
-                <span class="font-bold">Google Maps</span>
-            </a>
-            <a id="wazeBtn" href="#" target="_blank" class="glass px-10 py-5 rounded-2xl flex items-center gap-3 hover:scale-105 transition-all">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732258.png" class="w-6" alt="">
-                <span class="font-bold">Waze Navigation</span>
-            </a>
+
+        <div class="glass p-8 rounded-[2.5rem] space-y-5 border-t-4 border-amber-600">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-xs text-amber-500 mr-2">اسم الزبون</label>
+                    <input type="text" id="guestName" class="w-full bg-black/40 p-4 rounded-2xl border border-white/10 focus:border-amber-500 outline-none" placeholder="الاسم الرباعي">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs text-amber-500 mr-2">رقم التواصل</label>
+                    <input type="tel" id="guestPhone" class="w-full bg-black/40 p-4 rounded-2xl border border-white/10 focus:border-amber-500 outline-none" placeholder="07XXXXXXXX">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-xs text-amber-500 mr-2">تاريخ الحجز</label>
+                    <input type="date" id="bookDate" class="w-full bg-black/40 p-4 rounded-2xl border border-white/10 outline-none text-white">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs text-amber-500 mr-2">صورة المستمسكات (هوية/جواز)</label>
+                    <div onclick="document.getElementById('idCard').click()" class="w-full bg-amber-500/10 p-4 rounded-2xl border-2 border-dashed border-amber-500/30 text-center cursor-pointer hover:bg-amber-500/20">
+                        <span id="uploadLabel" class="text-xs opacity-60">اضغط لرفع الصورة</span>
+                        <input type="file" id="idCard" class="hidden" accept="image/*" onchange="handleFileUpload(this)">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="submitRoyalBooking()" class="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-5 rounded-2xl text-lg shadow-2xl transition-all flex items-center justify-center gap-3">
+                <i data-lucide="send"></i> تثبيت الحجز وإرسال التفاصيل
+            </button>
         </div>
     </section>
 
-    <section id="gallery" class="py-32 max-w-[1400px] mx-auto px-6">
-        <div class="text-center mb-16">
-            <h3 class="text-5xl font-black gold-text mb-4 italic" id="galleryTitle">الكتالوج الملكي</h3>
-            <p class="text-gray-400" id="galleryDesc">استعرض مرافقنا الفاخرة حسب التصنيف</p>
-            
-            <div class="flex justify-center gap-4 mt-8 flex-wrap">
-                <button onclick="filterGallery('all')" class="tab-btn active glass px-6 py-2 rounded-full text-sm font-bold">الكل</button>
-                <button onclick="filterGallery('pool')" class="tab-btn glass px-6 py-2 rounded-full text-sm font-bold">المسابح</button>
-                <button onclick="filterGallery('rooms')" class="tab-btn glass px-6 py-2 rounded-full text-sm font-bold">الغرف</button>
-                <button onclick="filterGallery('garden')" class="tab-btn glass px-6 py-2 rounded-full text-sm font-bold">الحدائق</button>
-            </div>
-        </div>
-
+    <section id="gallery" class="py-20 px-6 max-w-6xl mx-auto">
+        <h3 class="text-center text-3xl font-black gold-text mb-10 italic">الكتالوج الملكي</h3>
         <div class="swiper mySwiper">
-            <div class="swiper-wrapper" id="swiperWrapper">
-                </div>
-            <div class="swiper-button-next text-amber-500"></div>
-            <div class="swiper-button-prev text-amber-500"></div>
+            <div class="swiper-wrapper" id="swiperWrapper"></div>
             <div class="swiper-pagination"></div>
         </div>
     </section>
 
     <div id="adminPanel" class="admin-modal">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-4xl font-black gold-text italic uppercase underline decoration-amber-500">Super Admin Control</h2>
-                <button onclick="closeAdmin()" class="bg-red-600 text-white px-8 py-2 rounded-xl">إغلاق اللوحة</button>
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                <h2 class="text-2xl font-black gold-text italic">SUPER ADMIN PORTAL</h2>
+                <button onclick="closeAdmin()" class="bg-red-600/20 text-red-500 px-6 py-2 rounded-xl border border-red-500/50">إغلاق</button>
             </div>
 
-            <div class="flex gap-4 mb-8 overflow-x-auto pb-2">
-                <button onclick="switchAdminTab('general')" class="bg-white/10 px-6 py-3 rounded-xl font-bold whitespace-nowrap">الإعدادات العامة</button>
-                <button onclick="switchAdminTab('finance')" class="bg-white/10 px-6 py-3 rounded-xl font-bold whitespace-nowrap">قسم الحسابات</button>
-                <button onclick="switchAdminTab('media')" class="bg-white/10 px-6 py-3 rounded-xl font-bold whitespace-nowrap">إدارة الميديا (روابط)</button>
-            </div>
-
-            <div id="admin-general" class="admin-tab-content space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass p-6 rounded-3xl space-y-4">
-                        <h4 class="font-black text-amber-500">تعديل نصوص الواجهة</h4>
-                        <input type="text" id="editFarmName" placeholder="اسم المزرعة" class="w-full bg-black/50 p-4 rounded-xl border border-white/10">
-                        <input type="text" id="editTagline" placeholder="النص الفرعي للشعار" class="w-full bg-black/50 p-4 rounded-xl border border-white/10">
-                        <textarea id="editHeroTitle" placeholder="عنوان الهيرو الرئيسي" class="w-full bg-black/50 p-4 rounded-xl border border-white/10 h-24"></textarea>
-                    </div>
-                    <div class="glass p-6 rounded-3xl space-y-4">
-                        <h4 class="font-black text-blue-500">إحداثيات الخريطة (GPS)</h4>
-                        <input type="text" id="editLat" placeholder="خط العرض (Latitude) مثلاً: 33.35" class="w-full bg-black/50 p-4 rounded-xl border border-white/10 font-mono">
-                        <input type="text" id="editLng" placeholder="خط الطول (Longitude) مثلاً: 43.78" class="w-full bg-black/50 p-4 rounded-xl border border-white/10 font-mono">
-                        <input type="text" id="editFullAddress" placeholder="العنوان التفصيلي" class="w-full bg-black/50 p-4 rounded-xl border border-white/10">
-                    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+                <div class="glass p-6 rounded-3xl border-r-4 border-green-500">
+                    <p class="text-[10px] text-gray-500 uppercase">إجمالي المقبوضات (العربون)</p>
+                    <h4 id="finIncome" class="text-2xl font-black text-green-500">0 د.ع</h4>
                 </div>
-                <button onclick="saveSuperAdminSettings()" class="w-full bg-green-600 py-4 rounded-2xl font-black text-black text-xl">تحديث كافة البيانات</button>
-            </div>
-
-            <div id="admin-finance" class="admin-tab-content hidden space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass p-8 rounded-3xl border-b-4 border-green-500">
-                        <p class="text-xs text-gray-400">صافي العربون (50%)</p>
-                        <h4 id="finIncome" class="text-3xl font-black text-green-500">0 د.ع</h4>
-                    </div>
-                    <div class="glass p-8 rounded-3xl border-b-4 border-amber-500">
-                        <p class="text-xs text-gray-400">المبالغ المتبقية بذمة الزبائن</p>
-                        <h4 id="finDebt" class="text-3xl font-black text-amber-500">0 د.ع</h4>
-                    </div>
-                    <div class="glass p-8 rounded-3xl border-b-4 border-blue-500">
-                        <p class="text-xs text-gray-400">إجمالي قيمة الحجوزات</p>
-                        <h4 id="finTotal" class="text-3xl font-black text-blue-500">0 د.ع</h4>
-                    </div>
-                </div>
-                <div class="glass p-6 rounded-3xl overflow-x-auto">
-                    <table class="w-full text-right">
-                        <thead>
-                            <tr class="text-amber-500 border-b border-white/10">
-                                <th class="p-4 italic font-black uppercase tracking-widest text-[10px]">Reference</th>
-                                <th class="p-4">الزبون</th>
-                                <th class="p-4">التاريخ</th>
-                                <th class="p-4">العربون</th>
-                                <th class="p-4">المتبقي</th>
-                            </tr>
-                        </thead>
-                        <tbody id="financeTableBody"></tbody>
-                    </table>
+                <div class="glass p-6 rounded-3xl border-r-4 border-blue-500">
+                    <p class="text-[10px] text-gray-500 uppercase">عدد الحجوزات</p>
+                    <h4 id="resCount" class="text-2xl font-black text-blue-500">0 حجز</h4>
                 </div>
             </div>
 
-            <div id="admin-media" class="admin-tab-content hidden space-y-6">
-                <div class="glass p-8 rounded-3xl border border-blue-500/30">
-                    <h4 class="font-black text-blue-400 mb-4 italic tracking-widest uppercase">Dynamic Media Portal</h4>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] text-gray-500 block mb-1">رابط صورة الثيم الرئيسي (Main Background)</label>
-                            <input type="text" id="editMainBg" class="w-full bg-black/50 p-4 rounded-xl border border-white/10 text-xs font-mono">
-                        </div>
-                        <div>
-                            <label class="text-[10px] text-gray-500 block mb-1">ألبوم الصور (رابط | تصنيف) - مثال: http://img.jpg | pool</label>
-                            <textarea id="editMediaLinks" class="w-full bg-black/50 p-4 rounded-xl border border-white/10 h-48 text-xs font-mono"></textarea>
-                            <p class="text-[9px] text-amber-500/60 mt-1 italic">التصنيفات المتاحة: pool, rooms, garden</p>
-                        </div>
-                        <button onclick="saveMediaSettings()" class="w-full bg-blue-600 py-4 rounded-2xl font-black uppercase tracking-widest">Update Dynamic Content</button>
-                    </div>
-                </div>
+            <div class="glass rounded-3xl overflow-hidden">
+                <table class="w-full text-right">
+                    <thead class="bg-white/5 text-amber-500 text-xs">
+                        <tr>
+                            <th class="p-4">الزبون</th>
+                            <th class="p-4">التاريخ</th>
+                            <th class="p-4">الهوية</th>
+                            <th class="p-4">الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTable" class="text-sm"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <section id="booking" class="py-32 max-w-6xl mx-auto px-6">
-         </section>
-
     <script>
-        // إعدادات افتراضية مطورة
-        let config = JSON.parse(localStorage.getItem('royal_oasis_config')) || {
+        let config = JSON.parse(localStorage.getItem('royal_config')) || {
             name: "المزرعة الملكية",
-            tagline: "The Royal Oasis Experience",
-            hero: "ROYAL OASIS",
+            wa: "9647700000000", // ضع رقم الواتساب هنا
             price: 150000,
-            wa: "9647700000000",
-            pass: "1234",
-            lat: "33.3500", 
-            lng: "43.7833",
-            address: "الفلوجة - أطراف الفلوجة - السكنية",
-            bg: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=2000",
+            pass: "1122",
             catalog: [
                 {url: "https://i.ibb.co/v4S6Y6Q/photo-4.jpg", cat: "pool"},
-                {url: "https://i.ibb.co/C0mXm6H/photo-6.jpg", cat: "rooms"},
-                {url: "https://i.ibb.co/mFm7X8J/photo-10.jpg", cat: "garden"}
+                {url: "https://i.ibb.co/C0mXm6H/photo-6.jpg", cat: "rooms"}
             ]
         };
 
-        let db = JSON.parse(localStorage.getItem('royal_oasis_db')) || [];
-        let swiper;
+        let db = JSON.parse(localStorage.getItem('royal_db')) || [];
+        let currentIDBase64 = "";
 
         function initApp() {
             lucide.createIcons();
-            applySiteContent();
-            renderGallery('all');
-            initSwiper();
-        }
-
-        function applySiteContent() {
             document.getElementById('farmTitle').innerText = config.name;
-            document.getElementById('siteTagline').innerText = config.tagline;
-            document.getElementById('heroDisplay').innerText = config.hero;
-            document.getElementById('locationText').innerText = config.address;
-            document.getElementById('dynamicBg').style.backgroundImage = `url(${config.bg})`;
-            
-            // تحديث روابط الخرائط بالإحداثيات
-            document.getElementById('googleMapsBtn').href = `https://www.google.com/maps?q=${config.lat},${config.lng}`;
-            document.getElementById('wazeBtn').href = `https://waze.com/ul?ll=${config.lat},${config.lng}&navigate=yes`;
+            renderGallery();
         }
 
-        // نظام الألبومات التفاعلي
-        function renderGallery(filter) {
-            const wrapper = document.getElementById('swiperWrapper');
-            const images = filter === 'all' ? config.catalog : config.catalog.filter(img => img.cat === filter);
+        // معالجة رفع الملفات
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                currentIDBase64 = reader.result;
+                document.getElementById('uploadLabel').innerText = "✅ تم تحميل الهوية";
+                document.getElementById('uploadLabel').classList.add('text-green-500');
+            }
+            if(file) reader.readAsDataURL(file);
+        }
+
+        function submitRoyalBooking() {
+            const name = document.getElementById('guestName').value;
+            const phone = document.getElementById('guestPhone').value;
+            const date = document.getElementById('bookDate').value;
+
+            if(!name || !phone || !date || !currentIDBase64) {
+                alert("يرجى إكمال كافة البيانات ورفع صورة الهوية");
+                return;
+            }
+
+            const newBooking = {
+                id: Date.now(),
+                name, phone, date,
+                idImage: currentIDBase64,
+                total: config.price
+            };
+
+            db.push(newBooking);
+            localStorage.setItem('royal_db', JSON.stringify(db));
+
+            // إنشاء رسالة واتساب
+            const msg = `👑 حجز ملكي جديد:\n👤 الاسم: ${name}\n📅 التاريخ: ${date}\n📞 الهاتف: ${phone}\n💰 السعر: ${config.price} د.ع\n--- يرجى مراجعة لوحة المدير لرؤية الهوية ---`;
+            window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(msg)}`);
             
-            wrapper.innerHTML = images.map(img => `
-                <div class="swiper-slide group">
-                    <img src="${img.url}" class="rounded-3xl cursor-pointer">
-                    <div class="absolute bottom-4 right-4 bg-black/60 px-4 py-1 rounded-full text-[10px] uppercase font-bold text-amber-500 border border-amber-500/30">
-                        ${img.cat}
-                    </div>
-                </div>
+            alert("تم إرسال طلب الحجز بنجاح!");
+            location.reload();
+        }
+
+        function renderGallery() {
+            const wrapper = document.getElementById('swiperWrapper');
+            wrapper.innerHTML = config.catalog.map(img => `
+                <div class="swiper-slide"><img src="${img.url}" class="rounded-[2rem]"></div>
             `).join('');
             
-            if(swiper) swiper.destroy();
-            initSwiper();
-        }
-
-        function filterGallery(cat) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            renderGallery(cat);
-        }
-
-        function initSwiper() {
-            swiper = new Swiper(".mySwiper", {
-                effect: "coverflow",
+            new Swiper(".mySwiper", {
+                effect: "cards",
                 grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: "auto",
-                coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true },
-                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
                 pagination: { el: ".swiper-pagination" },
             });
         }
 
-        // لوحة المدير المحدثة
         function openAdmin() {
-            if(prompt("رمز الوصول الملكي:") === config.pass) {
+            if(prompt("رمز الدخول:") === config.pass) {
                 document.getElementById('adminPanel').style.display = 'block';
-                fillAdminFields();
-                calculateFinance();
+                renderAdminData();
             }
         }
 
-        function fillAdminFields() {
-            document.getElementById('editFarmName').value = config.name;
-            document.getElementById('editTagline').value = config.tagline;
-            document.getElementById('editHeroTitle').value = config.hero;
-            document.getElementById('editLat').value = config.lat;
-            document.getElementById('editLng').value = config.lng;
-            document.getElementById('editFullAddress').value = config.address;
-            document.getElementById('editMainBg').value = config.bg;
-            document.getElementById('editMediaLinks').value = config.catalog.map(i => `${i.url} | ${i.cat}`).join('\n');
-        }
-
-        function saveSuperAdminSettings() {
-            config.name = document.getElementById('editFarmName').value;
-            config.tagline = document.getElementById('editTagline').value;
-            config.hero = document.getElementById('editHeroTitle').value;
-            config.lat = document.getElementById('editLat').value;
-            config.lng = document.getElementById('editLng').value;
-            config.address = document.getElementById('editFullAddress').value;
-            localStorage.setItem('royal_oasis_config', JSON.stringify(config));
-            location.reload();
-        }
-
-        function saveMediaSettings() {
-            config.bg = document.getElementById('editMainBg').value;
-            const lines = document.getElementById('editMediaLinks').value.split('\n');
-            config.catalog = lines.map(line => {
-                const [url, cat] = line.split('|');
-                return { url: url.trim(), cat: cat ? cat.trim() : 'pool' };
-            }).filter(i => i.url !== "");
-            localStorage.setItem('royal_oasis_config', JSON.stringify(config));
-            location.reload();
-        }
-
-        function calculateFinance() {
-            let total = 0, income = 0;
-            const tbody = document.getElementById('financeTableBody');
-            tbody.innerHTML = db.map(b => {
-                total += b.total;
-                income += (b.total * 0.5);
-                return `
-                    <tr class="border-b border-white/5 text-xs">
-                        <td class="p-4 font-mono">#${b.serial}</td>
-                        <td class="p-4 font-bold">${b.name}</td>
-                        <td class="p-4 opacity-50">${b.date}</td>
-                        <td class="p-4 text-green-500">${(b.total*0.5).toLocaleString()}</td>
-                        <td class="p-4 text-amber-500">${(b.total*0.5).toLocaleString()}</td>
-                    </tr>
-                `;
-            }).join('');
+        function renderAdminData() {
+            const table = document.getElementById('adminTable');
+            table.innerHTML = db.map(b => `
+                <tr class="border-b border-white/5">
+                    <td class="p-4 font-bold">${b.name}</td>
+                    <td class="p-4 opacity-70">${b.date}</td>
+                    <td class="p-4">
+                        <button onclick="viewID('${b.idImage}')" class="text-amber-500 underline text-xs">عرض الهوية</button>
+                    </td>
+                    <td class="p-4">
+                        <button onclick="deleteBooking(${b.id})" class="text-red-500 italic">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
             
-            document.getElementById('finIncome').innerText = income.toLocaleString() + " د.ع";
-            document.getElementById('finDebt').innerText = income.toLocaleString() + " د.ع";
-            document.getElementById('finTotal').innerText = total.toLocaleString() + " د.ع";
+            document.getElementById('finIncome').innerText = (db.length * config.price * 0.5).toLocaleString() + " د.ع";
+            document.getElementById('resCount').innerText = db.length + " حجز";
         }
 
-        function switchAdminTab(tab) {
-            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
-            document.getElementById(`admin-${tab}`).classList.remove('hidden');
+        function viewID(base64) {
+            const win = window.open();
+            win.document.write(`<img src="${base64}" style="max-width:100%">`);
+        }
+
+        function deleteBooking(id) {
+            if(confirm('هل تريد حذف هذا السجل؟')) {
+                db = db.filter(b => b.id !== id);
+                localStorage.setItem('royal_db', JSON.stringify(db));
+                renderAdminData();
+            }
         }
 
         function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
-
-        // وظائف أصلية (الحفاظ على منطق الحجز)
-        function updateBookingLogic() { /* الكود الأصلي لديك لضبط السعر */ }
-        function submitBooking() { /* الكود الأصلي لديك للإرسال للواتساب */ }
     </script>
 </body>
 </html>
