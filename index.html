@@ -3,217 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | النظام الشامل</title>
+    <title>The Royal Oasis | النظام الملكي المتكامل</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root { --gold: #c5a059; --dark: #050505; }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark); color: white; scroll-behavior: smooth; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark); color: white; overflow-x: hidden; }
+        
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gold-text { background: linear-gradient(135deg, #fceabb, #f8b500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .admin-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; overflow-y: auto; padding: 2rem; }
-        #receiptUI { display: none; background: white; color: black; padding: 2rem; width: 350px; border: 10px double var(--gold); border-radius: 15px; text-align: center; margin: 20px auto; }
+        
+        .main-bg { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; transition: 1.5s ease; }
+        .overlay { position: fixed; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgba(0,0,0,0.3), #050505); }
+
+        /* Booking Receipt Style */
+        #receipt-render { width: 400px; padding: 20px; background: white; color: black; font-family: 'Courier New', sans-serif; border: 10px double var(--gold); }
+        
+        .swiper { width: 100%; height: 500px; padding: 50px 0; }
+        .swiper-slide { background-position: center; background-size: cover; width: 300px; height: 400px; border-radius: 20px; border: 1px solid rgba(197, 160, 89, 0.3); }
+
+        .hidden-panel { display: none; }
     </style>
 </head>
-<body onload="initApp()">
+<body onload="initSystem()">
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
+    <div id="dynamicBg" class="main-bg"></div>
+    <div class="overlay"></div>
+
+    <nav class="fixed top-0 w-full z-[100] glass px-8 py-4 flex justify-between items-center border-b border-white/5">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center font-black text-black">RO</div>
-            <h1 id="farmTitle" class="text-xl font-black gold-text italic">المزرعة الملكية</h1>
+            <div class="w-12 h-12 bg-gold flex items-center justify-center rounded-xl rotate-45 shadow-[0_0_20px_rgba(197,160,89,0.5)]">
+                <span class="text-black font-black rotate-[-45deg] text-xl">RO</span>
+            </div>
+            <h1 id="navBrand" class="text-xl font-black gold-text uppercase italic">Royal Oasis</h1>
         </div>
-        <button onclick="openAdmin()" class="bg-amber-600/10 text-amber-500 px-4 py-1 rounded-full text-[10px] border border-amber-500/30">لوحة التحكم</button>
+        <button onclick="toggleAdmin()" class="text-[10px] border border-gold/30 px-4 py-2 rounded-full hover:bg-gold hover:text-black transition-all uppercase tracking-widest">Admin Portal</button>
     </nav>
 
-    <section class="h-[70vh] flex flex-col items-center justify-center text-center px-4 pt-20">
-        <h2 id="heroDisplay" class="text-6xl md:text-8xl font-black mb-6 gold-text italic">ROYAL OASIS</h2>
-        <div class="flex flex-wrap justify-center gap-4">
-            <a id="googleMapsBtn" href="#" target="_blank" class="glass px-6 py-3 rounded-xl flex items-center gap-2 hover:scale-105 transition-all border border-green-500/30">
+    <section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
+        <h2 id="heroTitle" class="text-6xl md:text-[9rem] font-black gold-text mb-4 italic uppercase leading-none">The Oasis</h2>
+        <p id="heroLoc" class="text-amber-500 font-bold tracking-[8px] mb-12 uppercase text-sm">Loading Location...</p>
+        
+        <div class="flex gap-4 flex-wrap justify-center">
+            <button onclick="openMap('google')" class="glass px-8 py-4 rounded-2xl flex items-center gap-3 hover:bg-white/10 transition-all">
                 <i data-lucide="map"></i> <span>Google Maps</span>
-            </a>
-            <a id="wazeBtn" href="#" target="_blank" class="glass px-6 py-3 rounded-xl flex items-center gap-2 hover:scale-105 transition-all border border-blue-500/30">
+            </button>
+            <button onclick="openMap('waze')" class="glass px-8 py-4 rounded-2xl flex items-center gap-3 hover:bg-white/10 transition-all">
                 <i data-lucide="navigation"></i> <span>Waze</span>
-            </a>
+            </button>
         </div>
     </section>
 
-    <section id="booking" class="py-10 px-6 max-w-4xl mx-auto">
-        <div class="glass p-8 rounded-[2.5rem] space-y-5 shadow-2xl">
-            <h3 class="text-2xl font-black text-center gold-text">استمارة الحجز الرسمي</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="guestName" placeholder="الاسم الرباعي" class="bg-white/5 p-4 rounded-xl border border-white/10 outline-none w-full">
-                <input type="tel" id="guestPhone" placeholder="رقم الهاتف" class="bg-white/5 p-4 rounded-xl border border-white/10 outline-none w-full">
-                <input type="date" id="bookDate" class="bg-white/5 p-4 rounded-xl border border-white/10 outline-none w-full text-amber-500">
-                <div class="relative">
-                    <input type="file" id="idCard" class="hidden" accept="image/*" onchange="handleFileUpload(this)">
-                    <button onclick="document.getElementById('idCard').click()" id="uploadBtn" class="w-full bg-blue-600/20 text-blue-400 p-4 rounded-xl border border-blue-500/30 text-sm">رفع صورة الهوية ✅</button>
+    <section id="gallery" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+                <h3 class="text-4xl font-black gold-text mb-2 italic">الكتالوج الملكي</h3>
+                <p class="text-gray-500">استعرض الفخامة بأدق تفاصيلها</p>
+            </div>
+            <div class="flex gap-2 glass p-2 rounded-2xl">
+                <button onclick="filterGallery('pool')" class="px-6 py-2 rounded-xl text-xs font-bold hover:bg-gold hover:text-black transition-all uppercase">المسابح</button>
+                <button onclick="filterGallery('rooms')" class="px-6 py-2 rounded-xl text-xs font-bold hover:bg-gold hover:text-black transition-all uppercase">الغرف</button>
+                <button onclick="filterGallery('garden')" class="px-6 py-2 rounded-xl text-xs font-bold hover:bg-gold hover:text-black transition-all uppercase">الحدائق</button>
+            </div>
+        </div>
+        
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="galleryWrapper"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <section id="booking" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto glass p-12 rounded-[3rem] border-t-4 border-gold relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 opacity-5"><i data-lucide="crown" class="w-64 h-64"></i></div>
+            
+            <h3 class="text-3xl font-black mb-8 text-center italic uppercase">استمارة الحجز الملكي</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <input type="text" id="bookName" placeholder="الاسم الرباعي للزبون" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-gold">
+                    <input type="tel" id="bookPhone" placeholder="رقم الهاتف" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-gold text-left">
+                    <input type="text" id="bookDate" placeholder="اختر تاريخ الحجز" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 outline-none focus:border-gold">
                 </div>
-            </div>
-            <button onclick="submitBooking()" class="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-5 rounded-2xl shadow-xl transition-all">تثبيت الحجز وإصدار الوصل</button>
-        </div>
-
-        <div id="receiptUI">
-            <h2 class="font-black text-xl border-b-2 border-black mb-4">وصل حجز ملكي</h2>
-            <div id="receiptContent" class="text-sm space-y-2 mb-4"></div>
-            <div id="qrcode" class="flex justify-center mb-4"></div>
-            <p class="text-[10px] text-gray-500">يرجى إبراز الوصل عند الدخول</p>
-            <button onclick="window.print()" class="mt-4 bg-black text-white px-4 py-1 rounded no-print">طباعة</button>
-        </div>
-    </section>
-
-    <div id="adminPanel" class="admin-modal">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-black gold-text">إعدادات النظام الملكي</h2>
-                <button onclick="closeAdmin()" class="bg-red-600 text-white px-6 py-2 rounded-xl">خروج</button>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="glass p-6 rounded-3xl space-y-4">
-                    <h4 class="font-black border-b border-white/10 pb-2">الإعدادات العامة</h4>
-                    <input type="text" id="confName" placeholder="اسم المزرعة" class="w-full bg-black p-3 rounded-lg">
-                    <input type="text" id="confWa" placeholder="رقم الواتساب (964...)" class="w-full bg-black p-3 rounded-lg">
-                    <input type="number" id="confPrice" placeholder="السعر الافتراضي" class="w-full bg-black p-3 rounded-lg">
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="confLat" placeholder="خط العرض">
-                        <input type="text" id="confLng" placeholder="خط الطول">
+                
+                <div class="space-y-4">
+                    <div class="border-2 border-dashed border-white/10 rounded-2xl p-6 text-center hover:border-gold transition-all cursor-pointer relative" id="uploadArea">
+                        <i data-lucide="upload-cloud" class="mx-auto mb-2 text-gray-500"></i>
+                        <p class="text-xs text-gray-400">ارفع صورة الهوية (الأمامية)</p>
+                        <input type="file" id="bookID" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleImageUpload(this)">
+                        <img id="previewID" class="hidden mt-4 rounded-lg h-20 mx-auto">
                     </div>
-                    <button onclick="saveConfig()" class="w-full bg-green-600 py-3 rounded-xl font-black">حفظ التغييرات</button>
+                    <div class="bg-gold/10 p-5 rounded-2xl border border-gold/30">
+                        <p class="text-[10px] text-gold uppercase tracking-widest mb-1">المبلغ المطلوب (عربون 50%)</p>
+                        <h4 id="displayPrice" class="text-2xl font-black">0 د.ع</h4>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="processBooking()" class="w-full mt-8 bg-gold text-black py-6 rounded-2xl font-black text-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_20px_40px_rgba(197,160,89,0.3)]">تأكيد الحجز وإصدار الوصل 👑</button>
+        </div>
+    </section>
+
+    <div id="adminPanel" class="fixed inset-0 z-[200] bg-black overflow-y-auto p-8 hidden-panel">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-4xl font-black gold-text italic uppercase">Super Admin Dashboard</h2>
+                <button onclick="toggleAdmin()" class="bg-red-600 px-6 py-2 rounded-lg font-bold">خروج</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl space-y-4">
+                    <h4 class="font-black border-b border-white/10 pb-4 mb-4 flex items-center gap-2"><i data-lucide="settings"></i> الإعدادات العامة</h4>
+                    <input type="text" id="confName" placeholder="اسم المزرعة" class="w-full bg-white/5 p-3 rounded-xl border border-white/10">
+                    <input type="text" id="confLat" placeholder="Latitude" class="w-full bg-white/5 p-3 rounded-xl border border-white/10">
+                    <input type="text" id="confLng" placeholder="Longitude" class="w-full bg-white/5 p-3 rounded-xl border border-white/10">
+                    <input type="number" id="confPrice" placeholder="سعر الحجز" class="w-full bg-white/5 p-3 rounded-xl border border-white/10">
+                    <input type="text" id="confWA" placeholder="رقم واتساب المدير" class="w-full bg-white/5 p-3 rounded-xl border border-white/10">
+                    <button onclick="saveSettings()" class="w-full bg-gold text-black font-bold py-3 rounded-xl">حفظ التغييرات</button>
                 </div>
 
-                <div class="glass p-6 rounded-3xl">
-                    <h4 class="font-black border-b border-white/10 pb-2">سجل الحجوزات والمستمسكات</h4>
-                    <div id="bookingsList" class="mt-4 space-y-3 h-64 overflow-y-auto"></div>
+                <div class="lg:col-span-2 glass p-8 rounded-3xl">
+                    <h4 class="font-black border-b border-white/10 pb-4 mb-4 flex items-center gap-2"><i data-lucide="database"></i> سجل الحجوزات والأرباح</h4>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white/5 p-4 rounded-2xl text-center"><p class="text-[10px] text-gray-400">إجمالي الحجوزات</p><h5 id="statTotal" class="text-xl font-black">0</h5></div>
+                        <div class="bg-green-600/20 p-4 rounded-2xl text-center"><p class="text-[10px] text-green-500">صافي العربون</p><h5 id="statIncome" class="text-xl font-black">0</h5></div>
+                        <div class="bg-amber-600/20 p-4 rounded-2xl text-center"><p class="text-[10px] text-amber-500">المتبقي</p><h5 id="statRem" class="text-xl font-black">0</h5></div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right text-xs">
+                            <thead class="bg-white/5 text-gold">
+                                <tr>
+                                    <th class="p-3 text-center">وصل</th>
+                                    <th class="p-3">الزبون</th>
+                                    <th class="p-3">التاريخ</th>
+                                    <th class="p-3">المبلغ</th>
+                                    <th class="p-3 text-center">الهوية</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTable"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="receiptModal" class="fixed inset-0 z-[300] bg-black/95 flex items-center justify-center hidden-panel p-4">
+        <div class="flex flex-col items-center gap-6">
+            <div id="receipt-render">
+                <div class="text-center border-b-2 border-black pb-4 mb-4">
+                    <h2 class="text-2xl font-black uppercase italic" id="recFarmName">Royal Oasis</h2>
+                    <p class="text-[10px] tracking-widest">OFFICIAL BOOKING RECEIPT</p>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between font-bold"><span>رقم الحجز:</span><span id="recID">#0000</span></div>
+                    <div class="flex justify-between"><span>الزبون:</span><span id="recName">-</span></div>
+                    <div class="flex justify-between"><span>التاريخ المحجوز:</span><span id="recDate">-</span></div>
+                    <div class="flex justify-between"><span>الإجمالي:</span><span id="recTotal">-</span></div>
+                    <div class="flex justify-between border-t border-black pt-2 font-black"><span>المدفوع (50%):</span><span id="recPaid">-</span></div>
+                </div>
+                <div id="qrcode" class="mt-6 flex justify-center"></div>
+                <p class="text-[8px] text-center mt-6 italic opacity-50">يرجى إبراز هذا الوصل عند البوابة الرئيسية.</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="downloadReceipt()" class="bg-gold text-black px-8 py-3 rounded-xl font-black">تحميل الوصل كصورة</button>
+                <button onclick="closeReceipt()" class="border border-white/20 px-8 py-3 rounded-xl">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // الإعدادات الافتراضية
-        let config = JSON.parse(localStorage.getItem('ro_config')) || {
+        // --- Core System Data ---
+        let config = JSON.parse(localStorage.getItem('royal_config')) || {
             name: "المزرعة الملكية",
+            lat: "33.3500",
+            lng: "43.7833",
+            price: 250000,
             wa: "9647700000000",
-            price: 150000,
-            lat: "33.35",
-            lng: "43.78",
-            pass: "1234"
+            bg: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2000",
+            catalog: [
+                {url: "https://i.ibb.co/v4S6Y6Q/photo-4.jpg", cat: "pool"},
+                {url: "https://i.ibb.co/C0mXm6H/photo-6.jpg", cat: "rooms"},
+                {url: "https://i.ibb.co/mFm7X8J/photo-10.jpg", cat: "garden"}
+            ]
         };
 
-        let db = JSON.parse(localStorage.getItem('ro_db')) || [];
-        let tempImage = "";
+        let bookings = JSON.parse(localStorage.getItem('royal_bookings')) || [];
+        let swiper;
 
-        function initApp() {
+        function initSystem() {
             lucide.createIcons();
             applyConfig();
+            initCalendar();
+            filterGallery('pool');
+            updateStats();
         }
 
         function applyConfig() {
-            document.getElementById('farmTitle').innerText = config.name;
-            document.getElementById('googleMapsBtn').href = `https://www.google.com/maps?q=${config.lat},${config.lng}`;
-            document.getElementById('wazeBtn').href = `https://waze.com/ul?ll=${config.lat},${config.lng}&navigate=yes`;
+            document.getElementById('navBrand').innerText = config.name;
+            document.getElementById('heroTitle').innerText = config.name;
+            document.getElementById('heroLoc').innerText = `Lat: ${config.lat} | Lng: ${config.lng}`;
+            document.getElementById('dynamicBg').style.backgroundImage = `url(${config.bg})`;
+            document.getElementById('displayPrice').innerText = (config.price * 0.5).toLocaleString() + " د.ع";
+            
+            // Fill Admin fields
+            document.getElementById('confName').value = config.name;
+            document.getElementById('confLat').value = config.lat;
+            document.getElementById('confLng').value = config.lng;
+            document.getElementById('confPrice').value = config.price;
+            document.getElementById('confWA').value = config.wa;
         }
 
-        function handleFileUpload(input) {
-            const reader = new FileReader();
-            reader.onload = e => { 
-                tempImage = e.target.result;
-                document.getElementById('uploadBtn').innerText = "✅ تم الرفع بنجاح";
-            };
-            reader.readAsDataURL(input.files[0]);
+        // --- Gallery Logic ---
+        function filterGallery(cat) {
+            const wrapper = document.getElementById('galleryWrapper');
+            const items = config.catalog.filter(i => i.cat === cat);
+            wrapper.innerHTML = items.map(i => `<div class="swiper-slide" style="background-image:url('${i.url}')"></div>`).join('');
+            
+            if(swiper) swiper.destroy();
+            swiper = new Swiper(".mySwiper", {
+                effect: "coverflow",
+                centeredSlides: true,
+                slidesPerView: "auto",
+                coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true },
+                pagination: { el: ".swiper-pagination" },
+            });
         }
 
-        function submitBooking() {
-            const name = document.getElementById('guestName').value;
-            const phone = document.getElementById('guestPhone').value;
-            const date = document.getElementById('bookDate').value;
-
-            if(!name || !phone || !date || !tempImage) return alert("أكمل كافة النواقص!");
-
-            const booking = { id: Date.now(), name, phone, date, idImg: tempImage, total: config.price };
-            db.push(booking);
-            localStorage.setItem('ro_db', JSON.stringify(db));
-
-            // توليد الوصل
-            showReceipt(booking);
-
-            // إرسال واتساب
-            const msg = `حجز جديد بانتظارك:\nالاسم: ${name}\nالتاريخ: ${date}\nالهاتف: ${phone}`;
-            window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(msg)}`);
+        // --- Booking Engine ---
+        function initCalendar() {
+            const bookedDates = bookings.map(b => b.date);
+            flatpickr("#bookDate", {
+                disable: bookedDates,
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                theme: "dark"
+            });
         }
 
-        function showReceipt(b) {
-            const receipt = document.getElementById('receiptUI');
-            receipt.style.display = 'block';
-            document.getElementById('receiptContent').innerHTML = `
-                <p><b>الاسم:</b> ${b.name}</p>
-                <p><b>التاريخ:</b> ${b.date}</p>
-                <p><b>المبلغ:</b> ${b.total} د.ع</p>
-            `;
-            new QRCode(document.getElementById("qrcode"), { text: `ID:${b.id}`, width: 128, height: 128 });
-            receipt.scrollIntoView();
-        }
-
-        function openAdmin() {
-            if(prompt("كلمة المرور:") === config.pass) {
-                document.getElementById('adminPanel').style.display = 'block';
-                fillAdminFields();
-                renderBookings();
+        async function handleImageUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('previewID');
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
-        function fillAdminFields() {
-            document.getElementById('confName').value = config.name;
-            document.getElementById('confWa').value = config.wa;
-            document.getElementById('confPrice').value = config.price;
-            document.getElementById('confLat').value = config.lat;
-            document.getElementById('confLng').value = config.lng;
+        function processBooking() {
+            const name = document.getElementById('bookName').value;
+            const phone = document.getElementById('bookPhone').value;
+            const date = document.getElementById('bookDate').value;
+            const idImg = document.getElementById('previewID').src;
+
+            if(!name || !phone || !date || idImg.includes('hidden')) return alert("يرجى إكمال كافة الحقول الملكية!");
+
+            const newBooking = {
+                id: Date.now(),
+                serial: "ROY-" + (bookings.length + 1001),
+                name, phone, date, idImg,
+                total: config.price,
+                paid: config.price * 0.5
+            };
+
+            bookings.push(newBooking);
+            localStorage.setItem('royal_bookings', JSON.stringify(bookings));
+            
+            showReceipt(newBooking);
+            sendToWhatsApp(newBooking);
+            updateStats();
         }
 
-        function saveConfig() {
-            config.name = document.getElementById('confName').value;
-            config.wa = document.getElementById('confWa').value;
-            config.price = document.getElementById('confPrice').value;
-            config.lat = document.getElementById('confLat').value;
-            config.lng = document.getElementById('confLng').value;
-            localStorage.setItem('ro_config', JSON.stringify(config));
-            alert("تم التحديث!");
-            location.reload();
+        // --- Receipt & WhatsApp ---
+        function showReceipt(data) {
+            document.getElementById('recFarmName').innerText = config.name;
+            document.getElementById('recID').innerText = "#" + data.serial;
+            document.getElementById('recName').innerText = data.name;
+            document.getElementById('recDate').innerText = data.date;
+            document.getElementById('recTotal').innerText = data.total.toLocaleString() + " د.ع";
+            document.getElementById('recPaid').innerText = data.paid.toLocaleString() + " د.ع";
+
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = "";
+            new QRCode(qrContainer, { text: data.serial, width: 100, height: 100 });
+
+            document.getElementById('receiptModal').classList.remove('hidden-panel');
         }
 
-        function renderBookings() {
-            const list = document.getElementById('bookingsList');
-            list.innerHTML = db.map(b => `
-                <div class="glass p-3 rounded-xl flex justify-between items-center text-xs">
-                    <div>
-                        <p class="font-bold text-amber-500">${b.name}</p>
-                        <p class="opacity-60">${b.date}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="viewID('${b.idImg}')" class="text-blue-400">الهوية</button>
-                        <button onclick="deleteBooking(${b.id})" class="text-red-500">حذف</button>
-                    </div>
-                </div>
+        function downloadReceipt() {
+            const target = document.getElementById('receipt-render');
+            html2canvas(target).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Receipt-${Date.now()}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        function sendToWhatsApp(data) {
+            const msg = `👑 حجز ملكي جديد:\n\nالاسم: ${data.name}\nالتاريخ: ${data.date}\nرقم الوصل: ${data.serial}\nالعربون المطلوب: ${data.paid.toLocaleString()} د.ع`;
+            window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(msg)}`);
+        }
+
+        // --- Admin Dashboard Logic ---
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            if(panel.classList.contains('hidden-panel')) {
+                const pass = prompt("كلمة السر الملكية:");
+                if(pass === "1234") {
+                    panel.classList.remove('hidden-panel');
+                    renderAdminTable();
+                }
+            } else {
+                panel.classList.add('hidden-panel');
+            }
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTable');
+            tbody.innerHTML = bookings.slice().reverse().map(b => `
+                <tr class="border-b border-white/5 hover:bg-white/5">
+                    <td class="p-3 text-center text-gold font-mono">${b.serial}</td>
+                    <td class="p-3 font-bold">${b.name}</td>
+                    <td class="p-3 opacity-60">${b.date}</td>
+                    <td class="p-3 text-green-500 font-bold">${b.paid.toLocaleString()}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="viewID('${b.idImg}')" class="text-blue-400 underline italic">عرض</button>
+                    </td>
+                </tr>
             `).join('');
         }
 
+        function updateStats() {
+            const total = bookings.reduce((sum, b) => sum + b.total, 0);
+            const income = bookings.reduce((sum, b) => sum + b.paid, 0);
+            document.getElementById('statTotal').innerText = bookings.length;
+            document.getElementById('statIncome').innerText = income.toLocaleString() + " د.ع";
+            document.getElementById('statRem').innerText = (total - income).toLocaleString() + " د.ع";
+        }
+
+        function saveSettings() {
+            config.name = document.getElementById('confName').value;
+            config.lat = document.getElementById('confLat').value;
+            config.lng = document.getElementById('confLng').value;
+            config.price = parseInt(document.getElementById('confPrice').value);
+            config.wa = document.getElementById('confWA').value;
+            localStorage.setItem('royal_config', JSON.stringify(config));
+            alert("تم تحديث البيانات بنجاح!");
+            location.reload();
+        }
+
         function viewID(src) {
-            const win = window.open();
+            const win = window.open("");
             win.document.write(`<img src="${src}" style="width:100%">`);
         }
 
-        function deleteBooking(id) {
-            db = db.filter(x => x.id !== id);
-            localStorage.setItem('ro_db', JSON.stringify(db));
-            renderBookings();
+        function openMap(type) {
+            const url = type === 'google' 
+                ? `https://www.google.com/maps?q=${config.lat},${config.lng}` 
+                : `https://waze.com/ul?ll=${config.lat},${config.lng}&navigate=yes`;
+            window.open(url, '_blank');
         }
 
-        function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
+        function closeReceipt() { document.getElementById('receiptModal').classList.add('hidden-panel'); }
     </script>
 </body>
 </html>
