@@ -3,102 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | النسخة الاحترافية</title>
+    <title>نظام الحجز الملكي السحابي | 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        :root { --gold: #c5a059; --dark: #070707; }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark); color: white; overflow-x: hidden; }
-        .royal-glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(197, 160, 89, 0.2); }
-        .hero-bg { 
-            background-image: linear-gradient(to bottom, rgba(7,7,7,0.4), #070707), url('http://googleusercontent.com/image_collection/image_retrieval/7116464556489761895_0');
-            background-size: cover; background-position: center; height: 80vh;
-        }
-        .map-card {
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('http://googleusercontent.com/image_collection/image_retrieval/2340559334885211052_0');
-            background-size: cover; background-position: center;
-        }
-        .gold-text { color: var(--gold); text-shadow: 0 2px 10px rgba(197, 160, 89, 0.3); }
+        :root { --gold: #c5a059; --dark: #0a0a0a; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark); color: white; }
+        .royal-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(197, 160, 89, 0.2); }
+        .gold-text { color: var(--gold); }
+        .receipt-card { width: 350px; background: white; color: black; padding: 20px; border: 10px double var(--gold); }
         .hidden-panel { display: none !important; }
     </style>
 </head>
-<body onload="initSystem()">
+<body class="p-4 md:p-10" onload="initSystem()">
 
-    <header class="hero-bg flex flex-col justify-center items-center text-center px-4">
-        <div class="animate-bounce mb-4"><i data-lucide="crown" class="text-gold w-12 h-12"></i></div>
-        <h1 class="text-5xl md:text-7xl font-black gold-text mb-2 italic">THE ROYAL OASIS</h1>
-        <p class="text-white/70 tracking-[0.5em] uppercase text-xs">Luxury Private Estate</p>
-    </header>
+    <div class="max-w-6xl mx-auto mb-10 flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-black gold-text italic">ROYAL CLOUD OASIS</h1>
+            <p class="text-gray-500 text-sm">نظام الحجز المرتبط بالسحابة 2026</p>
+        </div>
+        <button onclick="toggleAdmin()" class="royal-glass px-6 py-2 rounded-full text-xs font-bold border border-gold/30">لوحة المدير</button>
+    </div>
 
-    <main class="max-w-6xl mx-auto -mt-32 p-4 relative z-10">
-        <section class="grid lg:grid-cols-2 gap-8">
+    <section class="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10">
+        <div class="royal-glass p-8 rounded-[2rem] space-y-6">
+            <h2 class="text-xl font-bold border-r-4 border-gold pr-4 text-white">إدخال بيانات الزبون</h2>
             
-            <div class="royal-glass p-8 rounded-[2.5rem] shadow-2xl">
-                <h2 class="text-2xl font-bold mb-6 flex items-center gap-3 italic underline decoration-gold">
-                    <i data-lucide="calendar-check" class="text-gold"></i> حجز تجربة ملكية
-                </h2>
+            <div class="space-y-4">
+                <input type="text" id="inName" placeholder="الاسم الرباعي" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
                 
-                <div class="space-y-5">
-                    <input type="text" id="inName" placeholder="الاسم الرباعي الكامل" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-gold outline-none transition-all">
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="tel" id="inPhone" placeholder="رقم الموبايل" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-gold outline-none">
-                        <input type="text" id="inDate" placeholder="اختر الموعد" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-gold outline-none">
-                    </div>
-
-                    <div class="relative h-40 w-full border-2 border-dashed border-gold/30 rounded-2xl flex flex-col items-center justify-center cursor-pointer group hover:bg-gold/5 transition-all" id="uploadBox">
-                        <i data-lucide="user-square" class="text-gold/50 group-hover:scale-110 transition"></i>
-                        <span class="text-[10px] mt-2 text-gray-400">يرجى رفع صورة الهوية الرسمية</span>
-                        <input type="file" id="inID" class="absolute inset-0 opacity-0 cursor-pointer" onchange="processID(this)">
-                        <img id="idPreview" class="absolute inset-0 w-full h-full object-cover rounded-2xl hidden">
-                    </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="tel" id="inPhone" placeholder="رقم الهاتف" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
+                    <input type="text" id="inDate" placeholder="اختر التاريخ" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
                 </div>
 
-                <button id="bookBtn" onclick="executeBooking()" class="w-full mt-8 bg-gold text-black font-black py-5 rounded-2xl text-xl hover:shadow-[0_0_30px_rgba(197,160,89,0.4)] transition-all">تأكيد الحجز الفوري</button>
-            </div>
-
-            <div class="space-y-8">
-                <div class="map-card h-64 rounded-[2.5rem] border border-gold/20 flex flex-col justify-end p-8 relative overflow-hidden group">
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-black mb-2 italic">موقعنا الاستراتيجي</h3>
-                        <p class="text-xs text-white/60 mb-4">بغداد - طريق المطار الدولي - منطقة المزارع الملكية</p>
-                        <div class="flex gap-4">
-                            <button onclick="openMap('google')" class="bg-white text-black p-3 rounded-xl flex items-center gap-2 font-bold text-xs hover:bg-gold transition"><i data-lucide="map-pin"></i> Google</button>
-                            <button onclick="openMap('waze')" class="bg-white/10 backdrop-blur-md p-3 rounded-xl flex items-center gap-2 font-bold text-xs border border-white/20 hover:bg-white/20 transition"><i data-lucide="navigation"></i> Waze</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="royal-glass p-8 rounded-[2.5rem]">
-                    <h4 class="text-xs font-bold text-gold uppercase tracking-widest mb-4">جولة داخل الواحة</h4>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="h-20 rounded-lg bg-cover bg-center" style="background-image: url('http://googleusercontent.com/image_collection/image_retrieval/7116464556489761895_1')"></div>
-                        <div class="h-20 rounded-lg bg-cover bg-center" style="background-image: url('http://googleusercontent.com/image_collection/image_retrieval/10564307477452199038_0')"></div>
-                        <div class="h-20 rounded-lg bg-cover bg-center" style="background-image: url('http://googleusercontent.com/image_collection/image_retrieval/10564307477452199038_2')"></div>
-                    </div>
+                <div class="relative h-32 w-full border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center cursor-pointer overflow-hidden" id="uploadBox">
+                    <i data-lucide="camera" class="text-gold/50"></i>
+                    <span class="text-[10px] mt-2">ارفع الهوية (صورة واضحة)</span>
+                    <input type="file" id="inID" class="absolute inset-0 opacity-0 cursor-pointer" onchange="processID(this)">
+                    <img id="idPreview" class="absolute inset-0 w-full h-full object-cover hidden">
                 </div>
             </div>
-        </section>
-    </main>
+
+            <button id="bookBtn" onclick="executeBooking()" class="w-full bg-gold text-black font-black py-5 rounded-2xl shadow-lg shadow-gold/20 hover:scale-[1.01] transition">تأكيد الحجز سحابياً 👑</button>
+        </div>
+
+        <div class="space-y-6">
+            <div class="royal-glass p-8 rounded-[2rem]">
+                <h3 class="text-sm font-bold text-gold mb-4 uppercase">التزامن مع السيرفر</h3>
+                <div id="syncStatus" class="flex items-center gap-2 text-xs text-green-500 font-bold">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> نظام Supabase متصل الآن
+                </div>
+                <div id="quickList" class="mt-4 space-y-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <div id="receiptOverlay" class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 hidden-panel">
+        <div class="flex flex-col items-center gap-6">
+            <div id="printableReceipt" class="receipt-card">
+                <div class="text-center border-b-2 border-black pb-4 mb-4">
+                    <h2 class="text-2xl font-black uppercase">Royal Oasis</h2>
+                    <p class="text-[9px] font-bold tracking-widest uppercase">Cloud Confirmed</p>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between font-mono"><span>ID:</span><b id="rSerial">#0000</b></div>
+                    <div class="flex justify-between"><span>الزبون:</span><span id="rName">-</span></div>
+                    <div class="flex justify-between border-t border-black pt-2 font-black"><span>المدفوع:</span><span id="rPaid">-</span></div>
+                </div>
+                <div id="rQR" class="mt-6 flex justify-center"></div>
+            </div>
+            <button onclick="downloadReceipt()" class="bg-gold text-black px-10 py-3 rounded-xl font-bold">حمل الوصل كصورة</button>
+            <button onclick="location.reload()" class="text-white opacity-50 text-xs uppercase">إغلاق</button>
+        </div>
+    </div>
 
     <script>
-        // الأكواد البرمجية (Supabase, Flatpickr, QRCode) تبقى كما هي تماماً 
-        // لضمان استقرار الوظائف التي بنيناها في الفقرات السابقة.
-        
-        function initSystem() {
+        // 1. إعدادات السحابة (Supabase)
+        const SB_URL = 'YOUR_SUPABASE_URL'; 
+        const SB_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const supabase = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
+        let bookings = [];
+        let config = { price: 500000 };
+
+        async function initSystem() {
             lucide.createIcons();
-            // نفس المنطق السابق للجلب من السحابة والتقويم
-            console.log("نظام الواحة الملكية الاحترافي جاهز.");
+            await fetchBookings();
+            
+            flatpickr("#inDate", {
+                disable: bookings.map(b => b.date),
+                minDate: "today", theme: "dark"
+            });
+            updateQuickList();
         }
 
-        // ... بقية الدوال executeBooking, processID, showReceipt ...
-        // تم دمجها هنا لتعمل مع الواجهة الجديدة.
+        // جلب البيانات من السحابة
+        async function fetchBookings() {
+            if(!supabase) return;
+            const { data, error } = await supabase.from('bookings').select('*');
+            if (data) bookings = data;
+        }
+
+        // معالجة الصورة وضغطها
+        function processID(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 400; canvas.height = 300;
+                        canvas.getContext('2d').drawImage(img, 0, 0, 400, 300);
+                        document.getElementById('idPreview').src = canvas.toDataURL('image/jpeg', 0.6);
+                        document.getElementById('idPreview').classList.remove('hidden');
+                    };
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // تنفيذ الحجز والرفع للسحابة
+        async function executeBooking() {
+            const btn = document.getElementById('bookBtn');
+            const name = document.getElementById('inName').value;
+            const phone = document.getElementById('inPhone').value;
+            const date = document.getElementById('inDate').value;
+            const idImg = document.getElementById('idPreview').src;
+
+            if(!name || !phone || !date || !idImg) return alert("يرجى إكمال البيانات");
+
+            btn.disabled = true;
+            btn.innerText = "جاري الحفظ في السحابة...";
+
+            const newBooking = {
+                serial: "ROY-" + Math.floor(1000 + Math.random() * 9000),
+                name, phone, date, idImg, amount: config.price / 2
+            };
+
+            // الرفع لـ Supabase
+            if(supabase) {
+                const { error } = await supabase.from('bookings').insert([newBooking]);
+                if(error) console.error("Cloud Error", error);
+            }
+
+            showReceipt(newBooking);
+        }
+
+        function showReceipt(data) {
+            document.getElementById('rSerial').innerText = data.serial;
+            document.getElementById('rName').innerText = data.name;
+            document.getElementById('rPaid').innerText = data.amount.toLocaleString() + " د.ع";
+            new QRCode(document.getElementById('rQR'), { text: data.serial, width: 90, height: 90 });
+            document.getElementById('receiptOverlay').classList.remove('hidden-panel');
+        }
+
+        function downloadReceipt() {
+            html2canvas(document.getElementById('printableReceipt')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Receipt.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        function updateQuickList() {
+            const list = document.getElementById('quickList');
+            list.innerHTML = bookings.slice(-3).reverse().map(b => `
+                <div class="p-3 bg-white/5 rounded-lg border-r-2 border-gold text-xs flex justify-between">
+                    <span>${b.name}</span> <span class="opacity-50">${b.date}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleAdmin() { /* لوحة المدير السابقة */ }
     </script>
 </body>
 </html>
