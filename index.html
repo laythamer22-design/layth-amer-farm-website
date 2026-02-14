@@ -112,42 +112,186 @@
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .gallery-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 1.2s ease;
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<style>
+    /* تصميم حاوية الحجز المتطورة */
+    .booking-system-wrapper {
+        background: rgba(10, 10, 10, 0.4);
+        backdrop-filter: blur(50px);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        border-radius: 50px;
+        padding: 60px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 50px 100px rgba(0,0,0,0.9);
     }
 
-    .gallery-item:hover {
-        transform: translateY(-10px);
-        border-color: var(--gold);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    /* تأثيرات الحقول */
+    .field-container {
+        position: relative;
+        margin-bottom: 25px;
     }
 
-    .gallery-item:hover img {
-        transform: scale(1.1);
-    }
-
-    /* الستارة المعلوماتية (Overlay) */
-    .item-info {
+    .field-container i {
         position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gold);
+        opacity: 0.5;
+        transition: 0.4s;
+        pointer-events: none;
+    }
+
+    .modern-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 20px 60px 20px 25px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 500;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        outline: none;
+    }
+
+    .modern-input:focus {
+        background: rgba(197, 160, 89, 0.05);
+        border-color: var(--gold);
+        box-shadow: 0 0 30px rgba(197, 160, 89, 0.1);
+        padding-right: 70px;
+    }
+
+    .modern-input:focus + i {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.2);
+    }
+
+    /* منطقة الهوية الاحترافية */
+    .id-zone-modern {
+        border: 2px dashed rgba(197, 160, 89, 0.3);
+        background: rgba(0,0,0,0.2);
+        border-radius: 25px;
+        height: 180px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        padding: 30px;
-        opacity: 0;
-        transition: opacity 0.4s ease;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.4s;
+        position: relative;
     }
 
-    .gallery-item:hover .item-info {
-        opacity: 1;
+    .id-zone-modern:hover {
+        border-color: var(--gold);
+        background: rgba(197, 160, 89, 0.05);
     }
 
-    .category-tag {
-        font-size: 10px;
+    #imgPreviewContainer {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        border-radius: 23px;
+        display: none;
+        z-index: 5;
+    }
+
+    /* زر التأكيد الملكي */
+    .btn-confirm-royal {
+        background: linear-gradient(135deg, #c5a059 0%, #a67c37 100%);
+        color: black;
+        width: 100%;
+        padding: 22px;
+        border-radius: 22px;
+        font-weight: 900;
+        font-size: 18px;
+        letter-spacing: 1px;
+        margin-top: 30px;
+        transition: all 0.5s ease;
+        box-shadow: 0 15px 30px rgba(166, 124, 55, 0.3);
+    }
+
+    .btn-confirm-royal:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(166, 124, 55, 0.5);
+    }
+</style>
+
+<section id="booking" class="max-w-5xl mx-auto py-24 px-6">
+    <div class="booking-system-wrapper">
+        <div class="text-right mb-14">
+            <h3 class="text-4xl font-black gold-gradient-text italic mb-3">تأمين حجزك الملكي</h3>
+            <p class="text-gray-500 text-xs tracking-widest uppercase">الرجاء إدخال البيانات الرسمية لمطابقتها مع السجل السحابي</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div class="field-container">
+                    <input type="text" id="inName" class="modern-input" placeholder="الاسم الرباعي الكامل">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                
+                <div class="field-container">
+                    <input type="tel" id="inPhone" class="modern-input" placeholder="رقم الموبايل (واتساب)">
+                    <i data-lucide="phone-outgoing"></i>
+                </div>
+
+                <div class="field-container">
+                    <input type="text" id="inDate" class="modern-input" placeholder="تحديد موعد الإقامة">
+                    <i data-lucide="calendar-days"></i>
+                </div>
+            </div>
+
+            <div class="flex flex-col h-full">
+                <div class="id-zone-modern" onclick="document.getElementById('fileID').click()">
+                    <div id="imgPreviewContainer"></div>
+                    <div class="text-center group">
+                        <i data-lucide="camera" class="w-10 h-10 mx-auto mb-3 text-gold opacity-40 group-hover:scale-110 transition"></i>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">ارفع صورة الهوية أو جواز السفر</p>
+                    </div>
+                    <input type="file" id="fileID" class="hidden" accept="image/*" onchange="handlePreview(this)">
+                </div>
+                <button onclick="submitRoyalBooking()" class="btn-confirm-royal">
+                    تأكيد الحجز الفوري 👑
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // تفعيل التقويم بتصميم مودرن
+    flatpickr("#inDate", {
+        minDate: "today",
+        locale: "ar",
+        animate: true,
+        dateFormat: "Y-m-d",
+        disableMobile: true,
+        onOpen: function(selectedDates, dateStr, instance) {
+            instance.calendarContainer.classList.add('animate-royal');
+        }
+    });
+
+    // معالجة معاينة الصورة
+    function handlePreview(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const container = document.getElementById('imgPreviewContainer');
+                container.style.backgroundImage = `url('${e.target.result}')`;
+                container.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // إعادة رسم الأيقونات
+    lucide.createIcons();
+</script>
         color: var(--gold);
         text-transform: uppercase;
         letter-spacing: 2px;
