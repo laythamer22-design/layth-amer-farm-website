@@ -170,37 +170,225 @@
         transform: translateY(-50%) scale(1.2);
     }
 
-    /* منطقة الهوية الاحترافية */
-    .id-zone-modern {
-        border: 2px dashed rgba(197, 160, 89, 0.3);
-        background: rgba(0,0,0,0.2);
-        border-radius: 25px;
-        height: 180px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: 0.4s;
-        position: relative;
+    <style>
+    /* تصميم لوحة التحكم الاحترافية */
+    #adminPanel {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: #050505;
+        color: white;
+        padding: 40px;
+        overflow-y: auto;
     }
 
-    .id-zone-modern:hover {
-        border-color: var(--gold);
+    .admin-grid {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 30px;
+    }
+
+    .admin-sidebar {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        border-radius: 30px;
+        padding: 30px;
+        height: fit-content;
+    }
+
+    .control-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 25px;
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+
+    .admin-input {
+        width: 100%;
+        background: #111;
+        border: 1px solid #333;
+        padding: 12px;
+        border-radius: 12px;
+        color: var(--gold);
+        font-size: 13px;
+        margin-top: 8px;
+    }
+
+    .stat-badge {
+        background: rgba(197, 160, 89, 0.1);
+        padding: 15px;
+        border-radius: 20px;
+        text-align: center;
+        border: 1px solid rgba(197, 160, 89, 0.2);
+    }
+
+    /* جدول الحجوزات المطور */
+    .booking-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .booking-table tr {
+        background: rgba(255,255,255,0.02);
+        transition: 0.3s;
+    }
+
+    .booking-table td {
+        padding: 20px;
+        font-size: 13px;
+    }
+
+    .booking-table tr:hover {
         background: rgba(197, 160, 89, 0.05);
     }
 
-    #imgPreviewContainer {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-        border-radius: 23px;
-        display: none;
-        z-index: 5;
+    .status-pill {
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+</style>
+
+<div id="adminPanel" class="animate-royal">
+    <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+        <div>
+            <h2 class="text-3xl font-black gold-gradient-text italic">غرفة التحكم الملكية</h2>
+            <p class="text-[10px] text-gray-500 tracking-[5px] uppercase">Super Admin Command Center</p>
+        </div>
+        <button onclick="closeAdmin()" class="bg-red-500/10 text-red-500 px-6 py-2 rounded-full border border-red-500/20 font-bold hover:bg-red-500 hover:text-white transition">إغلاق الغرفة</button>
+    </div>
+
+    <div class="admin-grid">
+        <div class="admin-sidebar space-y-6">
+            <div class="stat-badge">
+                <p class="text-[10px] opacity-50 uppercase mb-1">إجمالي الحجوزات</p>
+                <h4 id="totalBookings" class="text-2xl font-black text-white">0</h4>
+            </div>
+            <div class="stat-badge">
+                <p class="text-[10px] opacity-50 uppercase mb-1">أرباح متوقعة</p>
+                <h4 id="totalRevenue" class="text-2xl font-black gold-text">0 د.ع</h4>
+            </div>
+            <hr class="opacity-10">
+            <nav class="space-y-2 text-sm">
+                <button class="w-full text-right p-3 rounded-xl bg-gold text-black font-bold">إدارة الحجوزات</button>
+                <button class="w-full text-right p-3 rounded-xl hover:bg-white/5 transition">تعديل الويب سايت</button>
+                <button class="w-full text-right p-3 rounded-xl hover:bg-white/5 transition">صور المعرض</button>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <div class="grid md:grid-cols-2 gap-6 mb-10">
+                <div class="control-card">
+                    <h5 class="text-gold font-bold mb-4 flex items-center gap-2"><i data-lucide="settings-2"></i> الإعدادات العامة</h5>
+                    <div class="space-y-4">
+                        <label class="text-[11px] block">اسم الموقع الرئيسي:
+                            <input type="text" id="setFarmName" class="admin-input" placeholder="مثلاً: مزرعة أبو نمر">
+                        </label>
+                        <label class="text-[11px] block">رقم واتساب الحجوزات:
+                            <input type="text" id="setWA" class="admin-input" placeholder="96477...">
+                        </label>
+                        <label class="text-[11px] block">سعر الليلة الواحدة (د.ع):
+                            <input type="number" id="setPrice" class="admin-input" placeholder="600,000">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-card">
+                    <h5 class="text-gold font-bold mb-4 flex items-center gap-2"><i data-lucide="map"></i> التحكم بالمكان</h5>
+                    <div class="space-y-4">
+                        <label class="text-[11px] block">وصف الموقع (النصي):
+                            <input type="text" id="setLocation" class="admin-input" placeholder="أطراف الفلوجة">
+                        </label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="text-[11px]">خط العرض (Lat):
+                                <input type="text" id="setLat" class="admin-input">
+                            </label>
+                            <label class="text-[11px]">خط الطول (Lng):
+                                <input type="text" id="setLng" class="admin-input">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-card">
+                <h5 class="text-gold font-bold mb-6">قاعدة بيانات الحجوزات الحالية</h5>
+                <table class="booking-table">
+                    <thead class="text-[10px] text-gray-500 uppercase">
+                        <tr>
+                            <th class="text-right p-4">الزبون</th>
+                            <th class="text-right p-4">التاريخ</th>
+                            <th class="text-right p-4">الهاتف</th>
+                            <th class="text-right p-4">الهوية</th>
+                            <th class="text-right p-4">الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingTableBody">
+                        </tbody>
+                </table>
+            </div>
+            
+            <button onclick="saveAllChanges()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black mt-6 hover:bg-green-500 transition shadow-2xl shadow-green-900/20">حفظ كافة التغييرات على الويب سايت ✅</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // دالة فتح لوحة الإدارة مع حماية بسيطة
+    function openAdmin() {
+        const pass = prompt("الرجاء إدخال رمز الدخول السري:");
+        if (pass === "1234") {
+            document.getElementById('adminPanel').style.display = 'block';
+            loadCurrentSettings();
+            renderBookings();
+        } else {
+            alert("عذراً، لا تملك صلاحية الدخول.");
+        }
     }
 
-    /* زر التأكيد الملكي */
+    function closeAdmin() {
+        document.getElementById('adminPanel').style.display = 'none';
+    }
+
+    // تحميل الإعدادات الحالية من الـ LocalStorage (أو السحابة لاحقاً)
+    function loadCurrentSettings() {
+        document.getElementById('setFarmName').value = document.getElementById('farmTitle').innerText;
+        document.getElementById('setLocation').value = document.getElementById('locationText').innerText;
+        // يمكن إضافة بقية الحقول هنا
+    }
+
+    // حفظ التغييرات وتحديث الموقع حياً
+    function saveAllChanges() {
+        const newName = document.getElementById('setFarmName').value;
+        const newLoc = document.getElementById('setLocation').value;
+        
+        // تحديث الواجهة فوراً
+        document.getElementById('farmTitle').innerText = newName;
+        document.getElementById('locationText').innerText = newLoc;
+        
+        alert("تم تحديث بيانات الويب سايت بنجاح!");
+        closeAdmin();
+    }
+
+    function renderBookings() {
+        const body = document.getElementById('bookingTableBody');
+        // هنا نقوم بجلب البيانات من المصفوفة التي برمجناها سابقاً
+        // مثال لشكل البيانات:
+        body.innerHTML = `
+            <tr>
+                <td class="font-bold">أحمد علي الجبوري</td>
+                <td class="opacity-70">2026-02-20</td>
+                <td>07701234567</td>
+                <td><button class="text-gold underline">عرض الصورة</button></td>
+                <td><span class="status-pill bg-green-500/10 text-green-500">مؤكد</span></td>
+            </tr>
+        `;
+    }
+</script>
     .btn-confirm-royal {
         background: linear-gradient(135deg, #c5a059 0%, #a67c37 100%);
         color: black;
