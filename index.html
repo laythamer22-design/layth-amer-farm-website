@@ -62,35 +62,113 @@
         
         .location-badge-pro:hover {
             background: rgba(197, 160, 89, 0.2);
-         <style>
-    /* محرك الخلفيات التفاعلي */
-    #bg-slider-container {
+      <style>
+    /* محرك الأجواء الملكية - الإصدار الفائق */
+    #royal-viewport {
         position: fixed;
         inset: 0;
         z-index: -2;
+        background: #000;
         overflow: hidden;
     }
 
-    .bg-slide {
+    .master-slide {
         position: absolute;
-        inset: 0;
+        inset: -50px; /* لتجنب الحواف عند الحركة */
         background-size: cover;
         background-position: center;
         opacity: 0;
-        transform: scale(1.1);
-        transition: opacity 2s ease-in-out, transform 8s linear;
+        filter: saturate(1.2) contrast(1.1) blur(5px);
+        transform: scale(1.2);
+        transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                    filter 2.5s ease, 
+                    transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .bg-slide.active {
+    .master-slide.active {
         opacity: 1;
-        transform: scale(1);
+        filter: saturate(1.2) contrast(1.1) blur(0px);
+        transform: scale(1.05) rotate(0.01deg);
     }
 
-    /* طبقة الحماية البصرية (Overlay) لضمان وضوح النصوص */
-    .hero-overlay {
-        position: fixed;
+    /* طبقة الجزيئات الذهبية المتطايرة */
+    .particles-overlay {
+        position: absolute;
         inset: 0;
-        z-index: -1;
+        background: url('https://www.transparenttextures.com/patterns/stardust.png');
+        opacity: 0.3;
+        mix-blend-mode: screen;
+        pointer-events: none;
+        animation: drift 30s linear infinite;
+    }
+
+    /* تأثير الإضاءة السينمائية المتحركة */
+    .vignette-ultra {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 50%, 
+                    transparent 0%, 
+                    rgba(0,0,0,0.2) 40%, 
+                    rgba(5,5,5,0.8) 100%);
+        z-index: 1;
+    }
+
+    @keyframes drift {
+        from { background-position: 0 0; }
+        to { background-position: 500px 1000px; }
+    }
+
+    /* شريط تقدم الصورة (لإعطاء طابع عصري) */
+    .slide-progress {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background: var(--gold);
+        z-index: 100;
+        width: 0%;
+        box-shadow: 0 0 15px var(--gold);
+    }
+</style>
+
+<div id="royal-viewport">
+    <div class="particles-overlay"></div>
+    <div class="vignette-ultra"></div>
+    
+    <div class="master-slide active" style="background-image: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2000')"></div>
+    <div class="master-slide" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000')"></div>
+    <div class="master-slide" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2000')"></div>
+</div>
+<div class="slide-progress" id="progress-bar"></div>
+
+<script>
+    let slideIdx = 0;
+    const allSlides = document.querySelectorAll('.master-slide');
+    const progressBar = document.getElementById('progress-bar');
+    const slideDuration = 8000; // 8 ثوانٍ لكل مشهد سينمائي
+
+    function runCinematicSlider() {
+        // تحريك شريط التقدم
+        progressBar.style.transition = 'none';
+        progressBar.style.width = '0%';
+        
+        setTimeout(() => {
+            progressBar.style.transition = `width ${slideDuration}ms linear`;
+            progressBar.style.width = '100%';
+        }, 50);
+
+        // تبديل المشاهد
+        allSlides[slideIdx].classList.remove('active');
+        slideIdx = (slideIdx + 1) % allSlides.length;
+        allSlides[slideIdx].classList.add('active');
+    }
+
+    setInterval(runCinematicSlider, slideDuration);
+    
+    // بدء التقدم لأول مرة
+    progressBar.style.transition = `width ${slideDuration}ms linear`;
+    progressBar.style.width = '100%';
+</script>
         background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(5,5,5,0.9) 100%);
     }
 </style>
