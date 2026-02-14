@@ -3,201 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | التحكم الكامل</title>
+    <title>The Royal Oasis | التحكم الاحترافي</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <style>
         :root { --gold: #c5a059; --dark: #050505; }
+        
+        /* معالجة الخط ليكون بارزاً جداً */
         body { 
             font-family: 'Tajawal', sans-serif; 
             background: var(--dark); 
-            color: white; 
-            overflow-x: hidden;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* لإبراز الخط */
+            color: white;
+            --main-shadow: 0 10px 30px rgba(0,0,0,0.9);
         }
 
-        /* محرك الخلفيات */
-        #bg-engine { position: fixed; inset: 0; z-index: -2; background: #000; }
-        .slide { position: absolute; inset: -50px; background-size: cover; background-position: center; opacity: 0; transform: scale(1.1); transition: 2s ease-in-out; }
-        .slide.active { opacity: 1; transform: scale(1); }
-        .overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle, transparent 10%, rgba(0,0,0,0.9) 100%); }
-
-        /* تنسيق الخط البارز */
-        .font-ultra { font-weight: 900; letter-spacing: -1px; }
-        .gold-text { color: var(--gold); text-shadow: 0 0 20px rgba(197,160,89,0.3); }
-
-        /* منطقة الرفع */
-        .upload-zone { 
-            border: 2px dashed rgba(197, 160, 89, 0.3); 
-            border-radius: 20px; 
-            transition: 0.3s; 
-            background: rgba(255,255,255,0.02);
-            position: relative;
-            height: 120px;
+        .font-ultra { 
+            font-weight: 900 !important;
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.8), 0 0 30px rgba(197,160,89,0.4);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.1);
         }
-        .upload-zone:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.05); }
-        .preview-box { position: absolute; inset: 0; background-size: cover; background-position: center; border-radius: 18px; display: none; }
 
-        /* غرفة المدير */
-        #adminOS { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; padding: 30px; overflow-y: auto; }
-        .admin-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 25px; padding: 20px; }
+        /* محرك الصور المصلح */
+        .dynamic-bg { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; transition: 1.5s; filter: brightness(0.6); }
+        .vignette { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle, transparent 30%, #000 120%); }
+
+        /* غرفة التحكم - تصميم عصري ضخم */
+        #adminOS { 
+            display: none; position: fixed; inset: 0; z-index: 9999; 
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 20px; overflow-y: auto; border: 5px solid var(--gold);
+        }
+        
+        .admin-input-group { background: rgba(255,255,255,0.03); border: 1px solid rgba(197,160,89,0.3); padding: 25px; border-radius: 30px; }
+        
+        input { background: #000 !important; border: 1px solid #333 !important; color: var(--gold) !important; font-weight: bold; padding: 12px; border-radius: 10px; width: 100%; }
+        
+        .upload-card { background: #111; padding: 15px; border-radius: 20px; border: 1px solid #222; text-align: center; }
+        .preview-thumb { width: 100%; height: 100px; object-fit: cover; border-radius: 10px; margin-top: 10px; border: 1px solid var(--gold); }
     </style>
 </head>
 <body>
 
-    <div id="bg-engine">
-        <div id="slide1" class="slide active" style="background-image: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2000')"></div>
-        <div id="slide2" class="slide" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000')"></div>
-        <div class="overlay"></div>
-    </div>
+    <div id="mainBg" class="dynamic-bg" style="background-image: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2000')"></div>
+    <div class="vignette"></div>
 
-    <nav class="fixed top-0 w-full z-50 p-8 flex justify-between items-center">
-        <h1 id="farmTitle" class="text-3xl font-ultra gold-text italic">أبو سيف وأبو نمر</h1>
-        <button onclick="openAdmin()" class="bg-gold/10 border border-gold/30 px-6 py-2 rounded-full text-gold font-bold hover:bg-gold hover:text-black transition">غرفة التحكم</button>
+    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center bg-black/20 backdrop-blur-md">
+        <h1 id="farmTitle" class="text-3xl font-ultra gold-gradient-text italic text-[#c5a059]">مزرعة أبو سيف وأبو نمر</h1>
+        <button onclick="openAdmin()" class="bg-[#c5a059] text-black px-6 py-2 rounded-full font-black text-sm">غرفة التحكم CORE</button>
     </nav>
 
-    <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-        <h2 class="text-6xl md:text-9xl font-ultra mb-4 leading-tight">ROYAL ESTATE</h2>
-        <p id="locationText" class="text-xl tracking-[8px] font-bold opacity-80 uppercase">الفلوجة - الأنبار</p>
+    <section class="h-screen flex flex-col items-center justify-center text-center p-4">
+        <h2 class="text-6xl md:text-[120px] font-ultra mb-4 text-white uppercase italic leading-none">The Royal Oasis</h2>
+        <p id="locationText" class="text-xl md:text-3xl font-bold text-[#c5a059] tracking-widest bg-black/50 px-8 py-2 rounded-full">أطراف الفلوجة - العراق</p>
     </section>
 
-    <section id="gallery" class="max-w-6xl mx-auto py-20 px-6">
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="h-80 rounded-3xl overflow-hidden border border-gold/20"><img id="gal1" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800" class="w-full h-full object-fit"></div>
-            <div class="h-80 rounded-3xl overflow-hidden border border-gold/20"><img id="gal2" src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800" class="w-full h-full object-fit"></div>
-            <div class="h-80 rounded-3xl overflow-hidden border border-gold/20"><img id="gal3" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800" class="w-full h-full object-fit"></div>
-        </div>
+    <section class="max-w-7xl mx-auto py-20 px-6 grid md:grid-cols-3 gap-8">
+        <img id="gal1" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800" class="h-80 w-full object-cover rounded-[40px] border-2 border-gold/30">
+        <img id="gal2" src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800" class="h-80 w-full object-cover rounded-[40px] border-2 border-gold/30">
+        <img id="gal3" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800" class="h-80 w-full object-cover rounded-[40px] border-2 border-gold/30">
     </section>
 
-    <section id="booking" class="max-w-4xl mx-auto py-20 px-6">
-        <div class="bg-white/5 backdrop-blur-3xl border border-gold/20 p-10 rounded-[40px]">
-            <h3 class="text-3xl font-ultra gold-text text-center mb-10 italic">طلب الحجز الملكي</h3>
+    <section class="max-w-4xl mx-auto py-20 px-6">
+        <div class="bg-black/60 backdrop-blur-3xl border-2 border-gold/30 p-10 rounded-[50px]">
+            <h3 class="text-4xl font-ultra text-[#c5a059] text-center mb-10 italic">تأمين حجز ملكي</h3>
             <div class="grid md:grid-cols-2 gap-6">
-                <input type="text" id="custName" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-gold" placeholder="الاسم الكامل">
-                <input type="tel" id="custPhone" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-gold" placeholder="رقم الموبايل">
-                <input type="text" id="custDate" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-gold" placeholder="موعد الإقامة">
-                
-                <div class="upload-zone flex flex-col items-center justify-center cursor-pointer" onclick="document.getElementById('idCard').click()">
-                    <div id="preId" class="preview-box"></div>
-                    <span class="text-[10px] font-bold opacity-60">صورة الهوية / جواز السفر</span>
-                    <input type="file" id="idCard" class="hidden" onchange="previewFile(this, 'preId')">
-                </div>
-
-                <div class="upload-zone flex flex-col items-center justify-center cursor-pointer" onclick="document.getElementById('resCard').click()">
-                    <div id="preRes" class="preview-box"></div>
-                    <span class="text-[10px] font-bold opacity-60">صورة بطاقة السكن</span>
-                    <input type="file" id="resCard" class="hidden" onchange="previewFile(this, 'preRes')">
+                <input type="text" id="cName" placeholder="الاسم الكامل">
+                <input type="tel" id="cPhone" placeholder="رقم الهاتف">
+                <input type="text" id="cDate" placeholder="اختر التاريخ">
+                <div class="grid grid-cols-2 gap-2 md:col-span-2">
+                    <div class="bg-white/5 p-4 rounded-xl text-center">
+                        <span class="text-[10px] block mb-2 opacity-60">بطاقة الهوية</span>
+                        <input type="file" id="fId" class="text-[8px]">
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-xl text-center">
+                        <span class="text-[10px] block mb-2 opacity-60">بطاقة السكن</span>
+                        <input type="file" id="fRes" class="text-[8px]">
+                    </div>
                 </div>
             </div>
-            <button onclick="sendBooking()" class="w-full mt-10 bg-gold text-black font-black py-5 rounded-2xl text-xl shadow-2xl">تأكيد الحجز الفوري ✅</button>
+            <button onclick="bookingAction()" class="w-full mt-10 bg-[#c5a059] text-black font-black py-6 rounded-2xl text-2xl shadow-2xl hover:bg-white transition-all">تأكيد وإرسال واتساب 🟢</button>
         </div>
     </section>
 
     <div id="adminOS">
-        <div class="flex justify-between items-center mb-10">
-            <h2 class="text-3xl font-ultra gold-text">غرفة التحكم CORE</h2>
-            <button onclick="closeAdmin()" class="bg-red-600 px-6 py-2 rounded-xl font-bold">إغلاق</button>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-10">
-            <div class="admin-card">
-                <h4 class="font-bold mb-4 text-gold underline">إدارة النصوص</h4>
-                <div class="space-y-4">
-                    <input type="text" id="admTitle" class="w-full bg-black border border-white/10 p-3 rounded-xl" placeholder="اسم المزرعة">
-                    <input type="text" id="admLoc" class="w-full bg-black border border-white/10 p-3 rounded-xl" placeholder="الموقع">
-                </div>
-                <button onclick="saveTextChanges()" class="w-full mt-4 bg-green-600 py-3 rounded-xl font-bold">حفظ النصوص</button>
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-10 border-b-2 border-gold pb-6">
+                <h2 class="text-4xl font-ultra text-[#c5a059]">إدارة نظام المزرعة الكامل</h2>
+                <button onclick="closeAdmin()" class="bg-red-600 px-10 py-3 rounded-full font-black text-white">إغلاق وحفظ</button>
             </div>
 
-            <div class="admin-card">
-                <h4 class="font-bold mb-4 text-gold underline">إدارة صور الموقع (JPG فقط)</h4>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-center">
-                        <span class="text-[10px]">خلفية 1</span>
-                        <input type="file" class="text-[8px]" onchange="updateSiteImage(this, 'slide1')">
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div class="admin-input-group">
+                    <h4 class="text-2xl font-black mb-6 border-b border-gold/20 pb-2 italic">1. تعديل المعلومات</h4>
+                    <div class="space-y-4">
+                        <label class="text-xs">اسم المزرعة الظاهر:</label><input type="text" id="admT">
+                        <label class="text-xs">الموقع (تحت الاسم):</label><input type="text" id="admL">
+                        <label class="text-xs">رقم واتساب الحجوزات (بدون +):</label><input type="text" id="admW" placeholder="9647700000000">
                     </div>
-                    <div class="text-center">
-                        <span class="text-[10px]">خلفية 2</span>
-                        <input type="file" class="text-[8px]" onchange="updateSiteImage(this, 'slide2')">
-                    </div>
-                    <div class="text-center">
-                        <span class="text-[10px]">صورة المعرض 1</span>
-                        <input type="file" class="text-[8px]" onchange="updateSiteImage(this, 'gal1')">
-                    </div>
-                    <div class="text-center">
-                        <span class="text-[10px]">صورة المعرض 2</span>
-                        <input type="file" class="text-[8px]" onchange="updateSiteImage(this, 'gal2')">
+                </div>
+
+                <div class="admin-input-group">
+                    <h4 class="text-2xl font-black mb-6 border-b border-gold/20 pb-2 italic">2. محرك الصور المباشر</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="upload-card">
+                            <span class="text-[10px]">خلفية الواجهة</span>
+                            <input type="file" onchange="syncImage(this, 'mainBg')">
+                            <img id="thumb_mainBg" class="preview-thumb">
+                        </div>
+                        <div class="upload-card">
+                            <span class="text-[10px]">صورة المعرض 1</span>
+                            <input type="file" onchange="syncImage(this, 'gal1')">
+                            <img id="thumb_gal1" class="preview-thumb">
+                        </div>
+                        <div class="upload-card">
+                            <span class="text-[10px]">صورة المعرض 2</span>
+                            <input type="file" onchange="syncImage(this, 'gal2')">
+                            <img id="thumb_gal2" class="preview-thumb">
+                        </div>
+                        <div class="upload-card">
+                            <span class="text-[10px]">صورة المعرض 3</span>
+                            <input type="file" onchange="syncImage(this, 'gal3')">
+                            <img id="thumb_gal3" class="preview-thumb">
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <button onclick="applyChanges()" class="w-full mt-10 bg-green-600 py-6 rounded-[30px] font-black text-3xl text-white shadow-2xl">تحديث الموقع الآن ✅</button>
         </div>
     </div>
 
     <script>
-        // محرك الخلفيات
-        let current = 0;
-        const slides = document.querySelectorAll('.slide');
-        setInterval(() => {
-            slides[current].classList.remove('active');
-            current = (current + 1) % slides.length;
-            slides[current].classList.add('active');
-        }, 6000);
+        // 1. تشغيل التقويم
+        flatpickr("#cDate", { minDate: "today", locale: "ar", dateFormat: "Y-m-d" });
 
-        // التقويم
-        flatpickr("#custDate", { minDate: "today", locale: "ar", dateFormat: "Y-m-d" });
-
-        // معاينة الملفات
-        function previewFile(input, previewId) {
+        // 2. محرك الصور المصلح - يضمن التغيير الفوري
+        function syncImage(input, targetId) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    const box = document.getElementById(previewId);
-                    box.style.backgroundImage = `url('${e.target.result}')`;
-                    box.style.display = 'block';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        // تحديث صور الموقع برمجياً من قبل المدير
-        function updateSiteImage(input, targetId) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = function(e) {
+                    const result = e.target.result;
                     const target = document.getElementById(targetId);
+                    const thumb = document.getElementById('thumb_' + targetId);
+                    
                     if (target.tagName === 'IMG') {
-                        target.src = e.target.result;
+                        target.src = result;
                     } else {
-                        target.style.backgroundImage = `url('${e.target.result}')`;
+                        target.style.backgroundImage = `url('${result}')`;
                     }
-                };
+                    if(thumb) thumb.src = result;
+                    
+                    // حفظ في الذاكرة المحلية لكي لا تختفي عند التحديث
+                    localStorage.setItem(targetId, result);
+                }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // تحكم المدير
-        function openAdmin() { if(prompt("رمز الدخول:") === "1234") document.getElementById('adminOS').style.display='block'; }
-        function closeAdmin() { document.getElementById('adminOS').style.display='none'; }
-        
-        function saveTextChanges() {
-            document.getElementById('farmTitle').innerText = document.getElementById('admTitle').value;
-            document.getElementById('locationText').innerText = document.getElementById('admLoc').value;
-            alert("تم تحديث نصوص الموقع بنجاح!");
+        // 3. استعادة الصور المحفوظة عند فتح الصفحة
+        window.onload = function() {
+            const targets = ['mainBg', 'gal1', 'gal2', 'gal3'];
+            targets.forEach(id => {
+                const saved = localStorage.getItem(id);
+                if(saved) {
+                    const el = document.getElementById(id);
+                    if(el.tagName === 'IMG') el.src = saved;
+                    else el.style.backgroundImage = `url('${saved}')`;
+                }
+            });
+        };
+
+        // 4. نظام المدير
+        function openAdmin() {
+            if(prompt("كود الدخول السري:") === "1234") {
+                document.getElementById('adminOS').style.display = 'block';
+                document.getElementById('admT').value = document.getElementById('farmTitle').innerText;
+                document.getElementById('admL').value = document.getElementById('locationText').innerText;
+            }
+        }
+        function closeAdmin() { document.getElementById('adminOS').style.display = 'none'; }
+
+        function applyChanges() {
+            document.getElementById('farmTitle').innerText = document.getElementById('admT').value;
+            document.getElementById('locationText').innerText = document.getElementById('admL').value;
+            alert("تم تحديث كافة البيانات والصور بنجاح!");
+            closeAdmin();
         }
 
-        function sendBooking() {
-            const name = document.getElementById('custName').value;
-            if(!name) return alert("يرجى ملء البيانات");
-            alert("✅ تم رفع طلبك والوثائق للسحابة بنجاح يا " + name);
-        }
+        // 5. نظام الحجز والواتساب
+        function bookingAction() {
+            const n = document.getElementById('cName').value;
+            const p = document.getElementById('cPhone').value;
+            const d = document.getElementById('cDate').value;
+            const wa = document.getElementById('admW').value || "9647700000000";
 
-        lucide.createIcons();
+            if(!n || !p || !d) return alert("يرجى إكمال الحقول أولاً");
+
+            const msg = `🛎️ *طلب حجز جديد*%0A👤 الاسم: ${n}%0A📞 الهاتف: ${p}%0A📅 التاريخ: ${d}%0A%0A📎 _تم رفع المستمسكات عبر النظام._`;
+            alert("✅ سيتم تحويلك الآن للواتساب لإرسال الوثائق وإتمام الحجز.");
+            window.location.href = `https://wa.me/${wa}?text=${msg}`;
+        }
     </script>
 </body>
 </html>
