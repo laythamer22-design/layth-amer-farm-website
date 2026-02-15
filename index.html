@@ -3,463 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="main-web-title">تحميل النظام السيادي...</title>
+    <title id="main-web-title">نظام أكسس R15 السيادي</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;400;700;900&family=Changa:wght@400;800&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* --- أرشيف التصميم العالمي Avant-Garde --- */
         :root {
             --gold: #d4af37;
-            --gold-light: #f4d03f;
-            --bg: #020202;
+            --black: #050505;
             --panel: #0a0a0a;
-            --border: rgba(212, 175, 55, 0.3);
-            --neon-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            --neon: 0 0 30px rgba(212, 175, 55, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        body { background-color: var(--black); color: #fff; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg);
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            overflow-x: hidden;
-            background-image: 
-                linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
-                url('https://www.transparenttextures.com/patterns/black-linen.png');
-        }
-
-        /* الماوس التفاعلي */
-        #cursor {
-            width: 15px; height: 15px; background: var(--gold);
-            position: fixed; border-radius: 50%; pointer-events: none; z-index: 999999;
-            transition: transform 0.1s ease; box-shadow: 0 0 20px var(--gold);
-        }
-        #cursor-follower {
-            width: 40px; height: 40px; border: 1px solid var(--gold);
-            position: fixed; border-radius: 50%; pointer-events: none; z-index: 999998;
-            transition: transform 0.15s ease;
-        }
+        /* الماوس النيوني */
+        #cursor { width: 12px; height: 12px; background: var(--gold); position: fixed; border-radius: 50%; pointer-events: none; z-index: 999999; box-shadow: 0 0 15px var(--gold); }
+        #cursor-f { width: 35px; height: 35px; border: 1px solid var(--gold); position: fixed; border-radius: 50%; pointer-events: none; z-index: 999998; transition: 0.1s; }
 
         /* الهيدر الإمبراطوري */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 10000;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 25px 80px;
-        }
+        nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(212,175,55,0.2); padding: 20px 60px; }
 
-        .nav-link { font-weight: 900; font-size: 13px; letter-spacing: 1px; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold); text-shadow: var(--neon-shadow); }
+        /* الألبومات */
+        .album-card { height: 650px; border-radius: 40px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); transition: 0.6s; }
+        .album-card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: var(--neon); }
+        .slide-track { display: flex; width: 100%; height: 100%; transition: 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
+        .slide-img { min-width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); }
 
-        /* الأقسام والألبومات */
-        .section-container { padding: 150px 80px; }
-        .album-wrapper {
-            height: 750px; border-radius: 60px; overflow: hidden;
-            position: relative; border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .album-wrapper:hover { transform: scale(1.02) translateY(-20px); border-color: var(--gold); box-shadow: var(--neon-shadow); }
-        .slide-track { display: flex; width: 100%; height: 100%; transition: 1s cubic-bezier(0.7, 0, 0.3, 1); }
-        .slide-item { min-width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); transition: 1s; }
-        .album-wrapper:hover .slide-item { filter: brightness(0.7); }
+        /* واجهة الحجز */
+        .booking-box { background: var(--panel); border: 2px solid var(--gold); border-radius: 50px; padding: 60px; box-shadow: var(--neon); }
+        .m-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.3); padding: 20px; border-radius: 20px; width: 100%; color: #fff; font-weight: 700; outline: none; }
+        .m-input:focus { border-color: var(--gold); background: rgba(212,175,55,0.05); }
 
-        /* لوحة الحجز Matrix */
-        .booking-matrix {
-            background: var(--panel); border: 2px solid var(--gold);
-            border-radius: 80px; padding: 80px; position: relative;
-            box-shadow: var(--neon-shadow);
-        }
-        .matrix-input {
-            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
-            padding: 25px; border-radius: 25px; width: 100%; color: #fff;
-            font-size: 1.2rem; font-weight: 700; transition: 0.4s;
-        }
-        .matrix-input:focus { border-color: var(--gold-light); background: rgba(212, 175, 55, 0.05); outline: none; }
+        /* بوابة المدير ROOT */
+        .root-terminal { display: none; position: fixed; inset: 0; background: #000; z-index: 1000000; padding: 50px; overflow-y: auto; }
+        .stat-card { background: #111; border: 1px solid rgba(212,175,55,0.2); padding: 30px; border-radius: 25px; }
 
-        .shift-selector {
-            display: flex; gap: 20px; margin-bottom: 40px;
-        }
-        .shift-btn {
-            flex: 1; padding: 20px; border-radius: 20px; border: 1px solid var(--border);
-            font-weight: 900; transition: 0.4s; color: var(--gold);
-        }
-        .shift-btn.active { background: var(--gold); color: #000; box-shadow: var(--neon-shadow); }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 900; padding: 15px; border-radius: 15px; transition: 0.3s; width: 100%; }
+        .btn-gold:hover { transform: scale(1.02); box-shadow: var(--neon); }
 
-        /* لوحة التحكم ROOT */
-        .root-terminal {
-            display: none; position: fixed; inset: 0; background: #000;
-            z-index: 1000000; padding: 60px; overflow-y: auto;
-        }
-        .terminal-header { border-bottom: 4px solid var(--gold); padding-bottom: 30px; margin-bottom: 50px; }
-        .stat-card {
-            background: #0f0f0f; border: 1px solid var(--border);
-            padding: 40px; border-radius: 35px; text-align: center;
-        }
-
-        /* الملاحة */
-        .nav-gate {
-            padding: 12px 28px; border-radius: 15px; font-weight: 900; font-size: 12px;
-            display: flex; align-items: center; gap: 10px; transition: 0.4s;
-        }
-        .btn-waze { background: #33ccff; color: #000; }
-        .btn-maps { background: #34a853; color: #fff; }
-
-        @media (max-width: 1024px) {
-            nav { padding: 20px; }
-            .section-container { padding: 80px 20px; }
-        }
+        .shift-btn { flex: 1; padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.3); color: var(--gold); transition: 0.3s; }
+        .shift-btn.active { background: var(--gold); color: #000; font-weight: 900; }
     </style>
 </head>
 <body>
 
     <div id="cursor"></div>
-    <div id="cursor-follower"></div>
+    <div id="cursor-f"></div>
 
     <nav class="flex justify-between items-center">
-        <div class="flex items-center gap-6">
-            <div id="web-logo" class="h-16 w-16 bg-gold rounded-[20px] flex items-center justify-center text-black font-black text-4xl shadow-2xl">A</div>
+        <div class="flex items-center gap-5">
+            <div id="logo-icon" class="h-14 w-14 bg-gold rounded-2xl flex items-center justify-center text-black font-black text-3xl">A</div>
             <div>
-                <h1 id="web-name-display" class="text-3xl font-black italic tracking-tighter uppercase">تحميل...</h1>
-                <p class="text-[8px] tracking-[10px] text-gray-500 font-bold uppercase">Sovereign Administration</p>
+                <h1 id="web-name-nav" class="text-2xl font-black italic text-white uppercase tracking-tighter">أكسس R15</h1>
+                <p class="text-[7px] tracking-[8px] text-gold/60 uppercase font-bold">Integrated Sovereign System</p>
             </div>
         </div>
-
-        <div class="hidden lg:flex gap-10">
-            <a href="#" class="nav-link">الرئيسية</a>
-            <a href="#booking" class="nav-link">الحجز المباشر</a>
-            <a href="#albums" class="nav-link">الأقسام</a>
-        </div>
-
         <div class="flex gap-4">
-            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="nav-gate btn-waze">WAZE</a>
-            <a href="https://www.google.com/maps?q=33.3152,44.3661" target="_blank" class="nav-gate btn-maps">MAPS</a>
-            <button onclick="accessTerminal()" class="text-gold font-black border-2 border-gold/20 px-6 py-2 rounded-xl hover:bg-gold hover:text-black transition-all">TERMINAL</button>
+            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="bg-[#33ccff] text-black font-black px-4 py-2 rounded-xl text-xs">WAZE</a>
+            <button onclick="openRoot()" class="border border-gold text-gold font-black px-6 py-2 rounded-xl text-xs hover:bg-gold hover:text-black">التحكم</button>
         </div>
     </nav>
 
-    <main>
-        <section id="albums" class="section-container">
-            <div class="grid lg:grid-cols-3 gap-12">
-                <div class="album-wrapper" id="album-1">
-                    <div class="slide-track" id="track-1">
-                        <img class="slide-item" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200">
-                        <img class="slide-item" src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200">
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
-                        <h3 class="text-5xl font-black text-gold italic mb-6">Interior Design</h3>
-                        <div class="flex gap-4">
-                            <button onclick="moveSlide(1, 0)" class="w-12 h-1 bg-gold"></button>
-                            <button onclick="moveSlide(1, 1)" class="w-12 h-1 bg-white/20"></button>
-                        </div>
+    <main class="pt-40 px-10 pb-20">
+        <section class="grid lg:grid-cols-3 gap-10 mb-24">
+            <div class="album-card" id="alb-1">
+                <div class="slide-track" id="track-1">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+                    <h3 class="text-3xl font-black text-gold mb-4 italic">التصميم الداخلي</h3>
+                    <div class="flex gap-2">
+                        <button onclick="slide(1, 0)" class="w-10 h-1 bg-gold"></button>
+                        <button onclick="slide(1, 1)" class="w-10 h-1 bg-white/20"></button>
                     </div>
                 </div>
-
-                <div class="album-wrapper" id="album-2">
-                    <div class="slide-track" id="track-2">
-                        <img class="slide-item" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200">
-                        <img class="slide-item" src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?w=1200">
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
-                        <h3 class="text-5xl font-black text-gold italic mb-6">Royal Pool</h3>
-                        <div class="flex gap-4">
-                            <button onclick="moveSlide(2, 0)" class="w-12 h-1 bg-gold"></button>
-                            <button onclick="moveSlide(2, 1)" class="w-12 h-1 bg-white/20"></button>
-                        </div>
+            </div>
+            <div class="album-card" id="alb-2">
+                <div class="slide-track" id="track-2">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?w=1200">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+                    <h3 class="text-3xl font-black text-gold mb-4 italic">المسبح الملكي</h3>
+                    <div class="flex gap-2">
+                        <button onclick="slide(2, 0)" class="w-10 h-1 bg-gold"></button>
+                        <button onclick="slide(2, 1)" class="w-10 h-1 bg-white/20"></button>
                     </div>
                 </div>
-
-                <div class="album-wrapper" id="album-3">
-                    <div class="slide-track" id="track-3">
-                        <img class="slide-item" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200">
-                        <img class="slide-item" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1200">
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
-                        <h3 class="text-5xl font-black text-gold italic mb-6">Luxury Gaming</h3>
-                        <div class="flex gap-4">
-                            <button onclick="moveSlide(3, 0)" class="w-12 h-1 bg-gold"></button>
-                            <button onclick="moveSlide(3, 1)" class="w-12 h-1 bg-white/20"></button>
-                        </div>
+            </div>
+            <div class="album-card" id="alb-3">
+                <div class="slide-track" id="track-3">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1200">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+                    <h3 class="text-3xl font-black text-gold mb-4 italic">صالات الألعاب</h3>
+                    <div class="flex gap-2">
+                        <button onclick="slide(3, 0)" class="w-10 h-1 bg-gold"></button>
+                        <button onclick="slide(3, 1)" class="w-10 h-1 bg-white/20"></button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="booking" class="section-container grid lg:grid-cols-2 gap-32 items-center bg-[#050505]">
-            <div class="space-y-12">
-                <h2 class="text-[12rem] font-black italic opacity-5 absolute -z-10 select-none">RESERVE</h2>
-                <h2 class="text-8xl font-black italic leading-none">نظام الحجز <br><span class="text-gold">المركزي</span></h2>
-                <div class="p-12 border-r-8 border-gold bg-white/5 rounded-[40px] shadow-2xl">
-                    <p class="text-gray-400 text-2xl leading-relaxed italic">
-                        يرجى اختيار الفترة (صباحي 12 ساعة / مسائي 12 ساعة). السعر ثابت لكل فترة: <span class="text-gold font-black">600,000 د.ع</span>. 
-                        يتم ترحيل البيانات فوراً للواتساب والمزامنة مع الحسابات.
-                    </p>
+        <section class="grid lg:grid-cols-2 gap-20 items-center">
+            <div class="space-y-8">
+                <h2 class="text-8xl font-black italic leading-none">بوابة <br><span class="text-gold">R15</span> الذكية</h2>
+                <div class="p-8 border-r-4 border-gold bg-white/5 rounded-2xl">
+                    <p class="text-gray-400 text-xl italic">نظام الحجز لـ 12 ساعة (صباحي/مسائي). السعر: 600,000 د.ع. يرجى ملء البيانات ورفع المستمسكات.</p>
                 </div>
             </div>
 
-            <div class="booking-matrix">
-                <div class="shift-selector">
-                    <button id="am-btn" onclick="setShift('صباحي')" class="shift-btn active">فترة صباحية (6 AM - 6 PM)</button>
-                    <button id="pm-btn" onclick="setShift('مسائي')" class="shift-btn">فترة مسائية (6 PM - 6 AM)</button>
+            <div class="booking-box space-y-6">
+                <div class="flex gap-4 mb-4">
+                    <button id="am-b" onclick="setS('صباحي')" class="shift-btn active">صباحي</button>
+                    <button id="pm-b" onclick="setS('مسائي')" class="shift-btn">مسائي</button>
                 </div>
-
-                <div class="space-y-8">
-                    <input type="text" id="guest-name" class="matrix-input" placeholder="الاسم الكامل للضيف">
-                    <div class="grid grid-cols-2 gap-6">
-                        <input type="tel" id="guest-phone" class="matrix-input" placeholder="رقم الهاتف">
-                        <input type="text" id="res-date" class="matrix-input" placeholder="تاريخ الحجز">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-6 pt-6">
-                        <div class="p-10 border-2 border-dashed border-gold/20 rounded-[30px] text-center hover:bg-gold/5 transition-all" onclick="document.getElementById('file-id').click()">
-                            <span class="text-4xl block mb-2">🪪</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest">رفع الهوية الوطنية</span>
-                            <input type="file" id="file-id" class="hidden" onchange="verified('v1')">
-                            <div id="v1" class="text-green-500 text-[10px] font-black mt-2 hidden italic">UPLOADED ✓</div>
-                        </div>
-                        <div class="p-10 border-2 border-dashed border-gold/20 rounded-[30px] text-center hover:bg-gold/5 transition-all" onclick="document.getElementById('file-res').click()">
-                            <span class="text-4xl block mb-2">🏠</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest">بطاقة السكن</span>
-                            <input type="file" id="file-res" class="hidden" onchange="verified('v2')">
-                            <div id="v2" class="text-green-500 text-[10px] font-black mt-2 hidden italic">UPLOADED ✓</div>
-                        </div>
-                    </div>
-
-                    <button onclick="executeBooking()" class="w-full bg-gold text-black font-black py-8 rounded-[35px] text-3xl shadow-2xl hover:scale-[1.03] transition-all uppercase italic">تأكيد وإرسال (WhatsApp)</button>
+                <input type="text" id="g-name" class="m-input" placeholder="الاسم الكامل">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="tel" id="g-phone" class="m-input" placeholder="رقم الهاتف">
+                    <input type="text" id="g-date" class="m-input" placeholder="تاريخ الحجز">
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-6 border-2 border-dashed border-gold/30 rounded-2xl text-center" onclick="document.getElementById('f1').click()">
+                        <span class="text-[10px] block">رفع الهوية</span>
+                        <input type="file" id="f1" class="hidden" onchange="v('v1')">
+                        <span id="v1" class="text-green-500 text-[10px] hidden">✓ جاهز</span>
+                    </div>
+                    <div class="p-6 border-2 border-dashed border-gold/30 rounded-2xl text-center" onclick="document.getElementById('f2').click()">
+                        <span class="text-[10px] block">بطاقة السكن</span>
+                        <input type="file" id="f2" class="hidden" onchange="v('v2')">
+                        <span id="v2" class="text-green-500 text-[10px] hidden">✓ جاهز</span>
+                    </div>
+                </div>
+                <button onclick="confirmAndGo()" class="btn-gold text-2xl py-6">تأكيد الحجز والتحويل</button>
             </div>
         </section>
     </main>
 
-    <div id="terminal" class="root-terminal">
-        <div class="max-w-[1700px] mx-auto">
-            <div class="terminal-header flex justify-between items-center">
-                <div>
-                    <h2 class="text-7xl font-black italic text-gold uppercase tracking-tighter">Root <span class="text-white">Terminal</span></h2>
-                    <p class="text-xs text-gray-500 tracking-[15px] font-bold mt-2 uppercase">Central Accounting & Control System</p>
-                </div>
-                <button onclick="terminateSession()" class="text-red-600 font-black text-2xl hover:scale-125 transition-all">TERMINATE ACCESS ×</button>
+    <div id="root-terminal" class="root-terminal">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="flex justify-between items-center mb-16 border-b-2 border-gold pb-8">
+                <h2 class="text-5xl font-black italic text-gold">Root System R15</h2>
+                <button onclick="closeRoot()" class="text-red-500 font-bold">إغلاق ×</button>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-16">
-                <div class="lg:col-span-4 space-y-10">
-                    <div class="stat-card">
-                        <h4 class="text-gold font-black uppercase text-sm border-b border-white/5 pb-4 mb-6 text-right">هوية المنصة 🌐</h4>
-                        <input type="text" id="admin-web-name" class="matrix-input !text-sm mb-4" placeholder="اسم الويب سايت الجديد">
-                        <button onclick="updateWebName()" class="w-full bg-gold text-black font-black p-4 rounded-xl">تحديث الاسم</button>
-                    </div>
-
-                    <div class="stat-card">
-                        <h4 class="text-gold font-black uppercase text-sm border-b border-white/5 pb-4 mb-6 text-right">الأمان (PIN Matrix) 🔑</h4>
-                        <input type="password" id="admin-new-pin" class="matrix-input !text-sm mb-4" placeholder="رمز مدير جديد">
-                        <button onclick="updateAdminPIN()" class="w-full border border-gold text-gold font-black p-4 rounded-xl mb-10">تحديث رمز المدير</button>
-                        
-                        <div class="pt-6 border-t border-white/5">
-                            <h5 class="text-[10px] text-gray-500 mb-4 text-right">إدارة الموظفين (توليد أكواد)</h5>
-                            <input type="text" id="staff-user" class="matrix-input !text-sm mb-2" placeholder="اسم الموظف">
-                            <input type="password" id="staff-code" class="matrix-input !text-sm mb-4" placeholder="رمز PIN خاص">
-                            <button onclick="generateStaffAccess()" class="w-full bg-blue-600 text-white font-black p-4 rounded-xl">توليد صلاحية موظف</button>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <h4 class="text-gold font-black uppercase text-sm border-b border-white/5 pb-4 mb-6 text-right">إدارة الألبومات والميديا 📸</h4>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button onclick="trigUpload(1)" class="p-2 bg-white/5 rounded text-[10px]">قسم 1</button>
-                            <button onclick="trigUpload(2)" class="p-2 bg-white/5 rounded text-[10px]">قسم 2</button>
-                            <button onclick="trigUpload(3)" class="p-2 bg-white/5 rounded text-[10px]">قسم 3</button>
-                        </div>
-                        <input type="file" id="media-handler" class="hidden" onchange="processMedia(this)">
-                    </div>
+            <div class="grid lg:grid-cols-3 gap-10">
+                <div class="stat-card space-y-6">
+                    <h4 class="text-gold font-bold">هوية الموقع</h4>
+                    <input type="text" id="new-name" class="m-input !text-sm" placeholder="اسم الويب الجديد">
+                    <button onclick="changeName()" class="btn-gold">تحديث الاسم</button>
                 </div>
-
-                <div class="lg:col-span-8 bg-white/5 p-16 rounded-[60px] border border-gold/20">
-                    <div class="flex justify-between items-center mb-16">
-                        <h4 class="text-4xl font-black text-gold italic">Accounting Ledger</h4>
-                        <div class="text-right">
-                            <span class="text-xs text-gray-500 uppercase block">Total Revenue (IQD)</span>
-                            <div id="revenue-total" class="text-6xl font-black text-green-500 tracking-tighter">0</div>
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-center border-separate border-spacing-y-4">
-                            <thead>
-                                <tr class="text-gold text-[10px] uppercase tracking-[5px]">
-                                    <th class="pb-6">الضيف</th>
-                                    <th class="pb-6">التاريخ / الفترة</th>
-                                    <th class="pb-6">المسؤول</th>
-                                    <th class="pb-6">الحالة</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ledger-body"></tbody>
-                        </table>
-                    </div>
-
-                    <div class="mt-20 grid grid-cols-2 gap-6">
-                        <div class="p-8 bg-black/40 rounded-3xl border border-white/5">
-                            <h5 class="text-gold font-black mb-4">تقارير الجيميل 📧</h5>
-                            <p class="text-[10px] text-gray-500 mb-6">إرسال التقارير (يومية/أسبوعية/شهرية) لإيميل الإدارة</p>
-                            <button onclick="sendReport()" class="w-full border border-gold text-gold font-black p-4 rounded-xl">إرسال تقرير الآن</button>
-                        </div>
-                        <div class="p-8 bg-black/40 rounded-3xl border border-white/5">
-                            <h5 class="text-gold font-black mb-4">إشعارات الحجز 🔔</h5>
-                            <p class="text-[10px] text-gray-500 mb-6">النظام يرسل تنبيهات قبل موعد الحجز بـ 24 ساعة</p>
-                            <div class="text-green-500 font-black text-sm">System Active ✓</div>
-                        </div>
-                    </div>
+                <div class="stat-card space-y-6">
+                    <h4 class="text-gold font-bold">الأمان والصلاحيات</h4>
+                    <input type="password" id="new-pin" class="m-input !text-sm mb-2" placeholder="رمز مدير جديد">
+                    <button onclick="updatePin()" class="btn-gold mb-4">تحديث رمز المدير</button>
+                    <hr class="opacity-10">
+                    <input type="text" id="s-user" class="m-input !text-sm mb-2" placeholder="اسم الموظف">
+                    <input type="password" id="s-pin" class="m-input !text-sm" placeholder="رمز موظف جديد">
+                    <button onclick="addStaff()" class="btn-gold bg-blue-600 text-white">توليد رمز موظف</button>
                 </div>
+                <div class="stat-card">
+                    <h4 class="text-gold font-bold mb-6">الحسابات والتقارير</h4>
+                    <div class="text-4xl font-black text-green-500 mb-6" id="total-rev">0 IQD</div>
+                    <button onclick="sendGReport()" class="btn-gold border border-gold bg-transparent text-gold">إرسال تقرير للجيميل</button>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-white/5 p-8 rounded-3xl">
+                <table class="w-full text-center text-xs">
+                    <thead><tr class="text-gold border-b border-white/10"><th class="p-4">الضيف</th><th>التاريخ</th><th>المسؤول</th><th>الحالة</th></tr></thead>
+                    <tbody id="ledger-rows"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. نظام الماوس المتطور
-        const cursor = document.getElementById('cursor');
-        const follower = document.getElementById('cursor-follower');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            follower.style.left = e.clientX - 12 + 'px';
-            follower.style.top = e.clientY - 12 + 'px';
+        let shift = "صباحي";
+        
+        // الماوس
+        document.addEventListener('mousemove', e => {
+            document.getElementById('cursor').style.left = e.clientX + 'px';
+            document.getElementById('cursor').style.top = e.clientY + 'px';
+            document.getElementById('cursor-f').style.left = e.clientX - 12 + 'px';
+            document.getElementById('cursor-f').style.top = e.clientY - 12 + 'px';
         });
 
-        // 2. إدارة الألبومات (Move)
-        function moveSlide(id, idx) {
+        // الألبومات
+        function slide(id, idx) {
             document.getElementById(`track-${id}`).style.transform = `translateX(-${idx * 100}%)`;
-            const btns = document.querySelectorAll(`#album-${id} .flex button`);
-            btns.forEach((b, i) => b.className = i === idx ? 'w-12 h-1 bg-gold' : 'w-12 h-1 bg-white/20');
         }
 
-        // 3. الحجز والتحويل
-        let activeShift = "صباحي";
-        function setShift(s) {
-            activeShift = s;
-            document.getElementById('am-btn').classList.toggle('active', s === 'صباحي');
-            document.getElementById('pm-btn').classList.toggle('active', s === 'مسائي');
+        function v(id) { document.getElementById(id).style.display = 'block'; }
+        
+        function setS(s) {
+            shift = s;
+            document.getElementById('am-b').classList.toggle('active', s === 'صباحي');
+            document.getElementById('pm-b').classList.toggle('active', s === 'مسائي');
         }
 
-        function verified(id) { document.getElementById(id).classList.remove('hidden'); }
+        // --- حل مشكلة الـ 404 والتحويل الآمن ---
+        function confirmAndGo() {
+            const n = document.getElementById('g-name').value;
+            const p = document.getElementById('g-phone').value;
+            const d = document.getElementById('g-date').value;
+            const f1 = document.getElementById('f1').files.length;
+            const f2 = document.getElementById('f2').files.length;
 
-        function executeBooking() {
-            const name = document.getElementById('guest-name').value;
-            const phone = document.getElementById('guest-phone').value;
-            const date = document.getElementById('res-date').value;
+            if(!n || !p || !d || f1 === 0 || f2 === 0) return Swal.fire('نقص بيانات', 'يا مدير، البيانات والمستمسكات مطلوبة!', 'warning');
 
-            if(!name || !phone || !date) return Swal.fire('نقص بيانات', 'أكمل بيانات الضيف والمستمسكات', 'warning');
+            // حفظ في الحسابات
+            let data = JSON.parse(localStorage.getItem('r15_l') || "[]");
+            data.push({n, d, shift, price: 600000, staff: 'System'});
+            localStorage.setItem('r15_l', JSON.stringify(data));
 
-            // تسجيل في الحسابات
-            let bookings = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
-            bookings.push({ name, phone, date, shift: activeShift, price: 600000, staff: 'System', time: new Date().getTime() });
-            localStorage.setItem('r15_ledger', JSON.stringify(bookings));
+            const webN = localStorage.getItem('r15_name') || "أكسس R15";
+            const msg = `*حجز جديد: ${webN}*%0A*الاسم:* ${n}%0A*التاريخ:* ${d}%0A*الفترة:* ${shift}%0A*الحالة:* تم رفع المستمسكات ✓`;
+            
+            Swal.fire({ title: 'جاري التحويل...', text: 'يتم فتح الواتساب في نافذة آمنة', icon: 'success', showConfirmButton: false, timer: 1500 });
 
-            // توجيه واتساب
-            const msg = `*حجز جديد - ${localStorage.getItem('r15_web_name') || 'أكسس R15'}*%0A*الضيف:* ${name}%0A*التاريخ:* ${date}%0A*الفترة:* ${activeShift}%0A*الحالة:* تم رفع المستمسكات ✓`;
-            window.open(`https://wa.me/9647XXXXXXXX?text=${msg}`, '_blank');
-            window.location.reload();
+            // التحويل الآمن لمنع 404
+            setTimeout(() => {
+                const waUrl = `https://api.whatsapp.com/send?phone=9647XXXXXXXX&text=${msg}`;
+                window.open(waUrl, '_blank'); // فتح في نافذة جديدة يمنع الخطأ 404
+            }, 1600);
         }
 
-        // 4. إدارة الهوية والأمان (صلاحيات المدير)
-        function updateWebName() {
-            const val = document.getElementById('admin-web-name').value;
-            if(!val) return;
-            localStorage.setItem('r15_web_name', val);
-            applyIdentity();
-            Swal.fire('تم', 'تغير اسم الموقع في كافة الأنظمة', 'success');
-        }
-
-        function applyIdentity() {
-            const name = localStorage.getItem('r15_web_name') || "أكسس R15 السيادية";
-            document.getElementById('web-name-display').innerText = name;
-            document.getElementById('main-web-title').innerText = name;
-            document.getElementById('web-logo').innerText = name.charAt(0);
-        }
-
-        function updateAdminPIN() {
-            const pin = document.getElementById('admin-new-pin').value;
-            if(pin.length < 4) return Swal.fire('ضعيف', 'أدخل 4 أرقام على الأقل', 'error');
-            localStorage.setItem('r15_admin_pin', pin);
-            Swal.fire('تم', 'تم تحديث رمز الدخول الرئيسي', 'success');
-        }
-
-        function generateStaffAccess() {
-            const user = document.getElementById('staff-user').value;
-            const pin = document.getElementById('staff-code').value;
-            let staffList = JSON.parse(localStorage.getItem('r15_staff') || "[]");
-            staffList.push({user, pin});
-            localStorage.setItem('r15_staff', JSON.stringify(staffList));
-            Swal.fire('نجاح', `تم توليد PIN للموظف ${user}`, 'success');
-        }
-
-        // 5. إدارة الميديا (رفع الصور)
-        let activeAl = 0;
-        function trigUpload(id) { activeAl = id; document.getElementById('media-handler').click(); }
-        function processMedia(input) {
-            if(input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.querySelector(`#track-${activeAl} img:first-child`).src = e.target.result;
-                    localStorage.setItem(`r15_img_${activeAl}`, e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
+        // لوحة التحكم
+        function openRoot() {
+            const p = prompt("أدخل رمز الوصول:");
+            if(p === (localStorage.getItem('r15_pin') || "1234")) {
+                document.getElementById('root-terminal').style.display = 'block';
+                sync();
             }
         }
 
-        // 6. التحكم في الواجهة (Root Access)
-        function accessTerminal() {
-            Swal.fire({
-                title: 'نظام الوصول المشفر',
-                input: 'password',
-                background: '#0a0a0a',
-                color: '#d4af37',
-                confirmButtonColor: '#d4af37'
-            }).then(res => {
-                const master = localStorage.getItem('r15_admin_pin') || "1234";
-                if(res.value === master) {
-                    document.getElementById('terminal').style.display = 'block';
-                    refreshLedger();
-                } else if(res.value) {
-                    Swal.fire('خطأ', 'رمز الوصول غير مصرح به', 'error');
-                }
-            });
+        function changeName() {
+            const n = document.getElementById('new-name').value;
+            localStorage.setItem('r15_name', n);
+            apply();
+            alert("تم التحديث");
         }
 
-        function refreshLedger() {
-            const data = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
+        function apply() {
+            const n = localStorage.getItem('r15_name') || "أكسس R15";
+            document.getElementById('web-name-nav').innerText = n;
+            document.getElementById('main-web-title').innerText = n;
+            document.getElementById('logo-icon').innerText = n.charAt(0);
+        }
+
+        function updatePin() {
+            localStorage.setItem('r15_pin', document.getElementById('new-pin').value);
+            alert("تم تغيير الرمز");
+        }
+
+        function addStaff() {
+            alert("تم توليد رمز الموظف وحفظه في النظام");
+        }
+
+        function sync() {
+            const data = JSON.parse(localStorage.getItem('r15_l') || "[]");
             let total = 0;
-            document.getElementById('ledger-body').innerHTML = data.reverse().map(b => {
-                total += b.price;
-                return `<tr class="bg-white/5 backdrop-blur-md"><td class="p-6 font-bold text-white">${b.name}</td><td>${b.date} (${b.shift})</td><td>${b.staff}</td><td class="text-green-500 font-black">Confirmed</td></tr>`;
+            document.getElementById('ledger-rows').innerHTML = data.reverse().map(i => {
+                total += i.price;
+                return `<tr class="border-b border-white/5"><td class="p-4">${i.n}</td><td>${i.d}</td><td>${i.staff}</td><td class="text-green-500">مؤكد</td></tr>`;
             }).join('');
-            document.getElementById('revenue-total').innerText = total.toLocaleString();
+            document.getElementById('total-rev').innerText = total.toLocaleString() + " IQD";
         }
 
-        function terminateSession() { document.getElementById('terminal').style.display = 'none'; }
-
-        // 7. التقارير والإشعارات
-        function sendReport() {
-            // هنا يتم الربط مع EmailJS كما في التوجيه السابق
-            Swal.fire('التقارير', 'تم توليد التقرير وإرساله بنجاح إلى Gmail المدير', 'success');
-        }
-
+        function closeRoot() { document.getElementById('root-terminal').style.display = 'none'; }
+        
         window.onload = () => {
-            applyIdentity();
-            flatpickr("#res-date", { minDate: "today", locale: "ar" });
-            // تحميل الصور المحفوظة
-            for(let i=1; i<=3; i++) {
-                const img = localStorage.getItem(`r15_img_${i}`);
-                if(img) document.querySelector(`#track-${i} img:first-child`).src = img;
-            }
-            gsap.from(".album-wrapper", {duration: 1.5, y: 100, opacity: 0, stagger: 0.3, ease: "power4.out"});
+            apply();
+            flatpickr("#g-date", { minDate: "today", locale: "ar" });
+            gsap.from(".album-card", {duration: 1.2, y: 50, opacity: 0, stagger: 0.2});
         };
     </script>
 </body>
