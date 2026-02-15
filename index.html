@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | المنتجع المتكامل</title>
+    <title>The Royal Oasis | النظام المتكامل</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,258 +12,226 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <style>
-        :root { --gold: #c5a059; --dark: #050505; --glass: rgba(255, 255, 255, 0.03); }
+        :root { --gold: #c5a059; --dark: #050505; }
         body { font-family: 'Tajawal', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
 
-        /* إبراز الخط */
+        /* إبراز الخط السينمائي */
         .font-ultra { 
             font-weight: 900 !important; 
             text-shadow: 4px 4px 15px #000;
             -webkit-text-stroke: 0.5px rgba(255,255,255,0.1);
         }
 
-        /* محرك الخلفيات */
-        .dynamic-bg { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; filter: brightness(0.4); transition: 2s; }
-        .vignette { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle, transparent 20%, #000 140%); }
-
-        /* أقسام الألبومات */
-        .section-card { 
-            position: relative; height: 350px; border-radius: 30px; overflow: hidden; 
-            cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2); transition: 0.5s;
-        }
-        .section-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-        .section-card img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
-        .section-card:hover img { transform: scale(1.1); }
-        .card-overlay { 
-            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); 
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px;
-        }
-
-        /* غرفة المدير */
-        #adminOS { 
-            display: none; position: fixed; inset: 0; z-index: 9999; 
-            background: #080808; padding: 25px; overflow-y: auto; border: 5px solid var(--gold);
-        }
-        .admin-box { background: rgba(255,255,255,0.03); border: 1px solid #333; padding: 20px; border-radius: 20px; margin-bottom: 20px; }
+        .dynamic-bg { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; filter: brightness(0.4); transition: 1.5s; }
         
-        input, select { background: #111 !important; border: 1px solid #333 !important; color: var(--gold) !important; padding: 12px; border-radius: 12px; width: 100%; }
-        .locked-input { background: rgba(34, 197, 94, 0.1) !important; border-color: #22c55e !important; color: #22c55e !important; }
+        /* تصميم الألبومات */
+        .album-card { 
+            position: relative; height: 300px; border-radius: 25px; overflow: hidden; 
+            cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.3); transition: 0.4s;
+        }
+        .album-card:hover { transform: scale(1.03); border-color: var(--gold); }
+        .album-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #000, transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
+
+        /* غرفة المدير OS */
+        #adminOS { display: none; position: fixed; inset: 0; z-index: 9999; background: #050505; padding: 25px; overflow-y: auto; border: 5px solid var(--gold); }
+        .admin-card { background: rgba(255,255,255,0.03); border: 1px solid #333; padding: 20px; border-radius: 20px; margin-bottom: 20px; }
+
+        /* الوصل الرقمي */
+        #receipt { background: white; color: black; padding: 40px; border-radius: 0; width: 500px; position: fixed; left: -1000px; }
+        .receipt-header { border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+        
+        input, select { background: #111 !important; border: 1px solid #333 !important; color: var(--gold) !important; padding: 12px; border-radius: 10px; width: 100%; }
+        .locked { background: rgba(34, 197, 94, 0.1) !important; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
     <div id="mainBg" class="dynamic-bg" style="background-image: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2000')"></div>
-    <div class="vignette"></div>
 
-    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-gold/10">
+    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center backdrop-blur-md">
         <h1 id="farmTitle" class="text-3xl font-ultra text-gold italic">مزرعة أبو سيف وأبو نمر</h1>
-        <button onclick="openAdmin()" class="bg-gold text-black px-8 py-2 rounded-full font-black hover:scale-105 transition">غرفة المدير</button>
+        <button onclick="openAdmin()" class="bg-gold text-black px-8 py-2 rounded-full font-black">إدارة النظام</button>
     </nav>
 
     <section class="h-screen flex flex-col items-center justify-center text-center">
-        <h2 class="text-7xl md:text-[140px] font-ultra mb-4 italic uppercase">The Royal Estate</h2>
-        <p id="locationText" class="text-xl md:text-3xl font-bold text-gold tracking-[10px] bg-black/50 px-10 py-3 rounded-full">أطراف الفلوجة - العراق</p>
+        <h2 class="text-7xl md:text-[120px] font-ultra mb-4 italic">THE ROYAL OASIS</h2>
+        <p id="locationText" class="text-2xl font-bold text-gold bg-black/50 px-8 py-2 rounded-full">الفلوجة - الأنبار</p>
     </section>
 
-    <section class="max-w-7xl mx-auto py-20 px-6">
-        <div class="text-right mb-12">
-            <h3 class="text-5xl font-ultra text-gold italic">مرافق المنتجع</h3>
-            <p class="opacity-60">اضغط على أي قسم لاستعراض الصور الكاملة</p>
+    <section class="max-w-7xl mx-auto py-20 px-6 grid md:grid-cols-3 gap-8">
+        <div class="album-card" onclick="openGallery('pool')">
+            <img id="img_pool" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800" class="w-full h-full object-cover">
+            <div class="album-overlay"><h4 class="text-xl font-black">المسابح الملكية</h4></div>
         </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="section-card" onclick="alert('فتح ألبوم المسبح...')">
-                <img id="img_pool" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800">
-                <div class="card-overlay">
-                    <h4 class="text-2xl font-black">المسبح الأولمبي</h4>
-                    <p class="text-xs opacity-60">نظام تدفئة وتصفية ذكي</p>
-                </div>
-            </div>
-
-            <div class="section-card" onclick="alert('فتح ألبوم الملاعب...')">
-                <img id="img_sports" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800">
-                <div class="card-overlay">
-                    <h4 class="text-2xl font-black">الملاعب الرياضية</h4>
-                    <p class="text-xs opacity-60">كرة قدم، كرة سلة بتجهيزات دولية</p>
-                </div>
-            </div>
-
-            <div class="section-card" onclick="alert('فتح ألبوم البلياردو...')">
-                <img id="img_billiard" src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800">
-                <div class="card-overlay">
-                    <h4 class="text-2xl font-black">صالة البلياردو</h4>
-                    <p class="text-xs opacity-60">أجواء ترفيهية فخمة</p>
-                </div>
-            </div>
-
-            <div class="section-card" onclick="alert('فتح ألبوم التصميم الداخلي...')">
-                <img id="img_interior" src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800">
-                <div class="card-overlay">
-                    <h4 class="text-2xl font-black">الأجنحة الملكية</h4>
-                    <p class="text-xs opacity-60">تصميم داخلي كلاسيكي حديث</p>
-                </div>
-            </div>
-
-            <div class="section-card" onclick="alert('فتح الألبوم الترفيهي...')">
-                <img id="img_fun" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800">
-                <div class="card-overlay">
-                    <h4 class="text-2xl font-black">القسم الترفيهي</h4>
-                    <p class="text-xs opacity-60">ألعاب أطفال وجلسات عائلية</p>
-                </div>
-            </div>
-
-            <div class="section-card" onclick="alert('فتح ألبوم الحدائق...')">
-                <img id="img_garden" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800">
-                <div class="card-overlay">
-                    <h4 class="text-2xl font-black">الواحات الخضراء</h4>
-                    <p class="text-xs opacity-60">جلسات خارجية هادئة</p>
-                </div>
-            </div>
+        <div class="album-card" onclick="openGallery('sports')">
+            <img id="img_sports" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800" class="w-full h-full object-cover">
+            <div class="album-overlay"><h4 class="text-xl font-black">الملاعب والرياضة</h4></div>
+        </div>
+        <div class="album-card" onclick="openGallery('billiard')">
+            <img id="img_billiard" src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800" class="w-full h-full object-cover">
+            <div class="album-overlay"><h4 class="text-xl font-black">صالة البلياردو</h4></div>
+        </div>
+        <div class="album-card" onclick="openGallery('interior')">
+            <img id="img_interior" src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800" class="w-full h-full object-cover">
+            <div class="album-overlay"><h4 class="text-xl font-black">التصميم الداخلي</h4></div>
+        </div>
+        <div class="album-card" onclick="openGallery('fun')">
+            <img id="img_fun" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800" class="w-full h-full object-cover">
+            <div class="album-overlay"><h4 class="text-xl font-black">القسم الترفيهي</h4></div>
         </div>
     </section>
 
     <section class="max-w-4xl mx-auto py-20 px-6">
-        <div class="bg-black/80 border-2 border-gold p-10 rounded-[50px] backdrop-blur-xl">
-            <h3 class="text-3xl font-ultra text-gold text-center mb-10">تأمين حجز أمني مدقق</h3>
+        <div class="bg-black/80 border-2 border-gold p-10 rounded-[40px] shadow-2xl">
+            <h3 class="text-3xl font-ultra text-gold text-center mb-8 italic">بوابة الحجز والتدقيق المالي</h3>
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="md:col-span-2">
-                    <label class="text-xs text-gray-500 mr-2">الاسم الرباعي (يغلق الحقل بعد رفع المستمسكات):</label>
-                    <input type="text" id="cName" placeholder="اكتب اسمك الصريح هنا">
-                </div>
+                <input type="text" id="cName" placeholder="الاسم الرباعي الكامل">
                 <input type="tel" id="cPhone" placeholder="رقم الموبايل">
-                <input type="text" id="cDate" placeholder="موعد الحجز">
-                
-                <select id="cType" class="md:col-span-2">
+                <input type="text" id="cDate" placeholder="اختر التاريخ">
+                <select id="cType" onchange="calcTotal()">
                     <option value="24">إقامة كاملة (24 ساعة)</option>
-                    <option value="12_AM">فترة صباحية (12 ساعة)</option>
-                    <option value="12_PM">فترة مسائية (12 ساعة)</option>
+                    <option value="12_AM">صباحي (12 ساعة)</option>
+                    <option value="12_PM">مسائي (12 ساعة)</option>
                 </select>
-
-                <div class="md:col-span-2 bg-red-500/5 p-6 rounded-3xl border border-red-500/20">
-                    <p class="text-[10px] text-red-500 font-bold mb-4 text-center">نظام الرفض: سيتم مطابقة الاسم مع الصور المرفوعة</p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="text-center bg-black p-4 rounded-xl">
-                            <span class="text-[10px]">صورة الهوية</span>
-                            <input type="file" id="fId" onchange="securityCheck()">
-                        </div>
-                        <div class="text-center bg-black p-4 rounded-xl">
-                            <span class="text-[10px]">بطاقة السكن</span>
-                            <input type="file" id="fRes" onchange="securityCheck()">
-                        </div>
+                <div class="md:col-span-2 grid grid-cols-2 gap-4">
+                    <div class="bg-white/5 p-4 rounded-xl border border-dashed border-gold/30 text-center">
+                        <span class="text-[10px]">الهوية</span> <input type="file" id="fId" onchange="lockName()">
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-xl border border-dashed border-gold/30 text-center">
+                        <span class="text-[10px]">بطاقة السكن</span> <input type="file" id="fRes" onchange="lockName()">
                     </div>
                 </div>
             </div>
-            <button id="bookBtn" onclick="sendToWA()" disabled class="w-full mt-10 bg-gray-700 text-white font-black py-6 rounded-2xl text-xl opacity-50 cursor-not-allowed">يرجى إكمال البيانات</button>
+            
+            <div class="mt-8 bg-gold/10 p-6 rounded-2xl border border-gold/20 text-center">
+                <p class="text-xl font-black">المبلغ الإجمالي: <span id="totalPrice">0</span> د.ع</p>
+                <p class="text-[10px] opacity-60 mt-2 italic">سيتم إصدار وصل دفع رسمي فور التأكيد</p>
+            </div>
+
+            <button onclick="processBooking()" id="bookBtn" class="w-full mt-8 bg-gold text-black font-black py-6 rounded-2xl text-2xl shadow-xl hover:bg-white transition">تأكيد الحجز وإصدار الوصل 🧾</button>
         </div>
     </section>
 
     <div id="adminOS">
-        <div class="max-w-5xl mx-auto pb-20">
-            <div class="flex justify-between items-center mb-10 border-b-2 border-gold pb-6">
-                <h2 class="text-4xl font-ultra text-gold">CONTROL CENTER v3.0</h2>
-                <button onclick="closeAdmin()" class="bg-red-600 px-8 py-2 rounded-full font-bold">خروج</button>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-8">
-                <div class="admin-box">
-                    <h4 class="font-bold text-gold mb-4 underline">تعديل المعلومات والأسعار</h4>
-                    <div class="space-y-4">
-                        <input type="text" id="admT" placeholder="اسم المزرعة">
-                        <input type="text" id="admL" placeholder="الموقع">
-                        <input type="text" id="admW" placeholder="رقم واتساب الإدارة">
-                    </div>
-                </div>
-
-                <div class="admin-box">
-                    <h4 class="font-bold text-gold mb-4 underline">تحديث صور الأقسام (JPG)</h4>
-                    <div class="grid grid-cols-2 gap-4 text-[10px]">
-                        <div>الخلفية: <input type="file" onchange="syncImg(this, 'mainBg')"></div>
-                        <div>المسبح: <input type="file" onchange="syncImg(this, 'img_pool')"></div>
-                        <div>الملاعب: <input type="file" onchange="syncImg(this, 'img_sports')"></div>
-                        <div>البلياردو: <input type="file" onchange="syncImg(this, 'img_billiard')"></div>
-                        <div>الداخلية: <input type="file" onchange="syncImg(this, 'img_interior')"></div>
-                        <div>الترفيهي: <input type="file" onchange="syncImg(this, 'img_fun')"></div>
-                    </div>
-                </div>
-            </div>
-            <button onclick="saveAdminChanges()" class="w-full mt-10 bg-green-600 py-6 rounded-3xl font-black text-2xl shadow-2xl">تحديث الموقع فوراً ✅</button>
+        <div class="flex justify-between items-center mb-10 border-b-2 border-gold pb-6">
+            <h2 class="text-4xl font-ultra text-gold">مركز التحكم الإمبراطوري</h2>
+            <button onclick="closeAdmin()" class="bg-red-600 px-8 py-2 rounded-full font-bold text-white">إغلاق</button>
         </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <div class="admin-card">
+                <h4 class="text-gold font-bold mb-4 underline">إدارة الصور (رفع/إزالة)</h4>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><span class="text-[9px]">الخلفية</span> <input type="file" onchange="syncImg(this, 'mainBg')"></div>
+                    <div><span class="text-[9px]">المسبح</span> <input type="file" onchange="syncImg(this, 'img_pool')"></div>
+                    <div><span class="text-[9px]">الملاعب</span> <input type="file" onchange="syncImg(this, 'img_sports')"></div>
+                    <div><span class="text-[9px]">البلياردو</span> <input type="file" onchange="syncImg(this, 'img_billiard')"></div>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h4 class="text-gold font-bold mb-4 underline">إدارة الحجوزات والأسعار</h4>
+                <div class="space-y-4">
+                    <input type="number" id="admP24" placeholder="سعر الـ 24 ساعة">
+                    <input type="number" id="admP12" placeholder="سعر الـ 12 ساعة">
+                    <button class="bg-blue-600 w-full py-2 rounded-lg font-bold">إضافة حجز يدوي +</button>
+                    <button class="bg-red-900 w-full py-2 rounded-lg font-bold">إلغاء حجز قائم -</button>
+                </div>
+            </div>
+        </div>
+        <button onclick="saveAdmin()" class="w-full mt-10 bg-green-600 py-6 rounded-3xl font-black text-2xl">تطبيق التغييرات</button>
+    </div>
+
+    <div id="receipt">
+        <div class="receipt-header">
+            <h1 style="font-size: 24px; font-weight: 900;">مزرعة أبو سيف وأبو نمر</h1>
+            <p>وصل دفع إلكتروني - رقم الحجز: #<span id="rNum"></span></p>
+        </div>
+        <div style="line-height: 2;">
+            <p><strong>اسم الزبون:</strong> <span id="rName"></span></p>
+            <p><strong>التاريخ:</strong> <span id="rDate"></span></p>
+            <p><strong>نوع الحجز:</strong> <span id="rType"></span></p>
+            <hr>
+            <p style="font-size: 20px; font-weight: 900; text-align: center;">المبلغ الإجمالي: <span id="rTotal"></span> د.ع</p>
+        </div>
+        <p style="margin-top: 30px; font-size: 10px; text-align: center;">شكراً لاختياركم منتجعنا الملكي - يرجى الاحتفاظ بالوصل</p>
     </div>
 
     <script>
-        // نظام الحماية: قفل الاسم بعد رفع الصور
-        function securityCheck() {
-            const name = document.getElementById('cName');
-            const fId = document.getElementById('fId').files.length;
-            const fRes = document.getElementById('fRes').files.length;
-            const btn = document.getElementById('bookBtn');
-
-            if (name.value.length < 8) {
-                alert("⚠️ يرجى كتابة الاسم الكامل أولاً قبل رفع الوثائق.");
-                document.getElementById('fId').value = "";
-                document.getElementById('fRes').value = "";
-                return;
-            }
-
-            name.readOnly = true;
-            name.classList.add('locked-input');
-
-            if (fId > 0 && fRes > 0) {
-                btn.disabled = false;
-                btn.classList.remove('bg-gray-700', 'opacity-50', 'cursor-not-allowed');
-                btn.classList.add('bg-gold', 'text-black');
-                btn.innerText = "تأكيد وإرسال واتساب (آمن ✅)";
-            }
+        // نظام الأسعار والحسابات
+        function calcTotal() {
+            const type = document.getElementById('cType').value;
+            const p24 = localStorage.getItem('p24') || 600000;
+            const p12 = localStorage.getItem('p12') || 350000;
+            document.getElementById('totalPrice').innerText = (type === '24' ? p24 : p12).toLocaleString();
         }
 
-        // محرك الإدارة والصور
+        // قفل الاسم الأمني
+        function lockName() {
+            const name = document.getElementById('cName');
+            if(name.value.length < 5) {
+                alert("اكتب اسمك الصريح أولاً!");
+                document.getElementById('fId').value = "";
+                return;
+            }
+            name.readOnly = true;
+            name.classList.add('locked');
+        }
+
+        // معالجة الحجز والوصل والواتساب
+        function processBooking() {
+            const name = document.getElementById('cName').value;
+            const date = document.getElementById('cDate').value;
+            const total = document.getElementById('totalPrice').innerText;
+            const wa = localStorage.getItem('wa') || "9647700000000";
+
+            if(!name || !date) return alert("يرجى ملء البيانات!");
+
+            // ملء بيانات الوصل
+            document.getElementById('rName').innerText = name;
+            document.getElementById('rDate').innerText = date;
+            document.getElementById('rTotal').innerText = total;
+            document.getElementById('rNum').innerText = Math.floor(1000 + Math.random() * 9000);
+
+            const msg = `🧾 *وصل دفع رسمي - مزرعة أبو سيف وأبو نمر*%0A%0A👤 الاسم: ${name}%0A📅 التاريخ: ${date}%0A💰 المبلغ: ${total} د.ع%0A⏳ *تذكير:* سيتم إرسال إشعار لك قبل 24 ساعة من موعدك.`;
+            
+            alert("✅ تم إصدار الوصل وتثبيت الحجز. سيتم تحويلك للواتساب.");
+            window.location.href = `https://wa.me/${wa}?text=${msg}`;
+        }
+
+        // إدارة الصور والمدير
         function syncImg(input, targetId) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const el = document.getElementById(targetId);
-                    if(el.tagName === 'IMG') el.src = e.target.result;
-                    else el.style.backgroundImage = `url('${e.target.result}')`;
+                    document.getElementById(targetId).src = e.target.result;
                     localStorage.setItem(targetId, e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        window.onload = function() {
-            // استعادة النصوص
-            document.getElementById('farmTitle').innerText = localStorage.getItem('farmT') || "مزرعة أبو سيف وأبو نمر";
-            document.getElementById('locationText').innerText = localStorage.getItem('farmL') || "أطراف الفلوجة - العراق";
-            
-            // استعادة كافة الصور
-            ['mainBg', 'img_pool', 'img_sports', 'img_billiard', 'img_interior', 'img_fun', 'img_garden'].forEach(id => {
-                const saved = localStorage.getItem(id);
-                if(saved) {
-                    const el = document.getElementById(id);
-                    if(el && el.tagName === 'IMG') el.src = saved;
-                    else if(el) el.style.backgroundImage = `url('${saved}')`;
-                }
-            });
-        };
+        function openAdmin() { if(prompt("كود الدخول:") === "1234") document.getElementById('adminOS').style.display='block'; }
+        function closeAdmin() { document.getElementById('adminOS').style.display='none'; }
 
-        function saveAdminChanges() {
-            localStorage.setItem('farmT', document.getElementById('admT').value);
-            localStorage.setItem('farmL', document.getElementById('admL').value);
-            localStorage.setItem('adminWA', document.getElementById('admW').value);
+        function saveAdmin() {
+            localStorage.setItem('p24', document.getElementById('admP24').value);
+            localStorage.setItem('p12', document.getElementById('admP12').value);
+            localStorage.setItem('wa', document.getElementById('admW').value);
+            alert("تم تحديث كافة الصلاحيات والأسعار.");
             location.reload();
         }
 
-        function sendToWA() {
-            const wa = localStorage.getItem('adminWA') || "9647700000000";
-            const msg = `👑 *طلب حجز ملكي*%0A👤 الاسم: ${document.getElementById('cName').value}%0A📅 التاريخ: ${document.getElementById('cDate').value}%0A🕒 الفئة: ${document.getElementById('cType').value}%0A🛡️ نظام الأمان: تم قفل الاسم بنجاح.`;
-            window.location.href = `https://wa.me/${wa}?text=${msg}`;
-        }
+        window.onload = function() {
+            calcTotal();
+            // استرجاع كافة الصور المخزنة
+            ['mainBg', 'img_pool', 'img_sports', 'img_billiard', 'img_interior', 'img_fun'].forEach(id => {
+                const s = localStorage.getItem(id);
+                if(s) document.getElementById(id).src = s;
+            });
+        };
 
-        function openAdmin() { if(prompt("كود المدير:") === "1234") document.getElementById('adminOS').style.display='block'; }
-        function closeAdmin() { document.getElementById('adminOS').style.display='none'; }
-        
         flatpickr("#cDate", { minDate: "today", locale: "ar" });
-        lucide.createIcons();
     </script>
 </body>
 </html>
