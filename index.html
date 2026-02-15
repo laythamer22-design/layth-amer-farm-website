@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | Advanced ERP System 2026</title>
+    <title>منتجع الواحة الملكية | نظام الإدارة المتقدم 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -26,15 +26,13 @@
             background: var(--dark-deep); 
             color: white; 
             overflow-x: hidden;
-            user-select: none; /* منع النسخ العشوائي لحماية البيانات */
+            user-select: none;
         }
 
-        /* --- Scrollbar Customization --- */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--dark-deep); }
         ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
 
-        /* --- Glassmorphism Framework --- */
         .glass-container {
             background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(25px);
@@ -53,12 +51,10 @@
             transition: transform 2s ease, filter 1s ease;
         }
 
-        /* --- Dynamic Gallery System --- */
         .royal-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
-            perspective: 1000px;
         }
 
         .gallery-card {
@@ -71,17 +67,12 @@
         }
 
         .gallery-card:hover {
-            transform: translateY(-15px) rotateX(5deg);
+            transform: translateY(-15px);
             border-color: var(--gold);
-            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.2);
         }
 
-        .gallery-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 1s ease;
-        }
-
-        .gallery-card:hover img { transform: scale(1.15); }
+        .gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+        .gallery-card:hover img { transform: scale(1.1); }
 
         .card-overlay {
             position: absolute;
@@ -93,7 +84,6 @@
             padding: 30px;
         }
 
-        /* --- AI Concierge UI --- */
         #aiTerminal {
             position: fixed;
             bottom: 30px;
@@ -106,16 +96,13 @@
             z-index: 1000;
             display: none;
             flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            overflow: hidden;
         }
 
         .chat-area { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .bubble { padding: 15px 20px; border-radius: 25px; font-size: 14px; line-height: 1.5; max-width: 80%; animation: fadeInUp 0.4s; }
-        .bubble-bot { background: #151515; border: 1px solid #222; align-self: flex-start; color: #ccc; }
-        .bubble-user { background: var(--gold); color: black; font-weight: bold; align-self: flex-end; border-bottom-right-radius: 5px; }
+        .bubble { padding: 15px 20px; border-radius: 25px; font-size: 14px; animation: fadeInUp 0.4s; }
+        .bubble-bot { background: #151515; border: 1px solid #222; align-self: flex-start; }
+        .bubble-user { background: var(--gold); color: black; font-weight: bold; align-self: flex-end; }
 
-        /* --- Administrative Systems --- */
         .admin-os, .staff-os {
             display: none;
             position: fixed;
@@ -126,18 +113,10 @@
             overflow-y: auto;
         }
 
-        .data-table {
-            width: 100%;
-            border-spacing: 0 10px;
-            border-collapse: separate;
-        }
+        .data-table { width: 100%; border-spacing: 0 10px; border-collapse: separate; }
+        .data-table th { color: var(--gold); padding: 20px; font-weight: 900; }
+        .data-table td { background: var(--dark-card); padding: 20px; text-align: center; border-top: 1px solid #1a1a1a; }
 
-        .data-table th { background: transparent; color: var(--gold); text-align: center; padding: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
-        .data-table td { background: var(--dark-card); padding: 20px; text-align: center; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
-        .data-table tr td:first-child { border-right: 1px solid #1a1a1a; border-radius: 0 20px 20px 0; }
-        .data-table tr td:last-child { border-left: 1px solid #1a1a1a; border-radius: 20px 0 0 20px; }
-
-        /* --- Inputs & Buttons --- */
         .royal-input {
             background: #000 !important;
             border: 1.5px solid #222 !important;
@@ -146,11 +125,7 @@
             border-radius: 20px;
             width: 100%;
             outline: none;
-            transition: 0.3s;
         }
-
-        .royal-input:focus { border-color: var(--gold) !important; box-shadow: 0 0 15px rgba(197, 160, 89, 0.1); }
-        .royal-input[readonly] { background: rgba(34, 197, 94, 0.03) !important; border-color: var(--success) !important; color: var(--success) !important; }
 
         .btn-prime {
             background: var(--gold);
@@ -158,15 +133,10 @@
             font-weight: 900;
             padding: 20px 40px;
             border-radius: 25px;
-            text-transform: uppercase;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            transition: 0.3s;
         }
 
-        .btn-prime:hover:not(:disabled) { transform: scale(1.05); filter: brightness(1.2); box-shadow: 0 15px 30px rgba(197, 160, 89, 0.3); }
-        .btn-prime:disabled { opacity: 0.2; cursor: not-allowed; filter: grayscale(1); }
-
-        /* --- Animations --- */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -176,122 +146,96 @@
 
     <nav class="fixed top-0 w-full z-[100] px-10 py-8 flex justify-between items-center backdrop-blur-md border-b border-white/5">
         <div class="flex flex-col">
-            <h1 id="uiBrandName" class="text-3xl font-ultra text-gold italic tracking-tighter">THE ROYAL OASIS</h1>
-            <span class="text-[9px] text-gray-500 tracking-[5px] uppercase">Smart Resort Management</span>
+            <h1 id="uiBrandName" class="text-3xl font-ultra text-gold italic tracking-tighter">الواحة الملكية</h1>
+            <span class="text-[9px] text-gray-500 tracking-[5px] uppercase">إدارة المنتجع الذكية</span>
         </div>
         
         <div class="flex gap-4">
-            <button onclick="loginGate('staff')" class="px-5 py-2 border border-blue-500/30 text-blue-500 rounded-full text-[10px] font-bold hover:bg-blue-500 hover:text-white transition-all">بوابة الموظفين</button>
-            <button onclick="loginGate('admin')" class="btn-prime !py-2 !px-8 text-[10px]">نظام الإدارة</button>
+            <button onclick="loginGate('staff')" class="px-5 py-2 border border-blue-500/30 text-blue-500 rounded-full text-[12px] font-bold hover:bg-blue-500 hover:text-white transition-all">بوابة الموظفين</button>
+            <button onclick="loginGate('admin')" class="btn-prime !py-2 !px-8 text-[12px]">لوحة الإدارة العليا</button>
         </div>
     </nav>
 
     <div class="pt-40 px-10 max-w-[1600px] mx-auto pb-40">
         
         <div class="royal-gallery mb-32">
-            <div class="gallery-card"><img id="alb1" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">المسابح الأولمبية</h3><p class="text-[10px] text-gray-400">نظام تدفئة مركزي 24/7</p></div></div>
-            <div class="gallery-card"><img id="alb2" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الملاعب الدولية</h3><p class="text-[10px] text-gray-400">عشب هجين معتمد</p></div></div>
-            <div class="gallery-card"><img id="alb3" src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">صالة البلياردو</h3><p class="text-[10px] text-gray-400">طاولات برونزويك أصلية</p></div></div>
-            <div class="gallery-card"><img id="alb4" src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الأجنحة الملكية</h3><p class="text-[10px] text-gray-400">إطلالة بانورامية كاملة</p></div></div>
-            <div class="gallery-card"><img id="alb5" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الترفيه الذكي</h3><p class="text-[10px] text-gray-400">ألعاب واقع افتراضي واكس بوكس</p></div></div>
-            <div class="gallery-card"><img id="alb6" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الحدائق الطبيعية</h3><p class="text-[10px] text-gray-400">نظام ري ذكي وجلسات هادئة</p></div></div>
-            <div class="gallery-card"><img id="alb7" src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e84?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الجلسات الخارجية</h3><p class="text-[10px] text-gray-400">تكييف خارجي ضبابي</p></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">المسابح الأولمبية</h3></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الملاعب الدولية</h3></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">صالة البلياردو</h3></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الأجنحة الملكية</h3></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الترفيه الذكي</h3></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الحدائق الطبيعية</h3></div></div>
+            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e84?w=800"><div class="card-overlay"><h3 class="text-xl font-black text-gold">الجلسات الخارجية</h3></div></div>
         </div>
 
         <div class="max-w-5xl mx-auto glass-container p-16 relative">
-            <div class="flex justify-between items-start mb-16">
-                <div>
-                    <h2 id="uiBookingTitle" class="text-5xl font-ultra text-gold italic mb-3">تأمين الحجز والوثائق</h2>
-                    <p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Secure Multi-Layer Identity Verification</p>
-                </div>
-                <div class="text-left">
-                    <span class="text-[10px] text-success font-black border border-success/30 px-3 py-1 rounded-full uppercase">AI Protection Active</span>
-                </div>
-            </div>
+            <h2 id="uiBookingTitle" class="text-5xl font-ultra text-gold italic mb-3">تأمين الحجز والوثائق</h2>
+            <p class="text-xs text-gray-500 uppercase tracking-widest font-bold mb-12 italic">التحقق الأمني الذكي من الهوية</p>
 
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="md:col-span-2 space-y-2">
-                    <label class="text-[10px] text-gold font-black uppercase tracking-widest mr-4">الاسم الرباعي الرسمي (كما هو في البطاقة الموحدة)</label>
+                    <label class="text-[10px] text-gold font-black uppercase tracking-widest mr-4">الاسم الرباعي الرسمي (مطابق للبطاقة الموحدة)</label>
                     <input type="text" id="coreFullName" class="royal-input text-2xl" placeholder="أدخل اسمك الرباعي الكامل">
                 </div>
 
                 <div class="space-y-6">
-                    <div class="group">
-                        <input type="tel" id="corePhone" class="royal-input" placeholder="رقم الهاتف الأساسي">
-                    </div>
-                    <div class="group">
-                        <input type="text" id="coreDate" class="royal-input" placeholder="تاريخ الحجز المطلوب">
-                    </div>
-                    <div class="group">
-                        <select id="coreDuration" class="royal-input" onchange="recalculatePrice()">
-                            <option value="24">إقامة ملكية (24 ساعة)</option>
-                            <option value="12_AM">فترة صباحية (12 ساعة)</option>
-                            <option value="12_PM">فترة مسائية (12 ساعة)</option>
-                        </select>
-                    </div>
+                    <input type="tel" id="corePhone" class="royal-input" placeholder="رقم الهاتف">
+                    <input type="text" id="coreDate" class="royal-input" placeholder="تاريخ الحجز">
+                    <select id="coreDuration" class="royal-input" onchange="recalculatePrice()">
+                        <option value="24">إقامة كاملة (24 ساعة)</option>
+                        <option value="12_AM">فترة صباحية (12 ساعة)</option>
+                        <option value="12_PM">فترة مسائية (12 ساعة)</option>
+                    </select>
                 </div>
 
                 <div class="bg-red-500/5 p-8 rounded-[40px] border border-dashed border-red-500/20">
-                    <h5 class="text-[10px] text-red-500 font-black mb-6 uppercase text-center tracking-widest italic">Verification Terminal 🛡️</h5>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div id="uiIdBox" class="bg-black/40 p-5 rounded-2xl border border-white/5 transition-all">
-                            <span class="block text-[8px] text-gray-500 mb-2 uppercase">البطاقة الموحدة (الوجه الأمامي)</span>
-                            <input type="file" id="coreIdFile" class="text-[10px]" onchange="advancedCyberCheck(this, 'uiIdBox')">
-                        </div>
-                        <div id="uiResBox" class="bg-black/40 p-5 rounded-2xl border border-white/5 transition-all">
-                            <span class="block text-[8px] text-gray-500 mb-2 uppercase">بطاقة السكن الرسمية</span>
-                            <input type="file" id="coreResFile" class="text-[10px]" onchange="advancedCyberCheck(this, 'uiResBox')">
-                        </div>
+                    <h5 class="text-[10px] text-red-500 font-black mb-6 uppercase text-center tracking-widest italic">مركز التحقق من الوثائق 🛡️</h5>
+                    <div id="uiIdBox" class="bg-black/40 p-5 rounded-2xl border border-white/5 mb-4 transition-all">
+                        <span class="block text-[8px] text-gray-500 mb-2 uppercase">البطاقة الموحدة</span>
+                        <input type="file" id="coreIdFile" onchange="advancedCyberCheck(this, 'uiIdBox')">
+                    </div>
+                    <div id="uiResBox" class="bg-black/40 p-5 rounded-2xl border border-white/5 transition-all">
+                        <span class="block text-[8px] text-gray-500 mb-2 uppercase">بطاقة السكن</span>
+                        <input type="file" id="coreResFile" onchange="advancedCyberCheck(this, 'uiResBox')">
                     </div>
                 </div>
             </div>
 
             <div class="mt-16 pt-10 border-t border-white/5 flex flex-col items-center">
-                <p class="text-[10px] text-gray-500 uppercase tracking-[10px] mb-4 font-bold">Total Estimated Cost</p>
-                <h4 class="text-6xl font-ultra text-gold tracking-tighter"><span id="uiFinalPrice">0</span> <span class="text-xs italic uppercase">IQD</span></h4>
-                
-                <button id="masterBookingBtn" onclick="dispatchFinalBooking()" disabled class="btn-prime w-full mt-10 !py-8 text-2xl tracking-tighter shadow-2xl">
-                    بانتظار التحقق الأمني...
-                </button>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[10px] mb-4">التكلفة الإجمالية المقدرة</p>
+                <h4 class="text-6xl font-ultra text-gold tracking-tighter"><span id="uiFinalPrice">0</span> <span class="text-xs">د.ع</span></h4>
+                <button id="masterBookingBtn" onclick="dispatchFinalBooking()" disabled class="btn-prime w-full mt-10 !py-8 text-2xl">بانتظار التحقق الأمني...</button>
             </div>
         </div>
     </div>
 
     <div id="aiTerminal">
         <div class="p-6 bg-gold text-black flex justify-between items-center">
-            <div class="flex flex-col leading-none">
-                <span class="font-black text-lg">AI CONCIERGE</span>
-                <span class="text-[8px] font-bold">System v10.4</span>
-            </div>
+            <span class="font-black text-lg italic">المساعد الذكي 🤖</span>
             <button onclick="toggleBot()" class="text-2xl font-black">&times;</button>
         </div>
-        <div id="chatHistory" class="chat-area">
-            <div class="bubble bubble-bot">أهلاً بك في الجناح الرقمي. كيف يمكنني تلبية احتياجاتك اليوم؟</div>
-        </div>
+        <div id="chatHistory" class="chat-area"></div>
         <div class="p-5 bg-white/5 flex gap-2 border-t border-white/5">
-            <input type="text" id="aiQuery" class="!p-3 text-xs !rounded-xl" placeholder="اسأل عن الأسعار، القوانين...">
-            <button onclick="handleAIRequest()" class="bg-gold text-black px-4 rounded-xl font-bold">ارسل</button>
+            <input type="text" id="aiQuery" class="!p-3 text-xs !rounded-xl" placeholder="اسأل عن الأسعار أو الخدمات...">
+            <button onclick="handleAIRequest()" class="bg-gold text-black px-4 rounded-xl font-bold italic">إرسال</button>
         </div>
     </div>
-    <button onclick="toggleBot()" class="fixed bottom-10 right-10 bg-gold text-black w-20 h-20 rounded-full shadow-[0_0_50px_rgba(197,160,89,0.4)] flex items-center justify-center text-3xl z-[1001] animate-pulse">🤖</button>
 
     <div id="staffPortal" class="staff-os">
         <div class="max-w-[1400px] mx-auto">
             <div class="flex justify-between items-center mb-16 border-b border-blue-500/30 pb-8">
-                <h2 class="text-4xl font-ultra text-blue-500 tracking-tighter italic">STAFF OPERATIONAL TERMINAL</h2>
-                <button onclick="exitSystems()" class="bg-red-600/10 text-red-600 border border-red-600/20 px-10 py-3 rounded-full font-black uppercase text-xs">Terminte Session</button>
+                <h2 class="text-4xl font-ultra text-blue-500 italic">بوابة العمليات للموظفين</h2>
+                <button onclick="exitSystems()" class="bg-red-600/20 text-red-500 border border-red-500/20 px-10 py-3 rounded-full font-black text-xs">إنهاء الجلسة</button>
             </div>
-            <div class="grid gap-10">
-                <div class="glass-container p-10 border-blue-500/20">
-                    <h3 class="text-xl font-black mb-8 border-r-4 border-blue-500 pr-4">Daily Reservation Manifest</h3>
-                    <div class="overflow-x-auto">
-                        <table class="data-table">
-                            <thead>
-                                <tr><th>Guest Name</th><th>Date</th><th>Phone</th><th>Status</th><th>Validation</th></tr>
-                            </thead>
-                            <tbody id="staffLogBody"></tbody>
-                        </table>
-                    </div>
+            <div class="glass-container p-10 border-blue-500/20">
+                <h3 class="text-xl font-black mb-8 border-r-4 border-blue-500 pr-4 italic">سجل الحجوزات اليومي</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>اسم الضيف</th><th>تاريخ الحجز</th><th>رقم الهاتف</th><th>الحالة</th><th>التحقق</th></tr>
+                        </thead>
+                        <tbody id="staffLogBody"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -300,57 +244,56 @@
     <div id="adminPortal" class="admin-os">
         <div class="max-w-[1400px] mx-auto">
             <div class="flex justify-between items-center mb-16 border-b border-gold/30 pb-8">
-                <h2 class="text-4xl font-ultra text-gold tracking-tighter italic">EXECUTIVE COMMAND CENTER</h2>
+                <h2 class="text-4xl font-ultra text-gold italic">مركز القيادة والتحكم الإداري</h2>
                 <div class="flex gap-4">
-                    <button onclick="exportFinancials()" class="bg-gray-800 px-6 py-3 rounded-full text-[10px] font-bold">تصدير كشف حساب</button>
-                    <button onclick="exitSystems()" class="bg-red-600 px-10 py-3 rounded-full font-black uppercase text-xs shadow-lg shadow-red-600/20">خروج آمن</button>
+                    <button onclick="exportFinancials()" class="bg-gray-800 px-6 py-3 rounded-full text-[10px] font-bold italic">تصدير الكشف المالي</button>
+                    <button onclick="exitSystems()" class="bg-red-600 px-10 py-3 rounded-full font-black text-xs shadow-lg shadow-red-600/20">خروج آمن</button>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-10">
                 <div class="lg:col-span-1 space-y-10">
                     <div class="glass-container p-8">
-                        <h4 class="text-gold font-black mb-6 underline text-xs tracking-widest">Interface Settings</h4>
+                        <h4 class="text-gold font-black mb-6 underline text-[10px] tracking-widest uppercase">إعدادات النظام</h4>
                         <div class="space-y-4">
-                            <input type="text" id="setBrand" class="royal-input text-xs" placeholder="اسم المزرعة التجاري">
-                            <input type="text" id="setHeroTitle" class="royal-input text-xs" placeholder="عنوان بوابة الحجز">
+                            <input type="text" id="setBrand" class="royal-input text-xs" placeholder="اسم المزرعة">
+                            <input type="text" id="setHeroTitle" class="royal-input text-xs" placeholder="عنوان الحجز الرئيسي">
                             <div class="grid grid-cols-2 gap-2">
-                                <input type="number" id="setP24" class="royal-input text-xs" placeholder="سعر 24س">
-                                <input type="number" id="setP12" class="royal-input text-xs" placeholder="سعر 12س">
+                                <input type="number" id="setP24" class="royal-input text-xs" placeholder="سعر 24 ساعة">
+                                <input type="number" id="setP12" class="royal-input text-xs" placeholder="سعر 12 ساعة">
                             </div>
-                            <input type="text" id="setWA" class="royal-input text-xs" placeholder="رقم استلام الطلبات">
+                            <input type="text" id="setWA" class="royal-input text-xs" placeholder="رقم واتساب الإدارة">
+                            <input type="password" id="setNewPass" class="royal-input text-xs" placeholder="تغيير رمز المدير">
                         </div>
                     </div>
-
                     <div class="glass-container p-8">
-                        <h4 class="text-gold font-black mb-6 underline text-xs tracking-widest">AI Brain Training</h4>
-                        <textarea id="setAI" rows="6" class="royal-input text-[11px] leading-relaxed" placeholder="أدخل هنا كافة القوانين والتعليمات ليحفظها البوت..."></textarea>
-                        <p class="text-[9px] text-gray-500 mt-4 italic">ملاحظة: البوت يقوم بتحليل هذه النصوص للإجابة تلقائياً.</p>
+                        <h4 class="text-gold font-black mb-6 underline text-[10px] uppercase italic">تغذية ذكاء المساعد الآلي</h4>
+                        <textarea id="setAI" rows="6" class="royal-input text-[11px] leading-relaxed" placeholder="اكتب هنا قوانينك ليحفظها البوت ويجيب الزبائن..."></textarea>
                     </div>
                 </div>
 
                 <div class="lg:col-span-2 space-y-10">
                     <div class="grid grid-cols-3 gap-6">
                         <div class="glass-container p-8 border-success/20 text-center">
-                            <span class="text-[9px] text-gray-500 uppercase font-black">Gross Revenue</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest">إجمالي الإيرادات</span>
                             <h3 id="uiTotalRevenue" class="text-3xl font-ultra text-success mt-2">0</h3>
                         </div>
                         <div class="glass-container p-8 border-blue-500/20 text-center">
-                            <span class="text-[9px] text-gray-500 uppercase font-black">Total Bookings</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest">عدد الحجوزات</span>
                             <h3 id="uiTotalCount" class="text-3xl font-ultra text-blue-500 mt-2">0</h3>
                         </div>
                         <div class="glass-container p-8 border-danger/20 text-center cursor-pointer" onclick="resetFinance()">
-                            <span class="text-[9px] text-danger uppercase font-black">System Purge</span>
-                            <h3 class="text-lg font-ultra text-white mt-2 italic">RESET</h3>
+                            <span class="text-[9px] text-danger uppercase font-black tracking-widest">تصفير النظام</span>
+                            <h3 class="text-lg font-ultra text-white mt-2 italic">مسح البيانات</h3>
                         </div>
                     </div>
 
                     <div class="glass-container p-10 overflow-hidden">
-                        <h4 class="text-gold font-black mb-8 underline text-xs tracking-widest uppercase">Master Audit Trail (Ledger)</h4>
+                        <h4 class="text-gold font-black mb-8 underline text-[10px] uppercase">سجل الحسابات والتدقيق المالي الشامل</h4>
                         <div class="overflow-x-auto max-h-[500px]">
                             <table class="data-table">
                                 <thead>
-                                    <tr><th>Client ID</th><th>Amount</th><th>Date</th><th>Recorded At</th></tr>
+                                    <tr><th>رقم العملية</th><th>المبلغ</th><th>تاريخ الحجز</th><th>وقت التسجيل</th></tr>
                                 </thead>
                                 <tbody id="adminMasterBody"></tbody>
                             </table>
@@ -358,150 +301,83 @@
                     </div>
                 </div>
             </div>
-            
-            <button onclick="commitMasterChanges()" class="w-full mt-20 btn-prime !py-10 text-3xl tracking-widest shadow-2xl">
-                COMMIT ALL SYSTEM CHANGES ⚙️
-            </button>
+            <button onclick="commitMasterChanges()" class="w-full mt-20 btn-prime !py-10 text-3xl italic tracking-widest">اعتماد كافة التحديثات الأمنية والمالية ⚙️</button>
         </div>
     </div>
 
     <script>
-        /* * --- CORE ENGINE V10.4 ---
-         * Developed for "The Royal Oasis" Management System.
-         * Total Scripts & Logic Lines exceed 600+.
-         */
-
-        // --- 1. Security & Image Verification Logic ---
         function advancedCyberCheck(input, boxId) {
             const fullName = document.getElementById('coreFullName').value.trim();
-            const box = document.getElementById(boxId);
-            
             if (fullName.split(' ').length < 4) {
-                alert("🛑 خطأ أمني: يجب كتابة الاسم الرباعي الكامل قبل البدء بعملية التحقق من الوثائق.");
+                alert("🛑 يرجى كتابة الاسم الرباعي الكامل أولاً.");
                 input.value = ""; return;
             }
-
-            const file = input.files[0];
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
-                    // خوارزمية فحص نوع الصورة (مستمسك vs طبيعة)
-                    // الصور الطبيعية عادة ما تكون دقتها عالية جداً وأبعادها واسعة (Landscape)
                     const ratio = this.width / this.height;
-                    const isNature = (this.width > 3500 && ratio > 1.2); 
-
-                    if (isNature) {
-                        alert("❌ تحذير: النظام يكتشف أن هذه الصورة " + (ratio > 1 ? "منظر طبيعي" : "صورة فنية") + ". يرجى رفع صورة واضحة للمستمسك الرسمي.");
-                        input.value = "";
-                        box.style.borderColor = "var(--danger)";
-                        return;
+                    if (this.width > 3500 && ratio > 1.2) {
+                        alert("❌ الصورة المرفوعة منظر طبيعي وليست مستمسكاً!");
+                        input.value = ""; return;
                     }
-
-                    // قفل الاسم وتأكيد الصندوق
                     document.getElementById('coreFullName').readOnly = true;
-                    box.style.borderColor = "var(--success)";
-                    box.style.background = "rgba(34, 197, 94, 0.08)";
+                    document.getElementById(boxId).style.borderColor = "var(--success)";
                     evaluateMasterButton();
                 };
                 img.src = e.target.result;
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(input.files[0]);
         }
 
         function evaluateMasterButton() {
             const f1 = document.getElementById('coreIdFile').files.length;
             const f2 = document.getElementById('coreResFile').files.length;
             const btn = document.getElementById('masterBookingBtn');
-
             if (f1 > 0 && f2 > 0) {
                 btn.disabled = false;
-                btn.innerText = "تأكيد الحجز النهائي وإصدار الفاتورة 🧾";
-                btn.className = "btn-prime w-full mt-10 !py-8 text-2xl tracking-tighter shadow-2xl animate__animated animate__pulse animate__infinite";
+                btn.innerText = "تأكيد الحجز النهائي وإرسال الفاتورة 🧾";
+                btn.className = "btn-prime w-full mt-10 !py-8 text-2xl animate__animated animate__pulse animate__infinite";
             }
         }
 
-        // --- 2. AI Brain & Concierge Logic ---
-        function toggleBot() {
-            const terminal = document.getElementById('aiTerminal');
-            terminal.style.display = (terminal.style.display === 'flex' ? 'none' : 'flex');
-        }
-
-        function handleAIRequest() {
-            const query = document.getElementById('aiQuery').value;
-            const chat = document.getElementById('chatHistory');
-            const brain = localStorage.getItem('ai_brain_data') || "نحن منتجع سياحي فاخر يقدم خدمات ملكية.";
-
-            if (!query) return;
-
-            chat.innerHTML += `<div class="bubble bubble-user">${query}</div>`;
-            document.getElementById('aiQuery').value = "";
-
-            setTimeout(() => {
-                let response = "أعتذر، لم أجد إجابة دقيقة في قاعدة بياناتي. يرجى الاتصال بالإدارة مباشرة.";
-                
-                const q = query.toLowerCase();
-                if (q.includes("سعر") || q.includes("تكلفة")) {
-                    response = "بناءً على النظام: سعر الـ 24 ساعة هو " + (localStorage.getItem('sys_p24') || "600,000") + " د.ع.";
-                } else if (q.includes("موعد") || q.includes("وقت") || q.includes("متى")) {
-                    response = "حسب التعليمات الإدارية: " + brain.substring(0, 150) + "...";
-                }
-
-                chat.innerHTML += `<div class="bubble bubble-bot">${response}</div>`;
-                chat.scrollTop = chat.scrollHeight;
-            }, 800);
-        }
-
-        // --- 3. Financial & Ledger System ---
         function dispatchFinalBooking() {
             const name = document.getElementById('coreFullName').value;
             const date = document.getElementById('coreDate').value;
             const price = document.getElementById('uiFinalPrice').innerText;
             const phone = document.getElementById('corePhone').value;
-            const wa = localStorage.getItem('sys_wa') || "9647700000000";
-
-            // إضافة السجل لدفتر الحسابات المركزي
             let ledger = JSON.parse(localStorage.getItem('master_ledger') || "[]");
-            const entry = {
-                id: "TXN-" + Math.floor(Math.random()*99999),
-                guest: name,
-                date: date,
-                amount: price,
-                phone: phone,
-                recorded: new Date().toLocaleString('ar-IQ')
-            };
-            ledger.push(entry);
+            ledger.push({ id: "TXN-"+Math.floor(Math.random()*999), guest: name, date, amount: price, phone, recorded: new Date().toLocaleString('ar-IQ') });
             localStorage.setItem('master_ledger', JSON.stringify(ledger));
-
-            // إنشاء الوصل ورسالة الواتساب
-            const msg = `🧾 *فاتورة حجز رقمية - الملكي*%0A--------------------------%0A👤 العميل: ${name}%0A📅 التاريخ: ${date}%0A💰 المبلغ: ${price} IQD%0A📞 الهاتف: ${phone}%0A🛡️ *نظام الأمان:* تمت مطابقة الوثائق بنجاح.%0A%0A⚠️ *تنبيه للنظام:* يرجى تذكير العميل قبل 24 ساعة.`;
-            
-            alert("✅ تم معالجة الحجز مالياً وأمنياً. سيتم تحويلك لإصدار الوصل.");
-            window.location.href = `https://wa.me/${wa}?text=${msg}`;
+            const msg = `🧾 *فاتورة حجز رقمية*%0A👤 الاسم: ${name}%0A📅 التاريخ: ${date}%0A💰 المبلغ: ${price} د.ع%0A⚠️ تذكير النظام: قبل 24 ساعة.`;
+            window.location.href = `https://wa.me/${localStorage.getItem('sys_wa') || '964'}?text=${msg}`;
         }
 
-        function recalculatePrice() {
-            const type = document.getElementById('coreDuration').value;
-            const p24 = localStorage.getItem('sys_p24') || "600,000";
-            const p12 = localStorage.getItem('sys_p12') || "350,000";
-            document.getElementById('uiFinalPrice').innerText = (type === '24' ? p24 : p12).toLocaleString();
-        }
-
-        // --- 4. Admin & Security Gates ---
         function loginGate(target) {
-            const pwd = prompt("System Access Key Required:");
-            const adminPass = localStorage.getItem('sys_admin_pass') || "1234";
-
-            if (target === 'admin' && pwd === adminPass) {
+            const pwd = prompt("يرجى إدخال الرمز السري للدخول:");
+            if (target === 'admin' && pwd === (localStorage.getItem('sys_admin_pass') || "1234")) {
                 document.getElementById('adminPortal').style.display = 'block';
                 syncAdminDashboard();
             } else if (target === 'staff' && pwd === 'staff') {
                 document.getElementById('staffPortal').style.display = 'block';
                 syncStaffDashboard();
-            } else {
-                alert("❌ ACCESS DENIED: Invalid Security Key.");
-            }
+            } else { alert("❌ رمز الدخول غير صحيح!"); }
+        }
+
+        function syncAdminDashboard() {
+            const ledger = JSON.parse(localStorage.getItem('master_ledger') || "[]");
+            let total = 0;
+            document.getElementById('adminMasterBody').innerHTML = ledger.map(i => {
+                total += parseInt(i.amount.replace(/,/g, ''));
+                return `<tr><td>${i.id}</td><td>${i.amount}</td><td>${i.date}</td><td>${i.recorded}</td></tr>`;
+            }).reverse().join('');
+            document.getElementById('uiTotalRevenue').innerText = total.toLocaleString() + " د.ع";
+            document.getElementById('uiTotalCount').innerText = ledger.length;
+        }
+
+        function syncStaffDashboard() {
+            const ledger = JSON.parse(localStorage.getItem('master_ledger') || "[]");
+            document.getElementById('staffLogBody').innerHTML = ledger.map(i => `<tr><td>${i.guest}</td><td>${i.date}</td><td>${i.phone}</td><td class="text-success">مؤكد ✅</td><td class="text-blue-500 italic">تم التحقق 🛡️</td></tr>`).reverse().join('');
         }
 
         function commitMasterChanges() {
@@ -512,57 +388,45 @@
             localStorage.setItem('ai_brain_data', document.getElementById('setAI').value);
             localStorage.setItem('sys_wa', document.getElementById('setWA').value);
             localStorage.setItem('sys_admin_pass', document.getElementById('setNewPass').value || "1234");
-            
-            alert("🛠️ تم تحديث " + document.getElementById('setBrand').value + " بنجاح.");
             location.reload();
         }
 
-        function syncAdminDashboard() {
-            const ledger = JSON.parse(localStorage.getItem('master_ledger') || "[]");
-            const list = document.getElementById('adminMasterBody');
-            let total = 0;
-
-            list.innerHTML = ledger.map(item => {
-                total += parseInt(item.amount.replace(/,/g, ''));
-                return `<tr><td>${item.guest}</td><td>${item.amount}</td><td>${item.date}</td><td>${item.recorded}</td></tr>`;
-            }).reverse().join('');
-
-            document.getElementById('uiTotalRevenue').innerText = total.toLocaleString() + " د.ع";
-            document.getElementById('uiTotalCount').innerText = ledger.length;
+        function toggleBot() { 
+            const t = document.getElementById('aiTerminal');
+            t.style.display = t.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        function syncStaffDashboard() {
-            const ledger = JSON.parse(localStorage.getItem('master_ledger') || "[]");
-            const list = document.getElementById('staffLogBody');
-            list.innerHTML = ledger.map(item => `
-                <tr>
-                    <td>${item.guest}</td>
-                    <td>${item.date}</td>
-                    <td>${item.phone}</td>
-                    <td><span class="text-success font-black text-[10px]">RESERVED</span></td>
-                    <td><span class="text-blue-500 text-[10px]">VERIFIED 🛡️</span></td>
-                </tr>
-            `).reverse().join('');
+        function handleAIRequest() {
+            const q = document.getElementById('aiQuery').value;
+            if(!q) return;
+            const chat = document.getElementById('chatHistory');
+            chat.innerHTML += `<div class="bubble bubble-user">${q}</div>`;
+            setTimeout(() => {
+                let res = "أهلاً بك، يمكنك الاستفسار عن الأسعار أو الخدمات.";
+                if(q.includes("سعر")) res = "سعر الـ 24 ساعة هو " + (localStorage.getItem('sys_p24') || "600,000") + " دينار.";
+                chat.innerHTML += `<div class="bubble bubble-bot">${res}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 600);
+            document.getElementById('aiQuery').value = "";
+        }
+
+        function recalculatePrice() {
+            const d = document.getElementById('coreDuration').value;
+            document.getElementById('uiFinalPrice').innerText = (d === '24' ? (localStorage.getItem('sys_p24') || "600,000") : (localStorage.getItem('sys_p12') || "350,000"));
         }
 
         function exitSystems() { location.reload(); }
-        function resetFinance() { if(confirm("⚠️ تصفير الحسابات؟ لا يمكن التراجع!")) { localStorage.setItem('master_ledger', "[]"); syncAdminDashboard(); } }
-
         window.onload = function() {
-            // Load Content
-            document.getElementById('uiBrandName').innerText = localStorage.getItem('sys_brand') || "THE ROYAL OASIS";
+            document.getElementById('uiBrandName').innerText = localStorage.getItem('sys_brand') || "الواحة الملكية";
             document.getElementById('uiBookingTitle').innerText = localStorage.getItem('sys_hero_title') || "تأمين الحجز والوثائق";
-            
-            // Sync Admin Inputs
             document.getElementById('setBrand').value = localStorage.getItem('sys_brand') || "";
             document.getElementById('setHeroTitle').value = localStorage.getItem('sys_hero_title') || "";
             document.getElementById('setP24').value = localStorage.getItem('sys_p24') || "";
             document.getElementById('setP12').value = localStorage.getItem('sys_p12') || "";
             document.getElementById('setAI').value = localStorage.getItem('ai_brain_data') || "";
             document.getElementById('setWA').value = localStorage.getItem('sys_wa') || "";
-
             recalculatePrice();
-            flatpickr("#coreDate", { minDate: "today", locale: "ar", dateFormat: "Y-m-d" });
+            flatpickr("#coreDate", { minDate: "today", locale: "ar" });
         };
     </script>
 </body>
