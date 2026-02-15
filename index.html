@@ -3,314 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إمبراطورية أكسس R15 | الإصدار المتكامل 2026</title>
+    <title>إمبراطورية أكسس R15 | السيادة التقنية المطلقة 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Changa:wght@600;800&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;400;700;900&family=Changa:wght@300;600;800&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* معمارية التصميم - أكسس R15 */
+        /* --- أرشيف التصميم العالمي أكسس R15 --- */
         :root {
             --gold: #d4af37;
-            --dark-bg: #050505;
-            --panel-bg: #0f0f0f;
-            --glow: 0 0 40px rgba(212, 175, 55, 0.35);
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-bright: #f4d03f;
+            --bg: #030303;
+            --surface: #0a0a0a;
+            --glass: rgba(20, 20, 20, 0.8);
+            --neon: 0 0 50px rgba(212, 175, 55, 0.2);
+            --border: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
 
         body {
-            background-color: var(--dark-bg);
-            color: #ffffff;
+            background: var(--bg);
+            color: #fff;
             font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
         }
 
-        /* الماوس الإداري */
-        #custom-cursor {
-            width: 25px; height: 25px; border: 2px solid var(--gold);
-            border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000;
-            transition: transform 0.1s ease-out;
+        /* الماوس الذكي */
+        #cursor-glow {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            position: fixed; pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
         }
 
-        /* الهيدر الملكي */
-        header {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 25px 60px;
+        /* الهيدر الإمبراطوري */
+        nav {
+            padding: 30px 60px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: var(--border);
+            z-index: 5000;
         }
 
-        .nav-link {
-            padding: 12px 25px; border-radius: 12px; font-weight: 800;
-            display: flex; align-items: center; gap: 10px; font-size: 14px;
-            transition: var(--transition); border: 1px solid transparent;
+        .nav-btn {
+            padding: 12px 28px; border-radius: 12px; font-weight: 900;
+            display: flex; align-items: center; gap: 10px; font-size: 13px;
+            transition: 0.4s; border: 1px solid rgba(255,255,255,0.05);
         }
-        .waze-btn { background: #33ccff; color: #000; }
-        .maps-btn { background: #34a853; color: #fff; }
-        .nav-link:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .waze { background: #33ccff; color: #000; }
+        .maps { background: #34a853; color: #fff; }
+        .nav-btn:hover { transform: translateY(-5px) rotate(-2deg); box-shadow: var(--neon); }
 
-        /* ألبومات الصور الديناميكية */
-        .section-card {
-            height: 580px; border-radius: 35px; overflow: hidden;
-            position: relative; border: 1px solid rgba(212, 175, 55, 0.1);
-            transition: var(--transition); cursor: pointer;
+        /* الألبومات المتقدمة */
+        .album-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 100px 60px;
         }
-        .section-card:hover { border-color: var(--gold); transform: translateY(-15px); box-shadow: var(--glow); }
-        .section-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1.2s; }
-        .section-card:hover img { filter: brightness(0.9); transform: scale(1.1); }
 
-        /* لوحة الحجز الفائقة */
-        .booking-vault {
-            background: var(--panel-bg);
-            border: 3px solid var(--gold);
-            border-radius: 45px;
-            padding: 60px;
-            box-shadow: var(--glow);
+        .album-wrapper {
+            position: relative; height: 650px; border-radius: 40px; overflow: hidden;
+            border: var(--border); transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .album-wrapper:hover { transform: translateY(-20px) scale(1.02); border-color: var(--gold); box-shadow: var(--neon); }
+
+        .album-slides {
+            width: 300%; height: 100%; display: flex; transition: 0.8s ease-in-out;
+        }
+
+        .slide {
+            width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); transition: 1s;
+        }
+
+        .album-wrapper:hover .slide { filter: brightness(0.8); }
+
+        /* لوحة الحجز Matrix */
+        .matrix-container {
+            padding: 100px 60px; display: grid; grid-template-cols: 12fr; gap: 50px;
+        }
+
+        .booking-glass {
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid var(--gold);
+            border-radius: 60px;
+            padding: 80px;
+            box-shadow: var(--neon);
             position: relative;
         }
 
-        .gold-input {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 20px; border-radius: 18px; width: 100%;
-            color: #fff; font-size: 1.1rem; transition: 0.3s;
+        .input-mega {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 25px; border-radius: 20px; width: 100%;
+            color: #fff; font-size: 1.2rem; transition: 0.4s;
+            font-weight: 700;
         }
-        .gold-input:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); outline: none; }
 
-        /* لوحة التحكم الإدارية (Root) */
+        .input-mega:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); outline: none; }
+
+        /* لوحة التحكم Root */
         .root-terminal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98);
+            display: none; position: fixed; inset: 0; background: #000;
             z-index: 99999; padding: 60px; overflow-y: auto;
         }
 
-        .upload-trigger {
-            background: rgba(212, 175, 55, 0.05); border: 2px dashed var(--gold);
-            padding: 30px; border-radius: 20px; text-align: center; cursor: pointer;
-            transition: 0.3s;
+        .card-stat {
+            background: var(--surface); border: var(--border);
+            padding: 30px; border-radius: 25px; text-align: center;
         }
-        .upload-trigger:hover { background: rgba(212, 175, 55, 0.15); }
 
-        /* المحاسبة */
-        .ledger-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-        .ledger-table tr { background: rgba(255,255,255,0.02); }
-        .ledger-table td { padding: 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.1); }
+        .btn-action {
+            background: var(--gold); color: #000; font-weight: 900;
+            padding: 20px; border-radius: 15px; width: 100%; transition: 0.3s;
+        }
     </style>
 </head>
 <body>
 
-    <div id="custom-cursor"></div>
+    <div id="cursor-glow"></div>
 
-    <header class="fixed top-0 w-full z-[5000] flex justify-between items-center">
+    <nav class="fixed top-0 w-full flex justify-between items-center">
         <div class="flex items-center gap-6">
-            <div class="h-16 w-16 bg-gold rounded-2xl flex items-center justify-center font-black text-black text-3xl shadow-lg shadow-gold/20">A</div>
-            <h1 class="text-3xl font-black tracking-tighter italic">أكسس <span class="text-gold">R15</span></h1>
+            <div class="h-16 w-16 bg-gold rounded-tr-[30px] rounded-bl-[30px] flex items-center justify-center text-black font-black text-3xl">A</div>
+            <div>
+                <h1 class="text-3xl font-black tracking-tighter italic">أكسس <span class="text-gold">R15</span></h1>
+                <p class="text-[8px] tracking-[8px] text-gray-500 uppercase">Integrated Sovereignty System</p>
+            </div>
         </div>
 
         <div class="flex gap-4">
-            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="nav-link waze-btn">WAZE مِلاحة</a>
-            <a href="https://www.google.com/maps?q=33.3152,44.3661" target="_blank" class="nav-link maps-btn">MAPS خرائط</a>
-            <button onclick="accessRoot()" class="border-2 border-gold/50 text-gold px-10 rounded-xl font-black hover:bg-gold hover:text-black transition-all">تحكم المدير</button>
+            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="nav-btn waze">WAZE NAVIGATION</a>
+            <a href="https://www.google.com/maps?q=33.3152,44.3661" target="_blank" class="nav-btn maps">GOOGLE MAPS</a>
+            <button onclick="openRoot()" class="nav-btn border-gold/50 text-gold">إدارة النظام</button>
         </div>
-    </header>
+    </nav>
 
-    <main class="pt-48 px-12 max-w-[1600px] mx-auto pb-40">
+    <main class="pt-32">
         
-        <section class="grid lg:grid-cols-3 gap-10 mb-40">
-            <div class="section-card group">
-                <img id="display-img-1" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
-                    <h3 class="text-4xl font-black text-gold">التصميم الداخلي</h3>
+        <section class="album-grid">
+            <div class="album-wrapper group" id="album-1">
+                <div class="album-slides" id="slide-track-1">
+                    <img class="slide" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200">
+                    <img class="slide" src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200">
+                </div>
+                <div class="absolute bottom-10 right-10 left-10 p-8 bg-black/60 backdrop-blur-md rounded-3xl border border-white/5">
+                    <h3 class="text-4xl font-black text-gold italic">التصميم الداخلي</h3>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="moveSlide(1, 0)" class="w-8 h-1 bg-gold"></button>
+                        <button onclick="moveSlide(1, 1)" class="w-8 h-1 bg-white/20"></button>
+                    </div>
                 </div>
             </div>
-            <div class="section-card group">
-                <img id="display-img-2" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
-                    <h3 class="text-4xl font-black text-gold">المسبح الملكي</h3>
+
+            <div class="album-wrapper group" id="album-2">
+                <div class="album-slides" id="slide-track-2">
+                    <img class="slide" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200">
+                    <img class="slide" src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?w=1200">
+                </div>
+                <div class="absolute bottom-10 right-10 left-10 p-8 bg-black/60 backdrop-blur-md rounded-3xl border border-white/5">
+                    <h3 class="text-4xl font-black text-gold italic">المسبح الملكي</h3>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="moveSlide(2, 0)" class="w-8 h-1 bg-gold"></button>
+                        <button onclick="moveSlide(2, 1)" class="w-8 h-1 bg-white/20"></button>
+                    </div>
                 </div>
             </div>
-            <div class="section-card group">
-                <img id="display-img-3" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
-                    <h3 class="text-4xl font-black text-gold">صالات الألعاب</h3>
+
+            <div class="album-wrapper group" id="album-3">
+                <div class="album-slides" id="slide-track-3">
+                    <img class="slide" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200">
+                    <img class="slide" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1200">
+                </div>
+                <div class="absolute bottom-10 right-10 left-10 p-8 bg-black/60 backdrop-blur-md rounded-3xl border border-white/5">
+                    <h3 class="text-4xl font-black text-gold italic">صالات الألعاب</h3>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="moveSlide(3, 0)" class="w-8 h-1 bg-gold"></button>
+                        <button onclick="moveSlide(3, 1)" class="w-8 h-1 bg-white/20"></button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="grid lg:grid-cols-12 gap-20 items-start">
-            <div class="lg:col-span-5 space-y-12">
-                <h2 class="text-9xl font-black italic leading-none">فخامة <br><span class="text-gold font-light">مطلقة</span></h2>
-                <div class="p-10 border-r-8 border-gold bg-gold/5 rounded-2xl">
-                    <p class="text-gray-400 text-xl leading-relaxed italic">نظام أكسس R15 المطور: عند ملء الاستمارة، سيتم تحويلك فوراً لواتساب الإدارة لتأكيد الحجز ومطابقة المستمسكات.</p>
+        <section class="max-w-[1400px] mx-auto pb-40 px-10 grid lg:grid-cols-2 gap-20 items-center">
+            <div class="space-y-10">
+                <h2 class="text-[10rem] font-black leading-none italic opacity-20 absolute -z-10 select-none">AXIS</h2>
+                <h2 class="text-8xl font-black italic leading-tight">سِيادة <br><span class="text-gold">الفخامة</span></h2>
+                <p class="text-gray-400 text-2xl leading-relaxed font-light italic border-r-4 border-gold pr-10">
+                    نظام R15 الموحد: عند ملء البيانات، سيتم توليد "كود حجز مشفر" وتوجيهك فوراً لواتساب الإدارة لمطابقة المستمسكات الرسمية (الهوية وبطاقة السكن).
+                </p>
+                <div class="flex gap-8 items-baseline">
+                    <span class="text-8xl font-black tracking-tighter">600,000</span>
+                    <span class="text-2xl text-gold font-bold">دينار عراقي / ليلة</span>
                 </div>
-                <div class="text-7xl font-black">600,000 <span class="text-lg text-gold">IQD / ليلة</span></div>
             </div>
 
-            <div class="lg:col-span-7">
-                <div class="booking-vault space-y-10">
-                    <h4 class="text-3xl font-black text-center text-gold border-b border-gold/20 pb-6">بوابة الحجز والتحقق</h4>
-                    
-                    <input type="text" id="g-name" class="gold-input text-2xl" placeholder="الاسم الرباعي الكامل">
-                    
-                    <div class="grid grid-cols-2 gap-8">
-                        <input type="tel" id="g-phone" class="gold-input" placeholder="رقم الهاتف">
-                        <input type="text" id="g-date" class="gold-input" placeholder="اختر التاريخ">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-8">
-                        <div class="upload-trigger" onclick="document.getElementById('file-id').click()">
-                            <span class="text-4xl block mb-2">🪪</span>
-                            <span class="text-xs font-bold uppercase">صورة الهوية</span>
-                            <input type="file" id="file-id" class="hidden" onchange="verifiedMark('mark-1')">
-                            <div id="mark-1" class="text-green-500 text-[10px] mt-2 hidden">تم الرفع ✓</div>
-                        </div>
-                        <div class="upload-trigger" onclick="document.getElementById('file-res').click()">
-                            <span class="text-4xl block mb-2">🏠</span>
-                            <span class="text-xs font-bold uppercase">بطاقة السكن</span>
-                            <input type="file" id="file-res" class="hidden" onchange="verifiedMark('mark-2')">
-                            <div id="mark-2" class="text-green-500 text-[10px] mt-2 hidden">تم الرفع ✓</div>
-                        </div>
-                    </div>
-
-                    <button onclick="processWhatsAppBooking()" class="w-full bg-gold text-black font-black py-8 rounded-3xl text-3xl shadow-2xl hover:scale-[1.02] transition-all">تأكيد الحجز (WhatsApp)</button>
+            <div class="booking-glass space-y-8">
+                <div class="text-center mb-10">
+                    <h4 class="text-3xl font-black text-gold uppercase tracking-widest">نموذج التسجيل السيادي</h4>
+                    <div class="h-1 w-20 bg-gold mx-auto mt-4"></div>
                 </div>
+                
+                <input type="text" id="cust-name" class="input-mega" placeholder="الاسم الرباعي الرسمي">
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <input type="tel" id="cust-phone" class="input-mega" placeholder="رقم الهاتف">
+                    <input type="text" id="cust-date" class="input-mega" placeholder="اختر التاريخ">
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 pt-6">
+                    <div class="p-8 border-2 border-dashed border-gold/30 rounded-3xl text-center cursor-pointer hover:bg-gold/5 transition-all" onclick="document.getElementById('file-1').click()">
+                        <span class="text-4xl block">🪪</span>
+                        <p class="text-[10px] font-bold mt-2 uppercase">رفع صورة الهوية</p>
+                        <input type="file" id="file-1" class="hidden" onchange="uploadDone('v1')">
+                        <div id="v1" class="text-green-500 text-[10px] hidden font-black">جاهز ✓</div>
+                    </div>
+                    <div class="p-8 border-2 border-dashed border-gold/30 rounded-3xl text-center cursor-pointer hover:bg-gold/5 transition-all" onclick="document.getElementById('file-2').click()">
+                        <span class="text-4xl block">🏠</span>
+                        <p class="text-[10px] font-bold mt-2 uppercase">رفع بطاقة السكن</p>
+                        <input type="file" id="file-2" class="hidden" onchange="uploadDone('v2')">
+                        <div id="v2" class="text-green-500 text-[10px] hidden font-black">جاهز ✓</div>
+                    </div>
+                </div>
+
+                <button onclick="initiateWhatsApp()" class="w-full bg-gold text-black font-black py-8 rounded-[30px] text-3xl shadow-[0_20px_50px_rgba(212,175,55,0.4)] hover:scale-[1.03] transition-all uppercase italic">إتمام الحجز (WhatsApp)</button>
             </div>
         </section>
     </main>
 
     <div id="root-console" class="root-terminal">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="flex justify-between items-center mb-20 border-b-2 border-gold pb-10">
-                <h2 class="text-6xl font-black italic text-gold uppercase">Root <span class="text-white">Admin</span></h2>
-                <button onclick="terminateRoot()" class="text-red-500 font-black text-2xl">خروج ×</button>
+        <div class="max-w-[1600px] mx-auto">
+            <div class="flex justify-between items-center mb-20 border-b-4 border-gold pb-10">
+                <div>
+                    <h2 class="text-7xl font-black italic text-gold uppercase tracking-tighter">Root <span class="text-white">Admin</span></h2>
+                    <p class="text-xs text-gray-500 tracking-[10px] font-bold mt-2">SECURED MANAGEMENT INTERFACE V8.0</p>
+                </div>
+                <button onclick="closeRoot()" class="text-red-600 font-black text-2xl hover:scale-125 transition-all">TERMINATE ACCESS ×</button>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-16">
-                <div class="lg:col-span-4 space-y-10">
-                    <div class="p-8 bg-white/5 rounded-3xl border border-gold/20">
-                        <h5 class="text-gold font-black mb-8 border-b border-white/10 pb-2">تحديث صور الواجهة 📸</h5>
-                        <div class="space-y-6">
-                            <div>
-                                <label class="text-[10px] block mb-2">صورة القسم 1 (الداخلي)</label>
-                                <input type="file" onchange="updateMedia(this, 1)" class="text-[10px] w-full">
-                            </div>
-                            <div>
-                                <label class="text-[10px] block mb-2">صورة القسم 2 (المسبح)</label>
-                                <input type="file" onchange="updateMedia(this, 2)" class="text-[10px] w-full">
-                            </div>
-                            <div>
-                                <label class="text-[10px] block mb-2">صورة القسم 3 (الألعاب)</label>
-                                <input type="file" onchange="updateMedia(this, 3)" class="text-[10px] w-full">
-                            </div>
-                        </div>
+            <div class="grid lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-4 space-y-8">
+                    <div class="card-stat space-y-6">
+                        <h5 class="text-gold font-black uppercase text-sm border-b border-white/5 pb-4">تحديث مفتاح الإدارة 🔑</h5>
+                        <input type="password" id="new-admin-pass" class="input-mega !text-sm" placeholder="كلمة المرور الجديدة">
+                        <button onclick="updateAdminPass()" class="btn-action">تحديث المفتاح</button>
                     </div>
-                    <div class="p-8 bg-white/5 rounded-3xl border border-gold/20 text-center">
-                        <span class="text-xs text-gray-500 block mb-2 uppercase">صافي الإيرادات المسجلة</span>
-                        <div id="revenue-total" class="text-5xl font-black text-gold">0</div>
+
+                    <div class="card-stat space-y-6">
+                        <h5 class="text-gold font-black uppercase text-sm border-b border-white/5 pb-4">بوابة الموظفين (ID Matrix) 👥</h5>
+                        <input type="text" id="staff-name" class="input-mega !text-sm" placeholder="اسم الموظف الجديد">
+                        <input type="password" id="staff-pin" class="input-mega !text-sm" placeholder="تعيين PIN خاص">
+                        <button onclick="generateStaffKey()" class="btn-action bg-blue-500">توليد صلاحية موظف</button>
+                    </div>
+
+                    <div class="card-stat space-y-6">
+                        <h5 class="text-gold font-black uppercase text-sm border-b border-white/5 pb-4">تغيير صور الألبومات 📸</h5>
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="file" id="up-1" class="hidden" onchange="updateAlbumImg(this, 1)">
+                            <button onclick="document.getElementById('up-1').click()" class="p-2 bg-white/5 rounded text-[10px]">قسم 1</button>
+                            <input type="file" id="up-2" class="hidden" onchange="updateAlbumImg(this, 2)">
+                            <button onclick="document.getElementById('up-2').click()" class="p-2 bg-white/5 rounded text-[10px]">قسم 2</button>
+                            <input type="file" id="up-3" class="hidden" onchange="updateAlbumImg(this, 3)">
+                            <button onclick="document.getElementById('up-3').click()" class="p-2 bg-white/5 rounded text-[10px]">قسم 3</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-8 bg-white/5 p-10 rounded-3xl border border-gold/20">
-                    <h5 class="text-gold font-black mb-8 italic">سجل العمليات والتدقيق الهوياتي</h5>
-                    <table class="ledger-table">
-                        <thead class="text-gold text-xs">
-                            <tr><th>الضيف</th><th>الهاتف</th><th>التاريخ</th><th>الحالة</th></tr>
-                        </thead>
-                        <tbody id="ledger-data"></tbody>
-                    </table>
+                <div class="lg:col-span-8 bg-white/5 p-12 rounded-[50px] border border-gold/20">
+                    <div class="flex justify-between items-center mb-10">
+                        <h5 class="text-gold font-black italic text-2xl uppercase">Accounting Ledger</h5>
+                        <div class="text-right">
+                            <span class="text-xs text-gray-500 block">Total Revenue</span>
+                            <div id="revenue-display" class="text-4xl font-black text-green-500">0 IQD</div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-center border-separate border-spacing-y-4">
+                            <thead>
+                                <tr class="text-gold text-[10px] uppercase tracking-widest">
+                                    <th class="pb-6">الضيف</th>
+                                    <th class="pb-6">التاريخ</th>
+                                    <th class="pb-6">الموظف المسؤول</th>
+                                    <th class="pb-6">الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ledger-body">
+                                </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. نظام تتبع الماوس
+        // 1. نظام تتبع الماوس النيوني
         document.addEventListener('mousemove', e => {
-            const cursor = document.getElementById('custom-cursor');
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+            const glow = document.getElementById('cursor-glow');
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
         });
 
-        // 2. إدارة الصور (تغيير الصور من لوحة المدير)
-        function updateMedia(input, id) {
+        // 2. إدارة الألبومات (Move Slides)
+        function moveSlide(albumId, slideIndex) {
+            const track = document.getElementById(`slide-track-${albumId}`);
+            track.style.transform = `translateX(${slideIndex * 33.33}%)`;
+            
+            // تحديث مؤشرات الأزرار
+            const buttons = document.querySelectorAll(`#album-${albumId} .flex button`);
+            buttons.forEach((btn, idx) => {
+                btn.className = idx === slideIndex ? 'w-8 h-1 bg-gold' : 'w-8 h-1 bg-white/20';
+            });
+        }
+
+        // 3. إدارة الميديا (تغيير الصور)
+        function updateAlbumImg(input, id) {
             if(input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const data = e.target.result;
-                    document.getElementById(`display-img-${id}`).src = data;
-                    localStorage.setItem(`r15_img_${id}`, data);
-                    alert(`تم تحديث الصورة ${id} في قاعدة البيانات بنجاح.`);
+                    const imgElement = document.querySelector(`#slide-track-${id} img:first-child`);
+                    imgElement.src = e.target.result;
+                    localStorage.setItem(`r15_custom_img_${id}`, e.target.result);
+                    Swal.fire('تم التحديث', `تم تغيير صورة القسم ${id} بنجاح`, 'success');
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        function verifiedMark(id) { document.getElementById(id).classList.remove('hidden'); }
+        function uploadDone(id) { document.getElementById(id).classList.remove('hidden'); }
 
-        // 3. محرك واتساب (WhatsApp Connector)
-        function processWhatsAppBooking() {
-            const n = document.getElementById('g-name').value;
-            const p = document.getElementById('g-phone').value;
-            const d = document.getElementById('g-date').value;
-            const f1 = document.getElementById('file-id').files.length;
-            const f2 = document.getElementById('file-res').files.length;
+        // 4. محرك واتساب والعمليات
+        function initiateWhatsApp() {
+            const n = document.getElementById('cust-name').value;
+            const p = document.getElementById('cust-phone').value;
+            const d = document.getElementById('cust-date').value;
+            const f1 = document.getElementById('file-1').files.length;
+            const f2 = document.getElementById('file-2').files.length;
 
             if(!n || !p || !d || !f1 || !f2) {
-                return alert("يرجى ملء كافة الحقول ورفع صور المستمسكات لإكمال الحجز.");
+                return Swal.fire('تنبيه', 'يا مدير، البيانات غير مكتملة أو المستمسكات لم ترفع بعد!', 'warning');
             }
 
-            // تخزين محلي للمحاسبة
-            let ledger = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
-            ledger.push({name: n, phone: p, date: d, price: 600000});
-            localStorage.setItem('r15_ledger', JSON.stringify(ledger));
+            // تسجيل الحسابات
+            let bookings = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
+            bookings.push({name: n, phone: p, date: d, amount: 600000, staff: 'System Auto'});
+            localStorage.setItem('r15_ledger', JSON.stringify(bookings));
 
-            // إنشاء رابط واتساب
-            const adminNumber = "9647XXXXXXXX"; // رقم الإدارة
-            const message = `*طلب حجز جديد - نظام أكسس R15*%0A%0A*الاسم:* ${n}%0A*الهاتف:* ${p}%0A*التاريخ:* ${d}%0A*الحالة:* تم رفع المستمسكات عبر النظام ✓`;
+            // إنشاء رسالة واتساب
+            const adminNum = "9647XXXXXXXX"; // رقمك المعتمد
+            const text = `*حجز جديد - نظام أكسس R15*%0A%0A*الضيف:* ${n}%0A*الهاتف:* ${p}%0A*التاريخ:* ${d}%0A*الحالة:* تم رفع الهوية وبطاقة السكن ✓%0A%0A_يرجى مراجعة لوحة التحكم لتأكيد الحجز_`;
             
-            window.open(`https://wa.me/${adminNumber}?text=${message}`, '_blank');
-            alert("تم تسجيل حجزك، سيتم فتح واتساب الآن لتأكيد الهوية.");
+            window.open(`https://wa.me/${adminNum}?text=${text}`, '_blank');
             window.location.reload();
         }
 
-        // 4. إدارة لوحة الجذر
-        function accessRoot() {
-            const pass = prompt("أدخل كود الوصول السيادي:");
-            if(pass === "1234") {
-                document.getElementById('root-console').style.display = 'block';
-                syncLedger();
-            } else alert("وصول غير مصرح به!");
+        // 5. إدارة لوحة الجذر (Root Admin)
+        function openRoot() {
+            Swal.fire({
+                title: 'نظام الوصول المشفر',
+                input: 'password',
+                inputPlaceholder: 'أدخل مفتاح الإدارة السيادي',
+                background: '#0a0a0a',
+                color: '#d4af37',
+                confirmButtonColor: '#d4af37'
+            }).then((result) => {
+                const masterKey = localStorage.getItem('r15_master_key') || "1234";
+                if (result.value === masterKey) {
+                    document.getElementById('root-console').style.display = 'block';
+                    renderLedger();
+                } else if(result.value) {
+                    Swal.fire('خطأ', 'مفتاح الوصول غير صحيح!', 'error');
+                }
+            });
         }
 
-        function syncLedger() {
+        function closeRoot() { document.getElementById('root-console').style.display = 'none'; }
+
+        // 6. صلاحيات الإدارة والموظفين
+        function updateAdminPass() {
+            const newPass = document.getElementById('new-admin-pass').value;
+            if(newPass.length < 4) return Swal.fire('ضعيف', 'يجب أن يكون المفتاح أطول من 4 رموز', 'error');
+            localStorage.setItem('r15_master_key', newPass);
+            Swal.fire('تم', 'تم تحديث مفتاح الإدارة الرئيسي بنجاح', 'success');
+        }
+
+        function generateStaffKey() {
+            const name = document.getElementById('staff-name').value;
+            const pin = document.getElementById('staff-pin').value;
+            if(!name || !pin) return Swal.fire('نقص بيانات', 'أدخل اسم الموظف والـ PIN', 'info');
+            
+            let staffList = JSON.parse(localStorage.getItem('r15_staff') || "[]");
+            staffList.push({name, pin});
+            localStorage.setItem('r15_staff', JSON.stringify(staffList));
+            Swal.fire('تم التوليد', `الموظف ${name} مسجل الآن في النظام`, 'success');
+        }
+
+        // 7. المحاسبة والمزامنة
+        function renderLedger() {
             const data = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
             let total = 0;
-            const html = data.reverse().map(item => {
-                total += item.price;
-                return `<tr><td class="font-bold">${item.name}</td><td>${item.phone}</td><td>${item.date}</td><td class="text-green-500 font-black">مؤكد</td></tr>`;
-            }).join('');
-            document.getElementById('ledger-data').innerHTML = html;
-            document.getElementById('revenue-total').innerText = total.toLocaleString() + " د.ع";
+            const body = document.getElementById('ledger-body');
+            
+            body.innerHTML = data.map(item => {
+                total += item.amount;
+                return `
+                    <tr class="bg-white/5 backdrop-blur-sm">
+                        <td class="p-6 font-bold text-white">${item.name}</td>
+                        <td class="text-gold font-black uppercase text-[10px]">${item.date}</td>
+                        <td class="text-gray-400 font-bold">${item.staff}</td>
+                        <td><span class="bg-green-500/20 text-green-500 px-4 py-1 rounded-full text-[8px] font-black uppercase">Confirmed</span></td>
+                    </tr>
+                `;
+            }).reverse().join('');
+
+            document.getElementById('revenue-display').innerText = total.toLocaleString() + " IQD";
         }
 
-        function terminateRoot() { document.getElementById('root-console').style.display = 'none'; }
-
-        // تهيئة النظام
+        // التحميل الأولي
         window.onload = () => {
-            // استرجاع الصور المحفوظة
+            flatpickr("#cust-date", { minDate: "today", locale: "ar" });
+            
+            // استرجاع الميديا المحفوظة
             for(let i=1; i<=3; i++) {
-                const saved = localStorage.getItem(`r15_img_${i}`);
-                if(saved) document.getElementById(`display-img-${i}`).src = saved;
+                const img = localStorage.getItem(`r15_custom_img_${i}`);
+                if(img) document.querySelector(`#slide-track-${i} img:first-child`).src = img;
             }
-            // تشغيل التقويم
-            flatpickr("#g-date", { minDate: "today", locale: "ar" });
-            // تأثيرات الدخول
-            gsap.from(".section-card", {duration: 1.5, y: 100, opacity: 0, stagger: 0.3, ease: "power4.out"});
+
+            // تحريك العناصر عند التحميل
+            gsap.from(".album-wrapper", {
+                duration: 1.5, y: 100, opacity: 0, stagger: 0.3, ease: "power4.out"
+            });
+            gsap.from(".booking-glass", {
+                scrollTrigger: ".booking-glass",
+                duration: 1, scale: 0.9, opacity: 0, delay: 0.5
+            });
         };
     </script>
 </body>
