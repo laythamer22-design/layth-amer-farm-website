@@ -3,222 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام أكسس R15 | الإدارة الإمبراطورية 2026</title>
+    <title>إمبراطورية أكسس R15 | الإصدار المتكامل 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Changa:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Changa:wght@600;800&family=Orbitron:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <style>
+        /* معمارية التصميم - أكسس R15 */
         :root {
             --gold: #d4af37;
-            --deep-black: #080808;
-            --panel: #121212;
-            --neon-glow: 0 0 35px rgba(212, 175, 55, 0.3);
+            --dark-bg: #050505;
+            --panel-bg: #0f0f0f;
+            --glow: 0 0 40px rgba(212, 175, 55, 0.35);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--deep-black);
+            background-color: var(--dark-bg);
             color: #ffffff;
-            background-image: radial-gradient(circle at top left, #1a1a1a 0%, #080808 100%);
-            min-height: 100vh;
+            font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%);
         }
 
-        /* الماوس المخصص */
-        #cursor {
-            width: 30px; height: 30px; border: 2px solid var(--gold);
-            position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999;
-            transition: transform 0.1s ease;
+        /* الماوس الإداري */
+        #custom-cursor {
+            width: 25px; height: 25px; border: 2px solid var(--gold);
+            border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000;
+            transition: transform 0.1s ease-out;
         }
 
-        /* لوحة الحجز السيادية R15 */
-        .reservation-matrix {
-            background: var(--panel);
-            border: 2px solid var(--gold);
-            box-shadow: var(--neon-glow);
-            border-radius: 35px;
-            padding: 50px;
+        /* الهيدر الملكي */
+        header {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 25px 60px;
+        }
+
+        .nav-link {
+            padding: 12px 25px; border-radius: 12px; font-weight: 800;
+            display: flex; align-items: center; gap: 10px; font-size: 14px;
+            transition: var(--transition); border: 1px solid transparent;
+        }
+        .waze-btn { background: #33ccff; color: #000; }
+        .maps-btn { background: #34a853; color: #fff; }
+        .nav-link:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+
+        /* ألبومات الصور الديناميكية */
+        .section-card {
+            height: 580px; border-radius: 35px; overflow: hidden;
+            position: relative; border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition); cursor: pointer;
+        }
+        .section-card:hover { border-color: var(--gold); transform: translateY(-15px); box-shadow: var(--glow); }
+        .section-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1.2s; }
+        .section-card:hover img { filter: brightness(0.9); transform: scale(1.1); }
+
+        /* لوحة الحجز الفائقة */
+        .booking-vault {
+            background: var(--panel-bg);
+            border: 3px solid var(--gold);
+            border-radius: 45px;
+            padding: 60px;
+            box-shadow: var(--glow);
             position: relative;
         }
 
-        /* أزرار الملاحة (Waze & Maps) */
-        .geo-btn {
-            padding: 14px 28px; border-radius: 12px; font-weight: 900;
-            display: flex; align-items: center; gap: 10px; font-size: 13px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.1);
+        .gold-input {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 20px; border-radius: 18px; width: 100%;
+            color: #fff; font-size: 1.1rem; transition: 0.3s;
         }
-        .waze { background: #33ccff; color: #000; }
-        .maps { background: #34a853; color: #fff; }
-        .geo-btn:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .gold-input:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); outline: none; }
 
-        /* ألبومات الصور (تتغير من لوحة التحكم) */
-        .album-module {
-            height: 550px; border-radius: 30px; overflow: hidden;
-            position: relative; border: 1px solid rgba(212, 175, 55, 0.2);
-            cursor: pointer; transition: 0.6s;
-        }
-        .album-module:hover { border-color: var(--gold); transform: translateY(-10px); }
-        .album-module img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1s; }
-        .album-module:hover img { filter: brightness(1); transform: scale(1.05); }
-
-        /* مدخلات البيانات الذهبية */
-        .gold-field {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 20px; border-radius: 15px; width: 100%; color: #fff; font-weight: 700;
-            outline: none; transition: 0.3s;
-        }
-        .gold-field:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
-
-        /* نظام الإدارة (Root Console) */
-        .admin-gate {
+        /* لوحة التحكم الإدارية (Root) */
+        .root-terminal {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98);
-            z-index: 100000; padding: 60px; overflow-y: auto;
+            z-index: 99999; padding: 60px; overflow-y: auto;
         }
 
-        .upload-slot {
-            background: rgba(255,255,255,0.05); border: 1px dashed var(--gold);
-            padding: 20px; border-radius: 15px; text-align: center; cursor: pointer;
+        .upload-trigger {
+            background: rgba(212, 175, 55, 0.05); border: 2px dashed var(--gold);
+            padding: 30px; border-radius: 20px; text-align: center; cursor: pointer;
+            transition: 0.3s;
         }
+        .upload-trigger:hover { background: rgba(212, 175, 55, 0.15); }
+
+        /* المحاسبة */
+        .ledger-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        .ledger-table tr { background: rgba(255,255,255,0.02); }
+        .ledger-table td { padding: 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.1); }
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
+    <div id="custom-cursor"></div>
 
-    <header class="fixed top-0 w-full p-8 flex justify-between items-center z-[5000] backdrop-blur-md bg-black/30">
-        <div class="flex items-center gap-5">
-            <div class="w-14 h-14 bg-gold flex items-center justify-center rounded-2xl font-black text-black text-3xl">A</div>
-            <h1 class="text-3xl font-black italic">AXIS <span class="text-gold">R15</span></h1>
+    <header class="fixed top-0 w-full z-[5000] flex justify-between items-center">
+        <div class="flex items-center gap-6">
+            <div class="h-16 w-16 bg-gold rounded-2xl flex items-center justify-center font-black text-black text-3xl shadow-lg shadow-gold/20">A</div>
+            <h1 class="text-3xl font-black tracking-tighter italic">أكسس <span class="text-gold">R15</span></h1>
         </div>
 
         <div class="flex gap-4">
-            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="geo-btn waze">WAZE مِلاحة</a>
-            <a href="https://www.google.com/maps?q=33.3152,44.3661" target="_blank" class="geo-btn maps">GOOGLE خرائط</a>
-            <button onclick="openRoot()" class="border-2 border-gold text-gold px-8 rounded-xl font-black hover:bg-gold hover:text-black transition-all">التحكم</button>
+            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="nav-link waze-btn">WAZE مِلاحة</a>
+            <a href="https://www.google.com/maps?q=33.3152,44.3661" target="_blank" class="nav-link maps-btn">MAPS خرائط</a>
+            <button onclick="accessRoot()" class="border-2 border-gold/50 text-gold px-10 rounded-xl font-black hover:bg-gold hover:text-black transition-all">تحكم المدير</button>
         </div>
     </header>
 
-    <main class="pt-44 px-10 max-w-[1600px] mx-auto pb-40">
+    <main class="pt-48 px-12 max-w-[1600px] mx-auto pb-40">
         
-        <div class="grid lg:grid-cols-3 gap-8 mb-32">
-            <div class="album-module" id="m1">
-                <img id="view-img-1" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200">
-                <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+        <section class="grid lg:grid-cols-3 gap-10 mb-40">
+            <div class="section-card group">
+                <img id="display-img-1" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
                     <h3 class="text-4xl font-black text-gold">التصميم الداخلي</h3>
                 </div>
             </div>
-            <div class="album-module" id="m2">
-                <img id="view-img-2" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200">
-                <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+            <div class="section-card group">
+                <img id="display-img-2" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
                     <h3 class="text-4xl font-black text-gold">المسبح الملكي</h3>
                 </div>
             </div>
-            <div class="album-module" id="m3">
-                <img id="view-img-3" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200">
-                <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+            <div class="section-card group">
+                <img id="display-img-3" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
                     <h3 class="text-4xl font-black text-gold">صالات الألعاب</h3>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="grid lg:grid-cols-12 gap-20">
-            <div class="lg:col-span-5 space-y-10">
-                <h2 class="text-8xl font-black italic leading-none">احجز <br><span class="text-gold">سيادتك</span></h2>
-                <div class="h-2 w-40 bg-gold"></div>
-                <p class="text-gray-400 text-xl italic leading-relaxed">نظام R15 المطور: عند ملء البيانات، سيتم تحويلك فوراً لواتساب الإدارة لتأكيد الحجز وإرسال المستمسكات رسمياً.</p>
+        <section class="grid lg:grid-cols-12 gap-20 items-start">
+            <div class="lg:col-span-5 space-y-12">
+                <h2 class="text-9xl font-black italic leading-none">فخامة <br><span class="text-gold font-light">مطلقة</span></h2>
                 <div class="p-10 border-r-8 border-gold bg-gold/5 rounded-2xl">
-                    <span class="text-xs font-bold text-gray-500 block mb-2 uppercase">تكلفة الليلة الواحدة</span>
-                    <div class="text-6xl font-black">600,000 <span class="text-lg text-gold">د.ع</span></div>
+                    <p class="text-gray-400 text-xl leading-relaxed italic">نظام أكسس R15 المطور: عند ملء الاستمارة، سيتم تحويلك فوراً لواتساب الإدارة لتأكيد الحجز ومطابقة المستمسكات.</p>
                 </div>
+                <div class="text-7xl font-black">600,000 <span class="text-lg text-gold">IQD / ليلة</span></div>
             </div>
 
             <div class="lg:col-span-7">
-                <div class="reservation-matrix space-y-8">
-                    <h4 class="text-3xl font-black text-gold text-center border-b border-gold/20 pb-6">استمارة الحجز والتحقق</h4>
+                <div class="booking-vault space-y-10">
+                    <h4 class="text-3xl font-black text-center text-gold border-b border-gold/20 pb-6">بوابة الحجز والتحقق</h4>
                     
-                    <input type="text" id="guest-name" class="gold-field text-2xl" placeholder="الاسم الرباعي الكامل">
+                    <input type="text" id="g-name" class="gold-input text-2xl" placeholder="الاسم الرباعي الكامل">
                     
-                    <div class="grid grid-cols-2 gap-6">
-                        <input type="tel" id="guest-phone" class="gold-field" placeholder="رقم الهاتف">
-                        <input type="text" id="guest-date" class="gold-field" placeholder="تاريخ الحجز">
+                    <div class="grid grid-cols-2 gap-8">
+                        <input type="tel" id="g-phone" class="gold-input" placeholder="رقم الهاتف">
+                        <input type="text" id="g-date" class="gold-input" placeholder="اختر التاريخ">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-6 pt-6">
-                        <div class="border-2 border-dashed border-gold/30 p-6 rounded-2xl text-center cursor-pointer" onclick="document.getElementById('f1').click()">
-                            <span class="text-3xl block">🪪</span>
-                            <span class="text-xs font-bold">هوية الأحوال</span>
-                            <input type="file" id="f1" class="hidden" onchange="markDone('v1')">
-                            <div id="v1" class="text-green-500 text-[10px] mt-2 hidden">جاهز ✓</div>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="upload-trigger" onclick="document.getElementById('file-id').click()">
+                            <span class="text-4xl block mb-2">🪪</span>
+                            <span class="text-xs font-bold uppercase">صورة الهوية</span>
+                            <input type="file" id="file-id" class="hidden" onchange="verifiedMark('mark-1')">
+                            <div id="mark-1" class="text-green-500 text-[10px] mt-2 hidden">تم الرفع ✓</div>
                         </div>
-                        <div class="border-2 border-dashed border-gold/30 p-6 rounded-2xl text-center cursor-pointer" onclick="document.getElementById('f2').click()">
-                            <span class="text-3xl block">🏠</span>
-                            <span class="text-xs font-bold">بطاقة السكن</span>
-                            <input type="file" id="f2" class="hidden" onchange="markDone('v2')">
-                            <div id="v2" class="text-green-500 text-[10px] mt-2 hidden">جاهز ✓</div>
+                        <div class="upload-trigger" onclick="document.getElementById('file-res').click()">
+                            <span class="text-4xl block mb-2">🏠</span>
+                            <span class="text-xs font-bold uppercase">بطاقة السكن</span>
+                            <input type="file" id="file-res" class="hidden" onchange="verifiedMark('mark-2')">
+                            <div id="mark-2" class="text-green-500 text-[10px] mt-2 hidden">تم الرفع ✓</div>
                         </div>
                     </div>
 
-                    <button onclick="sendToWhatsApp()" class="w-full bg-gold text-black font-black py-7 rounded-2xl text-2xl hover:shadow-gold transition-all">إتمام الحجز عبر WhatsApp</button>
+                    <button onclick="processWhatsAppBooking()" class="w-full bg-gold text-black font-black py-8 rounded-3xl text-3xl shadow-2xl hover:scale-[1.02] transition-all">تأكيد الحجز (WhatsApp)</button>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
-    <div id="root-console" class="admin-gate">
+    <div id="root-console" class="root-terminal">
         <div class="max-w-[1400px] mx-auto">
-            <div class="flex justify-between items-center mb-20 border-b border-gold pb-10">
-                <h2 class="text-6xl font-black italic text-gold">إدارة <span class="text-white">أكسس R15</span></h2>
-                <button onclick="closeRoot()" class="text-red-500 font-black text-xl">إغلاق ×</button>
+            <div class="flex justify-between items-center mb-20 border-b-2 border-gold pb-10">
+                <h2 class="text-6xl font-black italic text-gold uppercase">Root <span class="text-white">Admin</span></h2>
+                <button onclick="terminateRoot()" class="text-red-500 font-black text-2xl">خروج ×</button>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4 space-y-8">
+            <div class="grid lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-4 space-y-10">
                     <div class="p-8 bg-white/5 rounded-3xl border border-gold/20">
-                        <h5 class="text-gold font-black mb-8 border-b border-white/5 pb-2 uppercase tracking-widest">تحديث صور الأقسام 📸</h5>
-                        
+                        <h5 class="text-gold font-black mb-8 border-b border-white/10 pb-2">تحديث صور الواجهة 📸</h5>
                         <div class="space-y-6">
                             <div>
-                                <label class="text-[10px] font-bold block mb-2">صورة التصميم الداخلي</label>
-                                <div class="upload-slot" onclick="document.getElementById('up1').click()">اختر صورة جديدة</div>
-                                <input type="file" id="up1" class="hidden" onchange="updateSystemImg(this, 1)">
+                                <label class="text-[10px] block mb-2">صورة القسم 1 (الداخلي)</label>
+                                <input type="file" onchange="updateMedia(this, 1)" class="text-[10px] w-full">
                             </div>
                             <div>
-                                <label class="text-[10px] font-bold block mb-2">صورة المسبح الملكي</label>
-                                <div class="upload-slot" onclick="document.getElementById('up2').click()">اختر صورة جديدة</div>
-                                <input type="file" id="up2" class="hidden" onchange="updateSystemImg(this, 2)">
+                                <label class="text-[10px] block mb-2">صورة القسم 2 (المسبح)</label>
+                                <input type="file" onchange="updateMedia(this, 2)" class="text-[10px] w-full">
                             </div>
                             <div>
-                                <label class="text-[10px] font-bold block mb-2">صورة صالات الألعاب</label>
-                                <div class="upload-slot" onclick="document.getElementById('up3').click()">اختر صورة جديدة</div>
-                                <input type="file" id="up3" class="hidden" onchange="updateSystemImg(this, 3)">
+                                <label class="text-[10px] block mb-2">صورة القسم 3 (الألعاب)</label>
+                                <input type="file" onchange="updateMedia(this, 3)" class="text-[10px] w-full">
                             </div>
                         </div>
                     </div>
-
                     <div class="p-8 bg-white/5 rounded-3xl border border-gold/20 text-center">
-                        <span class="text-xs text-gray-500 block mb-2">إجمالي الإيرادات</span>
-                        <div id="stat-rev" class="text-5xl font-black text-gold">0</div>
+                        <span class="text-xs text-gray-500 block mb-2 uppercase">صافي الإيرادات المسجلة</span>
+                        <div id="revenue-total" class="text-5xl font-black text-gold">0</div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-8 bg-white/5 p-10 rounded-3xl border border-gold/20 overflow-x-auto">
-                    <h5 class="text-gold font-black mb-8 italic">سجل المعاملات والتدقيق</h5>
-                    <table class="w-full text-center text-xs">
-                        <thead class="text-gold border-b border-white/10">
-                            <tr>
-                                <th class="p-4">الاسم</th>
-                                <th>الهاتف</th>
-                                <th>التاريخ</th>
-                                <th>المستمسكات</th>
-                                <th>الحالة</th>
-                            </tr>
+                <div class="lg:col-span-8 bg-white/5 p-10 rounded-3xl border border-gold/20">
+                    <h5 class="text-gold font-black mb-8 italic">سجل العمليات والتدقيق الهوياتي</h5>
+                    <table class="ledger-table">
+                        <thead class="text-gold text-xs">
+                            <tr><th>الضيف</th><th>الهاتف</th><th>التاريخ</th><th>الحالة</th></tr>
                         </thead>
-                        <tbody id="admin-ledger"></tbody>
+                        <tbody id="ledger-data"></tbody>
                     </table>
                 </div>
             </div>
@@ -226,86 +229,88 @@
     </div>
 
     <script>
-        // نظام تتبع الماوس
+        // 1. نظام تتبع الماوس
         document.addEventListener('mousemove', e => {
-            const c = document.getElementById('cursor');
-            c.style.left = e.clientX + 'px';
-            c.style.top = e.clientY + 'px';
+            const cursor = document.getElementById('custom-cursor');
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        // 1. تحديث صور الأقسام (تغيير الصور)
-        function updateSystemImg(input, id) {
+        // 2. إدارة الصور (تغيير الصور من لوحة المدير)
+        function updateMedia(input, id) {
             if(input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const data = e.target.result;
-                    // تحديث الواجهة فوراً
-                    document.getElementById(`view-img-${id}`).src = data;
-                    // حفظ في الذاكرة ليبقى التغيير ثابتاً
-                    localStorage.setItem(`r15_image_${id}`, data);
-                    alert(`✅ تم تحديث صورة القسم ${id} بنجاح!`);
+                    document.getElementById(`display-img-${id}`).src = data;
+                    localStorage.setItem(`r15_img_${id}`, data);
+                    alert(`تم تحديث الصورة ${id} في قاعدة البيانات بنجاح.`);
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        function markDone(id) { document.getElementById(id).classList.remove('hidden'); }
+        function verifiedMark(id) { document.getElementById(id).classList.remove('hidden'); }
 
-        // 2. إرسال البيانات للواتساب (WhatsApp Engine)
-        function sendToWhatsApp() {
-            const name = document.getElementById('guest-name').value;
-            const phone = document.getElementById('guest-phone').value;
-            const date = document.getElementById('guest-date').value;
-            const f1 = document.getElementById('f1').files.length;
-            const f2 = document.getElementById('f2').files.length;
+        // 3. محرك واتساب (WhatsApp Connector)
+        function processWhatsAppBooking() {
+            const n = document.getElementById('g-name').value;
+            const p = document.getElementById('g-phone').value;
+            const d = document.getElementById('g-date').value;
+            const f1 = document.getElementById('file-id').files.length;
+            const f2 = document.getElementById('file-res').files.length;
 
-            if(!name || !phone || !date || !f1 || !f2) {
-                return alert("⚠️ يرجى إدخال كافة البيانات ورفع المستمسكات!");
+            if(!n || !p || !d || !f1 || !f2) {
+                return alert("يرجى ملء كافة الحقول ورفع صور المستمسكات لإكمال الحجز.");
             }
 
             // تخزين محلي للمحاسبة
-            let ledger = JSON.parse(localStorage.getItem('r15_bookings') || "[]");
-            ledger.push({name, phone, date, amount: 600000});
-            localStorage.setItem('r15_bookings', JSON.stringify(ledger));
+            let ledger = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
+            ledger.push({name: n, phone: p, date: d, price: 600000});
+            localStorage.setItem('r15_ledger', JSON.stringify(ledger));
 
-            // توجيه للواتساب
-            const adminNum = "9647XXXXXXXX"; // رقمك هنا
-            const msg = `*حجز جديد - نظام أكسس R15*%0A%0A*الاسم:* ${name}%0A*الهاتف:* ${phone}%0A*التاريخ:* ${date}%0A*المستمسكات:* مرفوعة ✓%0A%0A_يرجى تأكيد الحجز من لوحة الإدارة_`;
-            window.open(`https://wa.me/${adminNum}?text=${msg}`, '_blank');
+            // إنشاء رابط واتساب
+            const adminNumber = "9647XXXXXXXX"; // رقم الإدارة
+            const message = `*طلب حجز جديد - نظام أكسس R15*%0A%0A*الاسم:* ${n}%0A*الهاتف:* ${p}%0A*التاريخ:* ${d}%0A*الحالة:* تم رفع المستمسكات عبر النظام ✓`;
+            
+            window.open(`https://wa.me/${adminNumber}?text=${message}`, '_blank');
+            alert("تم تسجيل حجزك، سيتم فتح واتساب الآن لتأكيد الهوية.");
             window.location.reload();
         }
 
-        // 3. إدارة لوحة الجذر
-        function openRoot() {
-            const key = prompt("أدخل مفتاح التحقق السيادي:");
-            if(key === "1234") {
+        // 4. إدارة لوحة الجذر
+        function accessRoot() {
+            const pass = prompt("أدخل كود الوصول السيادي:");
+            if(pass === "1234") {
                 document.getElementById('root-console').style.display = 'block';
-                syncAdmin();
-            } else alert("🚫 خطأ أمني!");
+                syncLedger();
+            } else alert("وصول غير مصرح به!");
         }
 
-        function syncAdmin() {
-            const data = JSON.parse(localStorage.getItem('r15_bookings') || "[]");
+        function syncLedger() {
+            const data = JSON.parse(localStorage.getItem('r15_ledger') || "[]");
             let total = 0;
-            document.getElementById('admin-ledger').innerHTML = data.reverse().map(b => {
-                total += b.amount;
-                return `<tr class="border-b border-white/5"><td class="p-4 font-bold">${b.name}</td><td>${b.phone}</td><td>${b.date}</td><td class="text-green-500">مؤكد ✓</td><td>نشط</td></tr>`;
+            const html = data.reverse().map(item => {
+                total += item.price;
+                return `<tr><td class="font-bold">${item.name}</td><td>${item.phone}</td><td>${item.date}</td><td class="text-green-500 font-black">مؤكد</td></tr>`;
             }).join('');
-            document.getElementById('stat-rev').innerText = total.toLocaleString() + " د.ع";
+            document.getElementById('ledger-data').innerHTML = html;
+            document.getElementById('revenue-total').innerText = total.toLocaleString() + " د.ع";
         }
 
-        function closeRoot() { document.getElementById('root-console').style.display = 'none'; }
+        function terminateRoot() { document.getElementById('root-console').style.display = 'none'; }
 
-        // تحميل البيانات المحفوظة (الصور والتقويم)
+        // تهيئة النظام
         window.onload = () => {
-            // استرجاع الصور المعدلة
+            // استرجاع الصور المحفوظة
             for(let i=1; i<=3; i++) {
-                const savedImg = localStorage.getItem(`r15_image_${i}`);
-                if(savedImg) document.getElementById(`view-img-${i}`).src = savedImg;
+                const saved = localStorage.getItem(`r15_img_${i}`);
+                if(saved) document.getElementById(`display-img-${i}`).src = saved;
             }
-            
-            flatpickr("#guest-date", { minDate: "today", locale: "ar" });
-            gsap.from(".album-module", {duration: 1.5, y: 100, opacity: 0, stagger: 0.3});
+            // تشغيل التقويم
+            flatpickr("#g-date", { minDate: "today", locale: "ar" });
+            // تأثيرات الدخول
+            gsap.from(".section-card", {duration: 1.5, y: 100, opacity: 0, stagger: 0.3, ease: "power4.out"});
         };
     </script>
 </body>
