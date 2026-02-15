@@ -3,132 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Oasis | نظام التدقيق الصارم</title>
+    <title>The Royal Oasis | المنتجع المتكامل</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <style>
-        :root { --gold: #c5a059; --dark: #050505; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--dark); color: white; }
-        .font-ultra { font-weight: 900 !important; text-shadow: 2px 2px 10px #000; }
-        .dynamic-bg { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; filter: brightness(0.4); }
-        .booking-box { background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 40px; padding: 30px; }
+        :root { --gold: #c5a059; --dark: #050505; --glass: rgba(255, 255, 255, 0.03); }
+        body { font-family: 'Tajawal', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
+
+        /* إبراز الخط */
+        .font-ultra { 
+            font-weight: 900 !important; 
+            text-shadow: 4px 4px 15px #000;
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.1);
+        }
+
+        /* محرك الخلفيات */
+        .dynamic-bg { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; filter: brightness(0.4); transition: 2s; }
+        .vignette { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle, transparent 20%, #000 140%); }
+
+        /* أقسام الألبومات */
+        .section-card { 
+            position: relative; height: 350px; border-radius: 30px; overflow: hidden; 
+            cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2); transition: 0.5s;
+        }
+        .section-card:hover { transform: translateY(-10px); border-color: var(--gold); }
+        .section-card img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+        .section-card:hover img { transform: scale(1.1); }
+        .card-overlay { 
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); 
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px;
+        }
+
+        /* غرفة المدير */
+        #adminOS { 
+            display: none; position: fixed; inset: 0; z-index: 9999; 
+            background: #080808; padding: 25px; overflow-y: auto; border: 5px solid var(--gold);
+        }
+        .admin-box { background: rgba(255,255,255,0.03); border: 1px solid #333; padding: 20px; border-radius: 20px; margin-bottom: 20px; }
+        
         input, select { background: #111 !important; border: 1px solid #333 !important; color: var(--gold) !important; padding: 12px; border-radius: 12px; width: 100%; }
-        .status-rejected { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.1) !important; }
-        .btn-disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+        .locked-input { background: rgba(34, 197, 94, 0.1) !important; border-color: #22c55e !important; color: #22c55e !important; }
     </style>
 </head>
 <body>
 
     <div id="mainBg" class="dynamic-bg" style="background-image: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2000')"></div>
+    <div class="vignette"></div>
 
-    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center bg-black/50 backdrop-blur-md">
-        <h1 id="farmTitle" class="text-2xl font-ultra text-[#c5a059]">نظام إدارة المزرعة الملكية</h1>
-        <button onclick="openAdmin()" class="bg-[#c5a059] text-black px-6 py-2 rounded-full font-black">غرفة المدير</button>
+    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center backdrop-blur-md border-b border-gold/10">
+        <h1 id="farmTitle" class="text-3xl font-ultra text-gold italic">مزرعة أبو سيف وأبو نمر</h1>
+        <button onclick="openAdmin()" class="bg-gold text-black px-8 py-2 rounded-full font-black hover:scale-105 transition">غرفة المدير</button>
     </nav>
 
-    <section class="min-h-screen flex items-center justify-center p-6 pt-24">
-        <div class="booking-box max-w-2xl w-full">
-            <h3 class="text-3xl font-ultra text-center text-gold mb-8 italic">بوابة الحجز الأمنية</h3>
-            
-            <div class="space-y-5">
-                <div>
-                    <label class="text-xs text-gray-400">الاسم الرباعي (يجب أن يطابق الهوية تماماً):</label>
-                    <input type="text" id="cName" placeholder="أدخل اسمك الكامل أولاً">
-                </div>
+    <section class="h-screen flex flex-col items-center justify-center text-center">
+        <h2 class="text-7xl md:text-[140px] font-ultra mb-4 italic uppercase">The Royal Estate</h2>
+        <p id="locationText" class="text-xl md:text-3xl font-bold text-gold tracking-[10px] bg-black/50 px-10 py-3 rounded-full">أطراف الفلوجة - العراق</p>
+    </section>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="tel" id="cPhone" placeholder="رقم الهاتف">
-                    <input type="text" id="cDate" placeholder="تاريخ الحجز">
+    <section class="max-w-7xl mx-auto py-20 px-6">
+        <div class="text-right mb-12">
+            <h3 class="text-5xl font-ultra text-gold italic">مرافق المنتجع</h3>
+            <p class="opacity-60">اضغط على أي قسم لاستعراض الصور الكاملة</p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="section-card" onclick="alert('فتح ألبوم المسبح...')">
+                <img id="img_pool" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800">
+                <div class="card-overlay">
+                    <h4 class="text-2xl font-black">المسبح الأولمبي</h4>
+                    <p class="text-xs opacity-60">نظام تدفئة وتصفية ذكي</p>
                 </div>
+            </div>
 
-                <select id="cType" onchange="updatePrice()">
+            <div class="section-card" onclick="alert('فتح ألبوم الملاعب...')">
+                <img id="img_sports" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800">
+                <div class="card-overlay">
+                    <h4 class="text-2xl font-black">الملاعب الرياضية</h4>
+                    <p class="text-xs opacity-60">كرة قدم، كرة سلة بتجهيزات دولية</p>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="alert('فتح ألبوم البلياردو...')">
+                <img id="img_billiard" src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800">
+                <div class="card-overlay">
+                    <h4 class="text-2xl font-black">صالة البلياردو</h4>
+                    <p class="text-xs opacity-60">أجواء ترفيهية فخمة</p>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="alert('فتح ألبوم التصميم الداخلي...')">
+                <img id="img_interior" src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800">
+                <div class="card-overlay">
+                    <h4 class="text-2xl font-black">الأجنحة الملكية</h4>
+                    <p class="text-xs opacity-60">تصميم داخلي كلاسيكي حديث</p>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="alert('فتح الألبوم الترفيهي...')">
+                <img id="img_fun" src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800">
+                <div class="card-overlay">
+                    <h4 class="text-2xl font-black">القسم الترفيهي</h4>
+                    <p class="text-xs opacity-60">ألعاب أطفال وجلسات عائلية</p>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="alert('فتح ألبوم الحدائق...')">
+                <img id="img_garden" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800">
+                <div class="card-overlay">
+                    <h4 class="text-2xl font-black">الواحات الخضراء</h4>
+                    <p class="text-xs opacity-60">جلسات خارجية هادئة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto py-20 px-6">
+        <div class="bg-black/80 border-2 border-gold p-10 rounded-[50px] backdrop-blur-xl">
+            <h3 class="text-3xl font-ultra text-gold text-center mb-10">تأمين حجز أمني مدقق</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label class="text-xs text-gray-500 mr-2">الاسم الرباعي (يغلق الحقل بعد رفع المستمسكات):</label>
+                    <input type="text" id="cName" placeholder="اكتب اسمك الصريح هنا">
+                </div>
+                <input type="tel" id="cPhone" placeholder="رقم الموبايل">
+                <input type="text" id="cDate" placeholder="موعد الحجز">
+                
+                <select id="cType" class="md:col-span-2">
                     <option value="24">إقامة كاملة (24 ساعة)</option>
                     <option value="12_AM">فترة صباحية (12 ساعة)</option>
                     <option value="12_PM">فترة مسائية (12 ساعة)</option>
                 </select>
 
-                <div id="uploadSection" class="border-2 border-dashed border-gold/20 p-6 rounded-2xl bg-white/5">
-                    <p class="text-[10px] text-center mb-4 text-red-500 font-bold">⚠️ سيقوم النظام برفض الطلب تلقائياً في حال عدم تطابق الوثائق</p>
+                <div class="md:col-span-2 bg-red-500/5 p-6 rounded-3xl border border-red-500/20">
+                    <p class="text-[10px] text-red-500 font-bold mb-4 text-center">نظام الرفض: سيتم مطابقة الاسم مع الصور المرفوعة</p>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="text-center">
-                            <span class="text-[9px]">ارفع الهوية</span>
-                            <input type="file" id="fId" onchange="validateAndLock()">
+                        <div class="text-center bg-black p-4 rounded-xl">
+                            <span class="text-[10px]">صورة الهوية</span>
+                            <input type="file" id="fId" onchange="securityCheck()">
                         </div>
-                        <div class="text-center">
-                            <span class="text-[9px]">ارفع بطاقة السكن</span>
-                            <input type="file" id="fRes" onchange="validateAndLock()">
+                        <div class="text-center bg-black p-4 rounded-xl">
+                            <span class="text-[10px]">بطاقة السكن</span>
+                            <input type="file" id="fRes" onchange="securityCheck()">
                         </div>
                     </div>
                 </div>
-
-                <div id="validationMsg" class="hidden text-center text-red-500 text-xs font-bold p-2 bg-red-500/10 rounded-lg border border-red-500/20">
-                    ❌ تم رفض العملية: الاسم لا يتطابق مع المعايير الأمنية للوثيقة.
-                </div>
-
-                <button id="bookBtn" onclick="finalSubmit()" class="btn-disabled w-full bg-gold text-black font-black py-5 rounded-2xl text-xl shadow-2xl transition-all" disabled>تأكيد الطلب عبر الواتساب</button>
             </div>
+            <button id="bookBtn" onclick="sendToWA()" disabled class="w-full mt-10 bg-gray-700 text-white font-black py-6 rounded-2xl text-xl opacity-50 cursor-not-allowed">يرجى إكمال البيانات</button>
         </div>
     </section>
 
-    <div id="adminOS" class="fixed inset-0 z-[100] bg-black p-10 hidden overflow-y-auto">
-        <div class="flex justify-between border-b border-gold pb-4 mb-6">
-            <h2 class="text-2xl font-black text-gold">إعدادات النظام الشاملة</h2>
-            <button onclick="closeAdmin()" class="text-red-500 font-bold underline">إغلاق</button>
+    <div id="adminOS">
+        <div class="max-w-5xl mx-auto pb-20">
+            <div class="flex justify-between items-center mb-10 border-b-2 border-gold pb-6">
+                <h2 class="text-4xl font-ultra text-gold">CONTROL CENTER v3.0</h2>
+                <button onclick="closeAdmin()" class="bg-red-600 px-8 py-2 rounded-full font-bold">خروج</button>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="admin-box">
+                    <h4 class="font-bold text-gold mb-4 underline">تعديل المعلومات والأسعار</h4>
+                    <div class="space-y-4">
+                        <input type="text" id="admT" placeholder="اسم المزرعة">
+                        <input type="text" id="admL" placeholder="الموقع">
+                        <input type="text" id="admW" placeholder="رقم واتساب الإدارة">
+                    </div>
+                </div>
+
+                <div class="admin-box">
+                    <h4 class="font-bold text-gold mb-4 underline">تحديث صور الأقسام (JPG)</h4>
+                    <div class="grid grid-cols-2 gap-4 text-[10px]">
+                        <div>الخلفية: <input type="file" onchange="syncImg(this, 'mainBg')"></div>
+                        <div>المسبح: <input type="file" onchange="syncImg(this, 'img_pool')"></div>
+                        <div>الملاعب: <input type="file" onchange="syncImg(this, 'img_sports')"></div>
+                        <div>البلياردو: <input type="file" onchange="syncImg(this, 'img_billiard')"></div>
+                        <div>الداخلية: <input type="file" onchange="syncImg(this, 'img_interior')"></div>
+                        <div>الترفيهي: <input type="file" onchange="syncImg(this, 'img_fun')"></div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="saveAdminChanges()" class="w-full mt-10 bg-green-600 py-6 rounded-3xl font-black text-2xl shadow-2xl">تحديث الموقع فوراً ✅</button>
         </div>
-        <div class="grid gap-6">
-            <div class="bg-white/5 p-4 rounded-xl">
-                <label class="block text-xs mb-2">رقم واتساب الإدارة (بدون +):</label>
-                <input type="text" id="admW" value="9647700000000">
-            </div>
-            </div>
-        <button onclick="saveAdmin()" class="w-full mt-6 bg-green-600 py-4 rounded-xl font-bold text-white">حفظ وتحديث النظام</button>
     </div>
 
     <script>
-        // دالة التحقق والقفل الصارمة
-        function validateAndLock() {
-            const nameInput = document.getElementById('cName');
-            const fileId = document.getElementById('fId');
-            const fileRes = document.getElementById('fRes');
+        // نظام الحماية: قفل الاسم بعد رفع الصور
+        function securityCheck() {
+            const name = document.getElementById('cName');
+            const fId = document.getElementById('fId').files.length;
+            const fRes = document.getElementById('fRes').files.length;
             const btn = document.getElementById('bookBtn');
-            const msg = document.getElementById('validationMsg');
 
-            if (nameInput.value.length < 10) {
-                alert("⚠️ يرجى كتابة الاسم الرباعي بشكل كامل قبل رفع الوثائق.");
-                fileId.value = ""; fileRes.value = "";
+            if (name.value.length < 8) {
+                alert("⚠️ يرجى كتابة الاسم الكامل أولاً قبل رفع الوثائق.");
+                document.getElementById('fId').value = "";
+                document.getElementById('fRes').value = "";
                 return;
             }
 
-            // محاكاة نظام التدقيق: قفل الاسم ومنع التغيير
-            nameInput.readOnly = true;
-            nameInput.style.opacity = "0.5";
-            
-            // تفعيل الزر بعد التأكد من وجود ملفين
-            if (fileId.files.length > 0 && fileRes.files.length > 0) {
-                btn.classList.remove('btn-disabled');
+            name.readOnly = true;
+            name.classList.add('locked-input');
+
+            if (fId > 0 && fRes > 0) {
                 btn.disabled = false;
-                msg.classList.add('hidden');
-                btn.innerText = "تأكيد الطلب (نظام التدقيق: مقبول ✅)";
-                btn.style.background = "#22c55e"; // أخضر
+                btn.classList.remove('bg-gray-700', 'opacity-50', 'cursor-not-allowed');
+                btn.classList.add('bg-gold', 'text-black');
+                btn.innerText = "تأكيد وإرسال واتساب (آمن ✅)";
             }
         }
 
-        function finalSubmit() {
+        // محرك الإدارة والصور
+        function syncImg(input, targetId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const el = document.getElementById(targetId);
+                    if(el.tagName === 'IMG') el.src = e.target.result;
+                    else el.style.backgroundImage = `url('${e.target.result}')`;
+                    localStorage.setItem(targetId, e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        window.onload = function() {
+            // استعادة النصوص
+            document.getElementById('farmTitle').innerText = localStorage.getItem('farmT') || "مزرعة أبو سيف وأبو نمر";
+            document.getElementById('locationText').innerText = localStorage.getItem('farmL') || "أطراف الفلوجة - العراق";
+            
+            // استعادة كافة الصور
+            ['mainBg', 'img_pool', 'img_sports', 'img_billiard', 'img_interior', 'img_fun', 'img_garden'].forEach(id => {
+                const saved = localStorage.getItem(id);
+                if(saved) {
+                    const el = document.getElementById(id);
+                    if(el && el.tagName === 'IMG') el.src = saved;
+                    else if(el) el.style.backgroundImage = `url('${saved}')`;
+                }
+            });
+        };
+
+        function saveAdminChanges() {
+            localStorage.setItem('farmT', document.getElementById('admT').value);
+            localStorage.setItem('farmL', document.getElementById('admL').value);
+            localStorage.setItem('adminWA', document.getElementById('admW').value);
+            location.reload();
+        }
+
+        function sendToWA() {
             const wa = localStorage.getItem('adminWA') || "9647700000000";
-            const name = document.getElementById('cName').value;
-            const msg = `🛡️ *حجز مدقق أمنياً*%0Aالاسم: ${name}%0A_تم قفل الاسم ومطابقته رقمياً مع الملفات المرفقة._`;
+            const msg = `👑 *طلب حجز ملكي*%0A👤 الاسم: ${document.getElementById('cName').value}%0A📅 التاريخ: ${document.getElementById('cDate').value}%0A🕒 الفئة: ${document.getElementById('cType').value}%0A🛡️ نظام الأمان: تم قفل الاسم بنجاح.`;
             window.location.href = `https://wa.me/${wa}?text=${msg}`;
         }
 
-        // إعدادات المدير والتقويم كما في النسخة السابقة لضمان الاستقرار
-        function openAdmin() { if(prompt("رمز المدير:") === "1234") document.getElementById('adminOS').style.display='block'; }
+        function openAdmin() { if(prompt("كود المدير:") === "1234") document.getElementById('adminOS').style.display='block'; }
         function closeAdmin() { document.getElementById('adminOS').style.display='none'; }
-        function saveAdmin() { localStorage.setItem('adminWA', document.getElementById('admW').value); alert("تم التحديث!"); closeAdmin(); }
+        
         flatpickr("#cDate", { minDate: "today", locale: "ar" });
+        lucide.createIcons();
     </script>
 </body>
 </html>
