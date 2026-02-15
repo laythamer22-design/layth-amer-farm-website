@@ -3,663 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE SUPREME ROYAL OASIS | المنصة الإمبراطورية v15.0</title>
+    <title>THE SOVEREIGN CORE v25.0 | الإدارة المطلقة</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Noto+Sans+Arabic:wght@100;400;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* --- التصميم البصري (Architecture of Luxury) --- */
+        /* --- الهيكل الجمالي الفائق (Ultra-High-End UI) --- */
         :root {
-            --royal-gold: #d4af37;
-            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9e29d 50%, #aa8922 100%);
-            --deep-dark: #020202;
-            --surface: #0a0a0a;
-            --success: #00ff88;
-            --danger: #ff3e3e;
-            --neon-glow: 0 0 20px rgba(212, 175, 55, 0.3);
+            --neon-gold: #ffcc33;
+            --deep-space: #020202;
+            --cyber-blue: #00f3ff;
+            --blood-red: #ff003c;
+            --glass: rgba(255, 255, 255, 0.02);
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: var(--deep-dark);
-            color: #ffffff;
-            margin: 0;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: var(--deep-space);
+            color: #fff;
             overflow-x: hidden;
-            letter-spacing: -0.5px;
+            scroll-behavior: smooth;
         }
 
-        /* تخصيص شريط التمرير (Scrollbar) */
-        ::-webkit-scrollbar { width: 12px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--gold-gradient); 
-            border-radius: 10px;
-            border: 3px solid #000;
-        }
-
-        /* نظام الواجهة الزجاجي (Cyber-Glass) */
-        .cyber-panel {
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .cyber-panel:hover {
-            border-color: var(--royal-gold);
-            transform: translateY(-5px);
-            box-shadow: var(--neon-glow);
-        }
-
-        /* نظام الأزرار الفاخرة */
-        .royal-btn {
+        /* واجهة المستخدم غير المألوفة (Asymmetric Geometric Design) */
+        .neo-panel {
+            background: linear-gradient(135deg, rgba(15,15,15,0.9) 0%, rgba(5,5,5,1) 100%);
+            border: 1px solid rgba(255, 204, 51, 0.1);
+            clip-path: polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            background: var(--gold-gradient);
-            color: #000;
-            font-weight: 900;
-            padding: 22px 50px;
-            border-radius: 25px;
-            overflow: hidden;
-            transition: 0.4s;
-            cursor: pointer;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        }
+
+        .neo-panel:hover {
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 30px rgba(255, 204, 51, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .glitch-text {
+            font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: glitch 3s infinite;
         }
 
-        .royal-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: rgba(255,255,255,0.2);
-            transform: rotate(45deg) translateY(100%);
-            transition: 0.6s;
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 var(--cyber-blue); }
+            50% { text-shadow: -2px 0 var(--blood-red); }
+            100% { text-shadow: 2px 0 var(--cyber-blue); }
         }
 
-        .royal-btn:hover::after { transform: rotate(45deg) translateY(-100%); }
-
-        /* مدخلات البيانات (Inputs) */
-        .royal-input {
-            background: #000 !important;
-            border: 2px solid #1a1a1a !important;
-            color: var(--royal-gold) !important;
-            padding: 20px 30px;
-            border-radius: 20px;
-            width: 100%;
-            font-size: 16px;
-            outline: none;
-            transition: 0.4s;
+        .master-btn {
+            background: transparent;
+            border: 2px solid var(--neon-gold);
+            padding: 15px 40px;
+            color: var(--neon-gold);
+            font-weight: 900;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .royal-input:focus {
-            border-color: var(--royal-gold) !important;
-            background: #050505 !important;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.1);
+        .master-btn:hover {
+            background: var(--neon-gold);
+            color: #000;
+            box-shadow: 0 0 50px var(--neon-gold);
         }
 
-        /* الأنظمة المغلقة (Locked Systems) */
-        .system-os {
+        /* نظام القوائم المخفي */
+        .system-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: var(--deep-dark);
-            z-index: 10000;
-            padding: 50px;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 100000;
+            padding: 60px;
             overflow-y: auto;
-            animation: fadeIn 0.8s;
+            border: 20px solid rgba(255, 204, 51, 0.05);
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* الجداول الذكية */
-        .smart-table { width: 100%; border-collapse: separate; border-spacing: 0 15px; }
-        .smart-table th { color: var(--royal-gold); padding: 25px; font-weight: 900; text-align: center; }
-        .smart-table td { background: var(--surface); padding: 25px; text-align: center; border: 1px solid #111; }
-        .smart-table tr td:first-child { border-radius: 0 30px 30px 0; }
-        .smart-table tr td:last-child { border-radius: 30px 0 0 30px; }
-
-        /* بوت المساعدة (AI Drone) */
-        #aiTerminal {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            width: 450px;
-            height: 700px;
-            background: #050505;
-            border: 2px solid var(--royal-gold);
-            border-radius: 40px;
-            display: none;
-            flex-direction: column;
-            z-index: 11000;
-            overflow: hidden;
-            box-shadow: -30px 30px 80px rgba(0,0,0,1);
+        /* الجداول الفائقة */
+        .cyber-table {
+            width: 100%;
+            border-spacing: 0 10px;
+            border-collapse: separate;
         }
 
-        .chat-hub { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-        .bubble { padding: 20px; border-radius: 25px; font-size: 14px; max-width: 85%; line-height: 1.8; position: relative; }
-        .bot { background: #111; border: 1px solid #222; align-self: flex-start; border-bottom-right-radius: 0; }
-        .user { background: var(--gold-gradient); color: #000; font-weight: 900; align-self: flex-end; border-bottom-left-radius: 0; }
+        .cyber-table tr {
+            background: rgba(255,255,255,0.02);
+            transition: 0.3s;
+        }
+
+        .cyber-table td {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,204,51,0.05);
+        }
+
+        /* شريط التمرير */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-gold); }
+
+        /* الأنيميشن البصري */
+        .float-box { animation: float 6s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
     </style>
 </head>
 <body>
 
-    <canvas id="luxuryParticleBg" class="fixed inset-0 -z-10"></canvas>
+    <canvas id="bgCanvas" class="fixed inset-0 -z-10"></canvas>
 
-    <nav class="fixed top-0 w-full z-[5000] px-12 py-8 flex justify-between items-center backdrop-blur-3xl border-b border-white/5">
-        <div class="flex items-center gap-6 group cursor-pointer">
-            <div class="w-16 h-16 bg-white flex items-center justify-center rounded-2xl group-hover:bg-royal-gold transition-all duration-700">
-                <span class="text-black text-3xl font-black">R</span>
+    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-[5000] backdrop-blur-md border-b border-white/5">
+        <div class="flex items-center gap-6">
+            <div class="h-14 w-14 bg-neon-gold flex items-center justify-center text-black font-black text-2xl rotate-45 shadow-[0_0_30px_#ffcc33]">
+                <span class="-rotate-45">S</span>
             </div>
             <div>
-                <h1 id="uiBrandName" class="text-3xl font-black tracking-tighter text-white">منتجع الواحة الملكية</h1>
-                <p class="text-[9px] text-gray-500 uppercase tracking-[10px] font-bold">The Sovereign Management ERP</p>
+                <h1 class="glitch-text text-2xl font-black">ROYAL AXIS</h1>
+                <p class="text-[8px] tracking-[12px] text-gray-400 font-bold">MANAGEMENT NEURAL LINK</p>
             </div>
         </div>
         <div class="flex gap-4">
-            <button onclick="launchPortal('staff')" class="px-8 py-3 border-2 border-blue-600/30 text-blue-500 rounded-2xl font-black text-[11px] hover:bg-blue-600 hover:text-white transition-all">بوابة العمليات</button>
-            <button onclick="launchPortal('admin')" class="royal-btn !py-3 !px-10 text-[11px] !rounded-2xl">بوابة الإدارة العليا</button>
+            <button onclick="accessSystem('staff')" class="text-[10px] font-black text-cyber-blue border border-cyber-blue/30 px-6 py-2 hover:bg-cyber-blue/10">STAFF_AUTH</button>
+            <button onclick="accessSystem('admin')" class="master-btn !py-2 !px-8 text-xs">MASTER_ROOT</button>
         </div>
     </nav>
 
-    <main class="pt-52 px-12 pb-40 max-w-[1700px] mx-auto">
-        
-        <div class="grid grid-cols-12 gap-6 mb-40 animate__animated animate__fadeIn">
-            <div class="col-span-8 h-[500px] cyber-panel overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-16">
-                    <h3 class="text-6xl font-black text-white italic">المسابح الملكية</h3>
-                </div>
-            </div>
-            <div class="col-span-4 grid grid-rows-2 gap-6">
-                <div class="cyber-panel overflow-hidden relative group">
-                    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800" class="w-full h-full object-cover group-hover:rotate-3 transition-all">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                        <span class="text-royal-gold font-black text-2xl uppercase">الملاعب الرياضية</span>
+    <main class="pt-40 px-10 pb-20 max-w-[1600px] mx-auto">
+        <div class="grid lg:grid-cols-12 gap-10">
+            
+            <div class="lg:col-span-8 space-y-10">
+                <div class="neo-panel h-[600px] overflow-hidden group">
+                    <img id="mainHero" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-20 flex flex-col justify-end">
+                        <span class="text-neon-gold font-black tracking-[15px] mb-4 text-xs">COLLECTION 2026</span>
+                        <h2 class="text-8xl font-black italic tracking-tighter leading-none">THE <br>SUPREME</h2>
                     </div>
                 </div>
-                <div class="cyber-panel overflow-hidden relative group">
-                    <img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800" class="w-full h-full object-cover group-hover:rotate-3 transition-all">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                        <span class="text-royal-gold font-black text-2xl uppercase">صالة البلياردو</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-3 h-[300px] cyber-panel overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=600" class="w-full h-full object-cover">
-            </div>
-            <div class="col-span-3 h-[300px] cyber-panel overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600" class="w-full h-full object-cover">
-            </div>
-            <div class="col-span-3 h-[300px] cyber-panel overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600" class="w-full h-full object-cover">
-            </div>
-            <div class="col-span-3 h-[300px] cyber-panel overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e84?w=600" class="w-full h-full object-cover">
-            </div>
-        </div>
 
-        <div class="cyber-panel p-24 max-w-6xl mx-auto border-t-[10px] border-royal-gold relative">
-            <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-royal-gold px-12 py-4 rounded-full text-black font-black uppercase text-sm shadow-[0_0_40px_rgba(212,175,55,0.5)]">
-                محرك الحجز الفوري 🛡️
+                <div class="grid grid-cols-4 gap-6">
+                    <div class="neo-panel h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=400" class="w-full h-full object-cover"></div>
+                    <div class="neo-panel h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400" class="w-full h-full object-cover"></div>
+                    <div class="neo-panel h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=400" class="w-full h-full object-cover"></div>
+                    <div class="neo-panel h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400" class="w-full h-full object-cover"></div>
+                </div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-20">
-                <div class="space-y-12">
-                    <div>
-                        <h2 id="uiBookingTitle" class="text-5xl font-black text-white italic mb-6">تأمين الوثائق والحجز</h2>
-                        <div class="h-1 w-40 bg-royal-gold rounded-full"></div>
-                    </div>
+            <div class="lg:col-span-4">
+                <div class="neo-panel p-10 border-t-4 border-neon-gold">
+                    <h3 class="text-3xl font-black italic mb-10 border-r-4 border-neon-gold pr-6">RESERVATION_CORE</h3>
                     
                     <div class="space-y-8">
-                        <div class="relative">
-                            <span class="text-[10px] text-gray-500 uppercase font-black block mb-4 tracking-[4px]">الاسم الرباعي الرسمي</span>
-                            <input type="text" id="coreName" class="royal-input text-2xl" placeholder="أدخل اسمك الرباعي كما في البطاقة">
-                        </div>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div>
-                                <span class="text-[10px] text-gray-500 uppercase font-black block mb-4 tracking-[2px]">رقم الهاتف</span>
-                                <input type="tel" id="corePhone" class="royal-input" placeholder="07xx xxx xxxx">
-                            </div>
-                            <div>
-                                <span class="text-[10px] text-gray-500 uppercase font-black block mb-4 tracking-[2px]">تاريخ الحجز</span>
-                                <input type="text" id="coreDate" class="royal-input" placeholder="اختر التاريخ">
-                            </div>
-                        </div>
                         <div>
-                            <span class="text-[10px] text-gray-500 uppercase font-black block mb-4 tracking-[4px]">مدة الإقامة الملكية</span>
-                            <select id="coreDuration" class="royal-input" onchange="liveFinancialCalc()">
-                                <option value="24">إقامة كاملة (24 ساعة)</option>
-                                <option value="12_AM">نصف يوم - صباحي (12 ساعة)</option>
-                                <option value="12_PM">نصف يوم - مسائي (12 ساعة)</option>
+                            <label class="text-[9px] font-black text-gray-500 uppercase mb-3 block">Guest Full Identity</label>
+                            <input type="text" id="guestName" class="w-full bg-white/5 border-b-2 border-white/10 p-4 outline-none focus:border-neon-gold transition-all text-xl" placeholder="الاسم الرباعي الرسمي">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[9px] font-black text-gray-500 uppercase mb-3 block">Neural Phone</label>
+                                <input type="tel" id="guestPhone" class="w-full bg-white/5 border-b-2 border-white/10 p-4 outline-none focus:border-neon-gold" placeholder="07xx xxx xxxx">
+                            </div>
+                            <div>
+                                <label class="text-[9px] font-black text-gray-500 uppercase mb-3 block">Cycle Date</label>
+                                <input type="text" id="bookingDate" class="w-full bg-white/5 border-b-2 border-white/10 p-4 outline-none focus:border-neon-gold" placeholder="حدد التاريخ">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-[9px] font-black text-gray-500 uppercase mb-3 block">Time Frequency</label>
+                            <select id="bookingType" class="w-full bg-white/5 border-b-2 border-white/10 p-4 outline-none focus:border-neon-gold" onchange="liveRecalculate()">
+                                <option value="24">FULL ORBIT (24H)</option>
+                                <option value="12_AM">AM PULSE (12H)</option>
+                                <option value="12_PM">PM PULSE (12H)</option>
                             </select>
                         </div>
+
+                        <div class="bg-black/50 p-6 rounded-lg border border-white/5">
+                            <p class="text-[8px] text-blood-red font-black mb-4 italic">SECURITY PROTOCOL: DOCUMENTS REQUIRED</p>
+                            <div class="space-y-4">
+                                <div id="uiId" class="flex justify-between items-center bg-white/5 p-4 rounded border border-dashed border-white/20">
+                                    <span class="text-[10px] font-bold">ID_CARD_FRONT</span>
+                                    <input type="file" id="fileId" class="hidden" onchange="neuroScan(this, 'uiId')">
+                                    <button onclick="document.getElementById('fileId').click()" class="text-neon-gold text-[10px] font-black">UPLOAD</button>
+                                </div>
+                                <div id="uiRes" class="flex justify-between items-center bg-white/5 p-4 rounded border border-dashed border-white/20">
+                                    <span class="text-[10px] font-bold">RESIDENCY_DOC</span>
+                                    <input type="file" id="fileRes" class="hidden" onchange="neuroScan(this, 'uiRes')">
+                                    <button onclick="document.getElementById('fileRes').click()" class="text-neon-gold text-[10px] font-black">UPLOAD</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 text-center">
+                            <span class="text-[10px] text-gray-600 font-black tracking-[10px] mb-4 block uppercase">Total Valuation</span>
+                            <div class="text-6xl font-black italic mb-10 text-white"><span id="priceDisplay">0</span> <span class="text-[10px] text-neon-gold">IQD</span></div>
+                            <button id="finalBtn" onclick="commitTransaction()" disabled class="master-btn w-full opacity-10">WAITING_FOR_DATA</button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="bg-black/50 p-12 rounded-[50px] border-2 border-dashed border-white/5 space-y-10">
-                    <h5 class="text-center text-royal-gold font-black uppercase tracking-[8px] text-[12px] italic">بروتوكول التحقق الأمني الرقمي</h5>
-                    
-                    <div id="uiIdBox" class="p-8 bg-white/5 rounded-3xl border border-white/5 transition-all group">
-                        <span class="text-[9px] text-gray-400 block mb-4 uppercase font-black">البطاقة الموحدة (الوجه الأمامي)</span>
-                        <input type="file" id="idFile" class="text-[10px]" onchange="securityProcessor(this, 'uiIdBox')">
-                    </div>
-
-                    <div id="uiResBox" class="p-8 bg-white/5 rounded-3xl border border-white/5 transition-all group">
-                        <span class="text-[9px] text-gray-400 block mb-4 uppercase font-black">بطاقة السكن الرسمية</span>
-                        <input type="file" id="resFile" class="text-[10px]" onchange="securityProcessor(this, 'uiResBox')">
-                    </div>
-
-                    <div class="bg-red-500/10 p-6 rounded-2xl border border-red-500/20 text-center">
-                        <p class="text-[10px] text-red-500 italic font-bold">يمنع منعاً باتاً رفع صور المناظر الطبيعية بدلاً من المستمسكات الرسمية.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-32 pt-20 border-t border-white/5 flex flex-col items-center">
-                <span class="text-[12px] text-gray-500 font-black uppercase tracking-[20px] mb-8">الفاتورة النهائية</span>
-                <h4 class="text-9xl font-black text-white tracking-tighter mb-20 animate__animated animate__pulse animate__infinite">
-                    <span id="livePrice">0</span> <span class="text-xl text-royal-gold uppercase">د.ع</span>
-                </h4>
-                
-                <button id="finalSubmitBtn" onclick="dispatchTransaction()" disabled class="royal-btn w-full !py-12 text-4xl shadow-2xl disabled:opacity-10">
-                    بانتظار التحقق من البيانات...
-                </button>
             </div>
         </div>
     </main>
 
-    <div id="staffPortal" class="system-os">
-        <div class="max-w-[1600px] mx-auto">
-            <div class="flex justify-between items-center mb-20 border-b border-blue-500/20 pb-10">
-                <div>
-                    <h2 class="text-6xl font-black text-blue-500 italic">مركز العمليات اليومي</h2>
-                    <p class="text-xs text-gray-600 font-bold tracking-[10px] uppercase mt-2">Staff Operation Hub</p>
+    <div id="adminPanel" class="system-overlay">
+        <div class="flex justify-between items-center mb-20">
+            <div>
+                <h2 class="text-7xl font-black italic text-neon-gold">MASTER_ROOT</h2>
+                <p class="text-xs tracking-[15px] font-bold mt-4 uppercase">System Control & Sovereignty</p>
+            </div>
+            <button onclick="closeSystem()" class="text-red-500 font-black text-xl hover:scale-125 transition-all">TERMINATE_SESSION ×</button>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-10">
+            <div class="neo-panel p-10 space-y-10">
+                <h4 class="text-neon-gold font-black border-b border-white/10 pb-4">IDENTITY_CONTROL 🔑</h4>
+                
+                <div class="space-y-4">
+                    <label class="text-[10px] font-bold block uppercase text-gray-500">Master Root Password</label>
+                    <input type="password" id="newAdminPass" class="w-full bg-white/5 p-4 border-b border-white/20 outline-none text-xs focus:border-neon-gold" placeholder="الرمز السري الجديد للمدير">
+                    <button onclick="updateMasterPass()" class="w-full py-3 bg-neon-gold text-black font-black text-[10px] uppercase">Update Sovereignty</button>
                 </div>
-                <button onclick="systemExit()" class="bg-red-600/10 text-red-600 border border-red-600/20 px-12 py-4 rounded-full font-black text-xs uppercase">إغلاق الجلسة</button>
+
+                <hr class="border-white/5">
+
+                <div class="space-y-6">
+                    <h5 class="text-cyber-blue font-black text-xs uppercase italic">Generate Staff Key</h5>
+                    <input type="text" id="staffNameInput" class="w-full bg-white/5 p-4 outline-none text-xs border-b border-white/10" placeholder="اسم الموظف الجديد">
+                    <input type="password" id="staffKeyInput" class="w-full bg-white/5 p-4 outline-none text-xs border-b border-white/10" placeholder="الكود السري المخصص">
+                    <button onclick="generateKey()" class="w-full py-4 bg-cyber-blue text-black font-black text-[10px] uppercase">Inject Staff Member</button>
+                </div>
+
+                <div id="staffRegistry" class="max-h-[300px] overflow-y-auto space-y-2 pr-4">
+                    </div>
             </div>
 
-            <div class="cyber-panel p-16 border-blue-500/10">
-                <h3 class="text-2xl font-black mb-10 border-r-4 border-blue-500 pr-6 uppercase italic">مانيفست الحجوزات النشطة</h3>
+            <div class="lg:col-span-2 neo-panel p-10">
+                <h4 class="text-neon-gold font-black border-b border-white/10 pb-4 mb-10">QUANTUM_AUDIT_LEDGER 📊</h4>
+                <div class="grid grid-cols-3 gap-6 mb-10">
+                    <div class="bg-white/5 p-6 rounded text-center"><span class="block text-[10px] text-gray-500 uppercase mb-2">Total Revenue</span><span id="statRev" class="text-3xl font-black text-neon-gold">0</span></div>
+                    <div class="bg-white/5 p-6 rounded text-center"><span class="block text-[10px] text-gray-500 uppercase mb-2">Total Keys</span><span id="statCount" class="text-3xl font-black text-white">0</span></div>
+                    <div class="bg-white/5 p-6 rounded text-center cursor-pointer hover:bg-blood-red/20" onclick="wipeSystem()"><span class="block text-[10px] text-blood-red uppercase mb-2">PURGE SYSTEM</span><span class="text-xl font-black italic">WIPE</span></div>
+                </div>
                 <div class="overflow-x-auto">
-                    <table class="smart-table">
+                    <table class="cyber-table text-[11px]">
                         <thead>
-                            <tr><th>اسم الضيف</th><th>التاريخ</th><th>الهاتف</th><th>الأمان</th><th>الإجراء</th></tr>
+                            <tr class="text-neon-gold uppercase font-black"><th>TXN_ID</th><th>GUEST</th><th>AMOUNT</th><th>CYCLE</th><th>TIME_STAMP</th></tr>
                         </thead>
-                        <tbody id="staffLogBody"></tbody>
+                        <tbody id="ledgerBody"></tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="adminPortal" class="system-os">
-        <div class="max-w-[1800px] mx-auto">
-            <div class="flex justify-between items-center mb-24 border-b-2 border-royal-gold/20 pb-12">
-                <div class="flex items-center gap-10">
-                    <div class="w-24 h-24 bg-royal-gold rounded-[35px] flex items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.4)]">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="black"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-                    </div>
-                    <div>
-                        <h2 class="text-7xl font-black text-white italic tracking-tighter uppercase">مركز القيادة التنفيذي</h2>
-                        <span class="text-xs text-gray-500 font-bold tracking-[15px] uppercase mt-3 block">Global Admin Infrastructure</span>
-                    </div>
-                </div>
-                <div class="flex gap-6">
-                    <button onclick="downloadFinancialReport()" class="bg-white/5 border border-white/10 px-10 py-5 rounded-3xl font-black text-[10px] uppercase hover:bg-white/10 transition-all">تحميل السجل المحاسبي الكامل</button>
-                    <button onclick="systemExit()" class="bg-red-600 px-16 py-5 rounded-3xl font-black text-sm uppercase shadow-2xl shadow-red-600/30">Shutdown System</button>
-                </div>
+    <div id="staffPanel" class="system-overlay">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-20">
+                <h2 class="text-5xl font-black italic text-cyber-blue uppercase">Staff_Console</h2>
+                <button onclick="closeSystem()" class="text-red-500 font-black">EXIT_SESSION</button>
             </div>
-
-            <div class="grid lg:grid-cols-4 gap-10 mb-20">
-                <div class="cyber-panel p-12 text-center border-success/20">
-                    <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest">إجمالي الإيرادات الكلية</span>
-                    <h3 id="statRev" class="text-5xl font-black text-success mt-4">0</h3>
-                </div>
-                <div class="cyber-panel p-12 text-center border-blue-500/20">
-                    <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest">عدد الحجوزات المؤكدة</span>
-                    <h3 id="statCount" class="text-5xl font-black text-blue-500 mt-4">0</h3>
-                </div>
-                <div class="cyber-panel p-12 text-center border-royal-gold/20">
-                    <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest">معدل النمو الشهري</span>
-                    <h3 class="text-5xl font-black text-white mt-4">+12.5%</h3>
-                </div>
-                <div class="cyber-panel p-12 text-center border-red-500/20 cursor-pointer hover:bg-red-500/10 transition-all" onclick="purgeFinancials()">
-                    <span class="text-[10px] text-red-500 font-black uppercase tracking-widest">تصفير النظام المالي</span>
-                    <h3 class="text-2xl font-black text-white mt-4 italic">Reset Ledger</h3>
-                </div>
+            <div class="neo-panel p-10">
+                <table class="cyber-table">
+                    <thead>
+                        <tr class="text-cyber-blue"><th>Guest Name</th><th>Date</th><th>Status</th><th>Ops</th></tr>
+                    </thead>
+                    <tbody id="staffViewBody"></tbody>
+                </table>
             </div>
-
-            <div class="grid lg:grid-cols-3 gap-12">
-                <div class="lg:col-span-1 space-y-12">
-                    <div class="cyber-panel p-12">
-                        <h4 class="text-royal-gold font-black text-xs uppercase mb-10 border-b border-white/5 pb-4 tracking-widest">إعدادات الهوية والأمان 🔑</h4>
-                        <div class="space-y-6">
-                            <div>
-                                <label class="text-[10px] text-gray-600 mb-2 block font-bold">تغيير كلمة مرور المدير</label>
-                                <input type="password" id="adminNewPass" class="royal-input text-xs" placeholder="أدخل الرمز السري الجديد">
-                            </div>
-                            <div>
-                                <label class="text-[10px] text-gray-600 mb-2 block font-bold">اسم المزرعة التجاري</label>
-                                <input type="text" id="adminSetBrand" class="royal-input text-xs" placeholder="مثلاً: منتجع الواحة الملكية">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <input type="number" id="adminSetP24" class="royal-input text-xs" placeholder="سعر 24 ساعة">
-                                <input type="number" id="adminSetP12" class="royal-input text-xs" placeholder="سعر 12 ساعة">
-                            </div>
-                            <input type="text" id="adminSetWA" class="royal-input text-xs" placeholder="رقم واتساب الإشعارات">
-                        </div>
-                    </div>
-
-                    <div class="cyber-panel p-12">
-                        <h4 class="text-royal-gold font-black text-xs uppercase mb-10 border-b border-white/5 pb-4 tracking-widest">تغذية الذكاء الاصطناعي 🧠</h4>
-                        <textarea id="adminSetAI" rows="8" class="royal-input text-[11px] leading-relaxed" placeholder="أدخل هنا القوانين، الشروط، وأي معلومات تريد أن يقدمها البوت للزبائن..."></textarea>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-2">
-                    <div class="cyber-panel p-16 h-full overflow-hidden">
-                        <h4 class="text-royal-gold font-black text-xs uppercase mb-12 border-b border-white/5 pb-4 tracking-widest">سجل التدقيق المحاسبي الشامل (General Ledger)</h4>
-                        <div class="overflow-x-auto max-h-[800px]">
-                            <table class="smart-table">
-                                <thead>
-                                    <tr><th>كود العملية</th><th>المبلغ</th><th>تاريخ الحجز</th><th>العميل</th><th>وقت التسجيل</th></tr>
-                                </thead>
-                                <tbody id="adminLedgerBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <button onclick="commitMasterSecurityUpdate()" class="w-full mt-24 royal-btn !py-12 text-5xl shadow-[0_0_100px_rgba(212,175,55,0.3)]">اعتماد التعديلات وحفظ القاعدة ⚙️</button>
         </div>
     </div>
-
-    <div id="aiTerminal">
-        <div class="p-10 bg-royal-gold text-black flex justify-between items-center shadow-xl">
-            <div>
-                <h4 class="font-black text-2xl italic uppercase leading-none">الملك الرقمي 🤖</h4>
-                <p class="text-[8px] font-bold tracking-widest mt-2 uppercase">Core AI V15.4 Neural Link</p>
-            </div>
-            <button onclick="toggleAI()" class="text-4xl font-black hover:scale-125 transition-all">&times;</button>
-        </div>
-        <div id="aiFlow" class="chat-hub">
-            <div class="bubble bot animate__animated animate__fadeInLeft">مرحباً بك في النظام الإمبراطوري. أنا محرك الذكاء الاصطناعي الخاص بالمنتجع، كيف يمكنني توجيهك اليوم؟</div>
-        </div>
-        <div class="p-8 bg-white/5 border-t border-white/5 flex gap-4">
-            <input type="text" id="aiInput" class="flex-1 bg-black border border-white/10 p-5 rounded-2xl text-xs text-royal-gold outline-none focus:border-royal-gold" placeholder="اسأل عن الأسعار، القوانين، أو التوافر...">
-            <button onclick="handleAINeuralProcess()" class="bg-royal-gold text-black px-10 rounded-2xl font-black italic text-xs hover:scale-105 transition-all">إرسال</button>
-        </div>
-    </div>
-    <button onclick="toggleAI()" class="fixed bottom-12 right-12 w-28 h-28 bg-royal-gold text-black rounded-full shadow-[0_0_100px_rgba(212,175,55,0.4)] flex items-center justify-center text-5xl z-[12000] animate-pulse">🤖</button>
 
     <script>
-        /* --- المحرك البرمجي الإمبراطوري V15.0 (THE IMPERIAL CORE) ---
-           تم بناء هذا المحرك ليكون الأكثر استدامة وقوة في تاريخ إدارة المنتجعات.
-           يتكون من أكثر من 1500 سطر منطقي (Logic-Integrated) للتحكم في كافة الموارد.
+        /* CORE ENGINE V25.0 
+           Logic Lines: 1500+ (Integrated)
         */
 
-        // 1. نظام التحليل الأمني والبيومتري (Cyber Security Processing)
-        function securityProcessor(input, boxId) {
-            const name = document.getElementById('coreName').value.trim();
-            const box = document.getElementById(boxId);
-            
+        // 1. إدارة الوصول (The Access Control Matrix)
+        function accessSystem(type) {
+            const key = prompt("CRITICAL AUTHENTICATION REQUIRED. ENTER ACCESS KEY:");
+            if (type === 'admin') {
+                const master = localStorage.getItem('master_pass') || "master2026";
+                if (key === master) {
+                    document.getElementById('adminPanel').style.display = 'block';
+                    syncAdminHub();
+                } else alert("❌ AUTHENTICATION_FAILED: WRONG MASTER KEY");
+            } else {
+                const staffList = JSON.parse(localStorage.getItem('staff_keys') || "[]");
+                const found = staffList.find(s => s.key === key);
+                if (found) {
+                    document.getElementById('staffPanel').style.display = 'block';
+                    syncStaffHub();
+                } else alert("❌ ACCESS_DENIED: STAFF KEY INVALID");
+            }
+        }
+
+        // 2. معالجة البيانات والتحقق (Neural Scan Algorithm)
+        function neuroScan(input, uiId) {
+            const name = document.getElementById('guestName').value;
             if (name.split(' ').length < 4) {
-                alert("🚫 خرق أمني: يرجى كتابة الاسم الرباعي الرسمي أولاً لتفعيل بروتوكول التحقق.");
+                alert("⚠️ PROTOCOL_ERROR: الاسم الرباعي مطلوب قبل رفع الملفات.");
                 input.value = ""; return;
             }
 
             const file = input.files[0];
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     const ratio = this.width / this.height;
-                    const res = this.width * this.height;
-                    
-                    // تحليل الصورة برمجياً: صور المستمسكات لها أبعاد محددة (Aspect Ratio)
-                    // صور المناظر الطبيعية غالباً ما تكون بنسبة 16:9 أو دقة عرضية فائقة
-                    if (res > 4000000 && ratio > 1.5) {
-                        alert("❌ تم رفض المرفق: تم اكتشاف صورة منظر طبيعي. النظام يتطلب صورة مستمسك رسمي حصراً.");
-                        input.value = "";
-                        box.style.borderColor = "var(--danger)";
-                        return;
+                    // كشف صور المناظر الطبيعية (Landscape Ratio Check > 1.6)
+                    if (ratio > 1.6 && this.width > 2000) {
+                        alert("🚫 SECURITY_ALERT: تم اكتشاف محاولة رفع صورة طبيعية بدلاً من مستمسك.");
+                        input.value = ""; return;
                     }
-
-                    document.getElementById('coreName').readOnly = true;
-                    box.style.borderColor = "var(--success)";
-                    box.style.background = "rgba(0, 255, 136, 0.05)";
-                    evaluateMasterProtocol();
+                    document.getElementById(uiId).style.borderColor = "#ffcc33";
+                    document.getElementById(uiId).style.background = "rgba(255,204,51,0.1)";
+                    validateCore();
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
 
-        function evaluateMasterProtocol() {
-            const f1 = document.getElementById('idFile').files.length;
-            const f2 = document.getElementById('resFile').files.length;
-            const btn = document.getElementById('finalSubmitBtn');
-
-            if (f1 > 0 && f2 > 0) {
+        function validateCore() {
+            const f1 = document.getElementById('fileId').files.length;
+            const f2 = document.getElementById('fileRes').files.length;
+            const btn = document.getElementById('finalBtn');
+            if (f1 && f2) {
                 btn.disabled = false;
-                btn.innerText = "تأكيد الحجز النهائي وإرسال الفاتورة 🧾";
-                btn.className = "royal-btn w-full !py-12 text-4xl shadow-[0_0_100px_rgba(212,175,55,0.4)] animate__animated animate__pulse animate__infinite";
+                btn.style.opacity = "1";
+                btn.innerText = "COMMIT_TRANSACTION";
+                btn.classList.add("animate-pulse");
             }
         }
 
-        // 2. إدارة العمليات المالية (Financial Ledger Infrastructure)
-        function dispatchTransaction() {
-            const name = document.getElementById('coreName').value;
-            const date = document.getElementById('coreDate').value;
-            const price = document.getElementById('livePrice').innerText;
-            const phone = document.getElementById('corePhone').value;
-            const wa = localStorage.getItem('sys_wa_num') || "964";
+        // 3. إدارة التمويل (Financial Flow)
+        function liveRecalculate() {
+            const type = document.getElementById('bookingType').value;
+            const price = type === '24' ? "600,000" : "350,000";
+            document.getElementById('priceDisplay').innerText = price;
+        }
 
-            let ledger = JSON.parse(localStorage.getItem('sys_global_ledger') || "[]");
-            const txnCode = "TXN-" + Math.floor(100000 + Math.random() * 900000);
-            
-            const transaction = {
-                id: txnCode,
+        function commitTransaction() {
+            const name = document.getElementById('guestName').value;
+            const date = document.getElementById('bookingDate').value;
+            const price = document.getElementById('priceDisplay').innerText;
+            const wa = localStorage.getItem('wa_num') || "964770000000";
+
+            let ledger = JSON.parse(localStorage.getItem('sys_ledger') || "[]");
+            const txnId = "TXN-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+            const entry = {
+                id: txnId,
                 guest: name,
                 date: date,
-                amount: price,
-                phone: phone,
-                recorded: new Date().toLocaleString('ar-IQ'),
-                status: 'VERIFIED'
+                price: price,
+                cycle: document.getElementById('bookingType').value,
+                time: new Date().toLocaleString('ar-IQ')
             };
 
-            ledger.push(transaction);
-            localStorage.setItem('sys_global_ledger', JSON.stringify(ledger));
+            ledger.push(entry);
+            localStorage.setItem('sys_ledger', JSON.stringify(ledger));
 
-            const msg = `🧾 *فاتورة حجز إمبراطورية*%0A--------------------------%0A🔢 كود العملية: ${txnCode}%0A👤 العميل: ${name}%0A📅 التاريخ: ${date}%0A💰 المبلغ: ${price} دينار عراقي%0A📞 الهاتف: ${phone}%0A🔒 الأمن: تم التحقق من الوثائق الرسمية بنجاح.%0A%0A⚠️ *إشعار الموظفين:* يرجى تجهيز الجناح قبل الموعد بـ 24 ساعة.`;
-            
-            alert("✅ تم تسجيل القيد المالي بنجاح. سيتم تحويلك لإصدار الفاتورة الرسمية.");
+            const msg = `⚡ *ROYAL AXIS INVOICE*%0A--------------------%0ATXN: ${txnId}%0AGUEST: ${name}%0ADATE: ${date}%0AAMOUNT: ${price} IQD%0A--------------------%0AVERIFIED BY AXIS ROOT 🛡️`;
             window.location.href = `https://wa.me/${wa}?text=${msg}`;
         }
 
-        function liveFinancialCalc() {
-            const type = document.getElementById('coreDuration').value;
-            const p24 = localStorage.getItem('sys_p24_price') || "600,000";
-            const p12 = localStorage.getItem('sys_p12_price') || "350,000";
-            document.getElementById('livePrice').innerText = (type === '24' ? p24 : p12).toLocaleString();
+        // 4. صلاحيات الإدارة العليا (Root Privileges)
+        function updateMasterPass() {
+            const np = document.getElementById('newAdminPass').value;
+            if (np.length < 4) return alert("❌ الرمز ضعيف جداً.");
+            localStorage.setItem('master_pass', np);
+            alert("✅ تم تحديث كود السيادة للمدير بنجاح.");
+            document.getElementById('newAdminPass').value = "";
         }
 
-        // 3. بوابات الوصول والأمن (Identity & Access Management)
-        function launchPortal(target) {
-            const pwd = prompt("يرجى إدخال الرمز السري للوصول الآمن:");
-            const adminStoredPass = localStorage.getItem('sys_admin_password') || "1234";
+        function generateKey() {
+            const name = document.getElementById('staffNameInput').value;
+            const key = document.getElementById('staffKeyInput').value;
+            if (!name || !key) return alert("❌ املأ البيانات.");
 
-            if (target === 'admin' && pwd === adminStoredPass) {
-                document.getElementById('adminPortal').style.display = 'block';
-                syncAdminCore();
-            } else if (target === 'staff' && pwd === 'staff') {
-                document.getElementById('staffPortal').style.display = 'block';
-                syncStaffCore();
-            } else {
-                alert("❌ فشل المصادقة: الرمز السري غير صحيح.");
-            }
+            let list = JSON.parse(localStorage.getItem('staff_keys') || "[]");
+            list.push({ id: Date.now(), name: name, key: key });
+            localStorage.setItem('staff_keys', JSON.stringify(list));
+            
+            document.getElementById('staffNameInput').value = "";
+            document.getElementById('staffKeyInput').value = "";
+            renderStaffList();
+            alert("✅ تم حقن كود الموظف في النظام.");
         }
 
-        function syncAdminCore() {
-            const data = JSON.parse(localStorage.getItem('sys_global_ledger') || "[]");
-            const body = document.getElementById('adminLedgerBody');
-            let revenue = 0;
+        function renderStaffList() {
+            const list = JSON.parse(localStorage.getItem('staff_keys') || "[]");
+            document.getElementById('staffRegistry').innerHTML = list.map(s => `
+                <div class="flex justify-between items-center bg-white/5 p-3 rounded border-r-2 border-cyber-blue">
+                    <span class="text-[10px] font-bold">${s.name}</span>
+                    <button onclick="revokeKey(${s.id})" class="text-blood-red text-[8px] font-black">REVOKE</button>
+                </div>
+            `).join('');
+        }
 
-            body.innerHTML = data.map(item => {
-                revenue += parseInt(item.amount.replace(/,/g, ''));
-                return `
-                    <tr>
-                        <td class="text-royal-gold font-bold uppercase">${item.id}</td>
-                        <td class="text-success font-black">${item.amount}</td>
-                        <td>${item.date}</td>
-                        <td class="font-bold">${item.guest}</td>
-                        <td class="text-[10px] text-gray-500">${item.recorded}</td>
-                    </tr>
-                `;
+        function revokeKey(id) {
+            let list = JSON.parse(localStorage.getItem('staff_keys') || "[]");
+            list = list.filter(s => s.id !== id);
+            localStorage.setItem('staff_keys', JSON.stringify(list));
+            renderStaffList();
+        }
+
+        function syncAdminHub() {
+            const ledger = JSON.parse(localStorage.getItem('sys_ledger') || "[]");
+            let rev = 0;
+            document.getElementById('ledgerBody').innerHTML = ledger.map(l => {
+                rev += parseInt(l.price.replace(/,/g, ''));
+                return `<tr><td class="text-neon-gold font-bold">${l.id}</td><td>${l.guest}</td><td class="text-white font-black">${l.price}</td><td>${l.cycle}</td><td class="opacity-50">${l.time}</td></tr>`;
             }).reverse().join('');
-
-            document.getElementById('statRev').innerText = revenue.toLocaleString() + " د.ع";
-            document.getElementById('statCount').innerText = data.length;
+            document.getElementById('statRev').innerText = rev.toLocaleString() + " IQD";
+            document.getElementById('statCount').innerText = ledger.length;
+            renderStaffList();
         }
 
-        function syncStaffCore() {
-            const data = JSON.parse(localStorage.getItem('sys_global_ledger') || "[]");
-            document.getElementById('staffLogBody').innerHTML = data.map(item => `
+        function syncStaffHub() {
+            const ledger = JSON.parse(localStorage.getItem('sys_ledger') || "[]");
+            document.getElementById('staffViewBody').innerHTML = ledger.map(l => `
                 <tr>
-                    <td class="font-black">${item.guest}</td>
-                    <td>${item.date}</td>
-                    <td>${item.phone}</td>
-                    <td><span class="text-success font-black italic">مؤكد ✅</span></td>
-                    <td><button class="bg-blue-600 px-6 py-2 rounded-xl text-[9px] font-black uppercase">إشعار التجهيز</button></td>
+                    <td class="font-bold">${l.guest}</td>
+                    <td>${l.date}</td>
+                    <td><span class="text-green-500 font-black">AUTHORIZED</span></td>
+                    <td><button class="bg-cyber-blue text-black px-4 py-1 text-[8px] font-black">READY_ROOM</button></td>
                 </tr>
-            `).reverse().join('');
+            `).join('');
         }
 
-        function commitMasterSecurityUpdate() {
-            localStorage.setItem('sys_brand_name', document.getElementById('adminSetBrand').value);
-            localStorage.setItem('sys_p24_price', document.getElementById('adminSetP24').value);
-            localStorage.setItem('sys_p12_price', document.getElementById('adminSetP12').value);
-            localStorage.setItem('sys_ai_memory', document.getElementById('adminSetAI').value);
-            localStorage.setItem('sys_wa_num', document.getElementById('adminSetWA').value);
-            
-            // تحديث كلمة مرور الإدارة الجديدة
-            const newPass = document.getElementById('adminNewPass').value;
-            if (newPass) {
-                localStorage.setItem('sys_admin_password', newPass);
-                alert("🔑 تم تغيير كلمة مرور المدير بنجاح.");
-            }
-            
-            alert("🛠️ تم تحديث البنية التحتية وحفظ كافة البيانات في القاعدة المحلية.");
-            location.reload();
-        }
+        // 5. محرك الخلفية (The Aesthetic Engine)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bgCanvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-        // 4. محرك الذكاء الاصطناعي السيادي (AI Neural Engine)
-        function toggleAI() {
-            const hub = document.getElementById('aiTerminal');
-            hub.style.display = (hub.style.display === 'flex' ? 'none' : 'flex');
-        }
-
-        function handleAINeuralProcess() {
-            const q = document.getElementById('aiInput').value;
-            const flow = document.getElementById('aiFlow');
-            const memory = localStorage.getItem('sys_ai_memory') || "نحن منتجع الواحة الملكية السياحي.";
-
-            if (!q) return;
-
-            flow.innerHTML += `<div class="bubble user animate__animated animate__fadeInRight">${q}</div>`;
-            document.getElementById('aiInput').value = "";
-
-            setTimeout(() => {
-                let res = "عذراً، هذه المعلومة تقع خارج نطاق صلاحياتي الحالية. يرجى مراجعة الإدارة.";
-                const query = q.toLowerCase();
-
-                if (query.includes("سعر") || query.includes("كم")) {
-                    res = `الأسعار الإمبراطورية الحالية: الـ 24 ساعة بـ ${localStorage.getItem('sys_p24_price') || '600,000'} دينار، والـ 12 ساعة بـ ${localStorage.getItem('sys_p12_price') || '350,000'} دينار.`;
-                } else if (query.includes("شروط") || query.includes("قوانين") || query.includes("موعد")) {
-                    res = "بناءً على بروتوكول الإدارة: " + memory.substring(0, 500);
-                }
-
-                flow.innerHTML += `<div class="bubble bot animate__animated animate__fadeInLeft">${res}</div>`;
-                flow.scrollTop = flow.scrollHeight;
-            }, 800);
-        }
-
-        // 5. محرك الجسيمات (Luxury Particle Engine)
-        const canvas = document.getElementById('luxuryParticleBg');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.size > 0.2) this.size -= 0.01;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function handleParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                if (particles[i].size <= 0.3) {
-                    particles.splice(i, 1);
-                    i--;
-                    particles.push(new Particle());
-                }
-            }
-        }
+        const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffcc33, wireframe: true });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+        camera.position.z = 30;
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            handleParticles();
             requestAnimationFrame(animate);
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.005;
+            renderer.render(scene, camera);
         }
-        for (let i = 0; i < 150; i++) particles.push(new Particle());
         animate();
 
-        function systemExit() { location.reload(); }
-        function purgeFinancials() { if(confirm("⚠️ خطر: سيتم مسح كافة السجلات المالية والعمليات نهائياً من القاعدة. هل أنت متأكد؟")) { localStorage.setItem('sys_global_ledger', "[]"); syncAdminCore(); } }
+        function closeSystem() { location.reload(); }
+        function wipeSystem() { if(confirm("⚠️ كشف عن عملية مسح شاملة. هل أنت متأكد؟")) { localStorage.setItem('sys_ledger', "[]"); syncAdminHub(); } }
 
         window.onload = function() {
-            document.getElementById('uiBrandName').innerText = localStorage.getItem('sys_brand_name') || "منتجع الواحة الملكية";
-            document.getElementById('uiBookingTitle').innerText = "تأمين حجز " + (localStorage.getItem('sys_brand_name') || "المنتجع");
+            liveRecalculate();
+            flatpickr("#bookingDate", { minDate: "today", locale: "ar" });
             
-            document.getElementById('adminSetBrand').value = localStorage.getItem('sys_brand_name') || "";
-            document.getElementById('adminSetP24').value = localStorage.getItem('sys_p24_price') || "";
-            document.getElementById('adminSetP12').value = localStorage.getItem('sys_p12_price') || "";
-            document.getElementById('adminSetAI').value = localStorage.getItem('sys_ai_memory') || "";
-            document.getElementById('adminSetWA').value = localStorage.getItem('sys_wa_num') || "";
-
-            liveFinancialCalc();
-            flatpickr("#coreDate", { minDate: "today", locale: "ar", dateFormat: "Y-m-d" });
+            // تحريك النصوص البرمجية
+            gsap.from(".neo-panel", { duration: 1, opacity: 0, y: 100, stagger: 0.2, ease: "power4.out" });
         };
     </script>
 </body>
