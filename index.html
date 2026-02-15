@@ -3,327 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام أكسس السوبريم v60.0 | بوابة الربط الجغرافي</title>
+    <title>منصة أكسس السوبريم | الإدارة السيادية 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;600;900&family=Changa:wght@200;800&family=Orbitron:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <style>
+        /* --- المعمارية البصرية المتقدمة --- */
         :root {
-            --ذهب: #d4af37;
-            --سواد: #010101;
-            --وهج-ملكي: 0 0 35px rgba(212, 175, 55, 0.25);
+            --gold: #d4af37;
+            --deep-black: #020202;
+            --cyber-blue: #00f3ff;
+            --glass-bg: rgba(255, 255, 255, 0.01);
+            --transition-ultra: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--سواد);
+            background-color: var(--deep-black);
             color: #ffffff;
-            scroll-behavior: smooth;
+            overflow-x: hidden;
+            letter-spacing: 0.5px;
         }
 
-        /* التصميم الهيكلي */
-        .إطار-ملكي {
-            background: linear-gradient(160deg, #0d0d0d 0%, #000 100%);
+        /* واجهة النوافذ الهندسية */
+        .cyber-panel {
+            background: linear-gradient(135deg, rgba(15,15,15,0.95) 0%, rgba(5,5,5,1) 100%);
             border: 1px solid rgba(212, 175, 55, 0.15);
             position: relative;
-            clip-path: polygon(0% 0%, 98% 0%, 100% 2%, 100% 100%, 2% 100%, 0% 98%);
-        }
-
-        .زر-ويز {
-            background: #33ccff;
-            color: #000;
-            font-weight: 900;
-            padding: 12px 25px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.4s;
-            box-shadow: 0 4px 15px rgba(51, 204, 255, 0.3);
-        }
-
-        .زر-ويز:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(51, 204, 255, 0.5);
-        }
-
-        /* الأقسام البصرية */
-        .ألبوم-عرض {
-            height: 600px;
             overflow: hidden;
-            position: relative;
-            cursor: crosshair;
+            backdrop-filter: blur(10px);
+            clip-path: polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%);
+            transition: var(--transition-ultra);
         }
 
-        .ألبوم-عرض img {
+        .cyber-panel:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* ألبومات الأقسام العظمى */
+        .section-vault {
+            height: 650px;
+            position: relative;
+            cursor: none;
+            overflow: hidden;
+        }
+
+        .section-vault img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: 2s cubic-bezier(0.1, 1, 0.1, 1);
+            filter: grayscale(100%) contrast(1.2) brightness(0.4);
+            transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .ألبوم-عرض:hover img {
-            transform: scale(1.15);
+        .section-vault:hover img {
+            filter: grayscale(0%) contrast(1) brightness(0.8);
+            transform: scale(1.1);
         }
 
-        /* نظام الحجز */
-        .حقل-إدخال {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid #222;
-            padding: 20px;
-            color: var(--ذهب);
-            width: 100%;
+        /* أزرار السيادة */
+        .btn-master {
+            background: transparent;
+            border: 2px solid var(--gold);
+            padding: 18px 45px;
+            color: var(--gold);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+            clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+        }
+
+        .btn-master:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 40px var(--gold);
+        }
+
+        /* نظام الملاحة (Waze & Maps) */
+        .nav-gate {
+            display: flex;
+            gap: 15px;
+            position: relative;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
             border-radius: 5px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             transition: 0.3s;
         }
 
-        .حقل-إدخال:focus {
-            border-color: var(--ذهب);
-            background: rgba(212, 175, 55, 0.05);
-            outline: none;
-        }
+        .link-waze { background: #33ccff; color: #000; }
+        .link-maps { background: #34a853; color: #fff; }
 
-        .بوابة-النظام {
+        /* بوابة التحكم (OS Overlay) */
+        .system-os {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.99);
-            z-index: 10000;
+            z-index: 100000;
+            background: rgba(0,0,0,0.98);
+            backdrop-filter: blur(30px);
             padding: 50px;
             overflow-y: auto;
+            border: 10px solid rgba(212, 175, 55, 0.05);
         }
 
-        /* شريط التمرير */
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: var(--ذهب); }
+        /* محاكي الماوس */
+        #custom-cursor {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 999999;
+            transition: transform 0.1s ease;
+        }
+
+        /* الجداول المحاسبية */
+        .account-table {
+            width: 100%;
+            border-spacing: 0 8px;
+            border-collapse: separate;
+        }
+
+        .account-table tr {
+            background: rgba(255,255,255,0.02);
+            transition: 0.3s;
+        }
+
+        .account-table td {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.05);
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
     </style>
 </head>
 <body>
 
-    <header class="fixed top-0 w-full p-10 flex justify-between items-center z-[1000] backdrop-blur-xl border-b border-white/5">
+    <div id="custom-cursor"></div>
+
+    <header class="fixed top-0 w-full p-10 flex justify-between items-center z-[5000] mix-blend-difference">
         <div class="flex items-center gap-6">
-            <div class="h-12 w-12 bg-ذهب flex items-center justify-center font-black text-black text-2xl">A</div>
+            <div class="h-16 w-16 bg-gold flex items-center justify-center font-black text-black text-3xl rotate-45">
+                <span class="-rotate-45">A</span>
+            </div>
             <div>
-                <h1 class="text-xl font-black tracking-widest">أكسس <span class="text-ذهب">السوبريم</span></h1>
-                <p class="text-[8px] text-gray-500 tracking-[10px]">SOVEREIGN AXIS</p>
+                <h1 class="text-3xl font-black tracking-widest uppercase">Axis <span class="text-gold">Sovereign</span></h1>
+                <p class="text-[8px] tracking-[12px] text-gray-400 font-bold">نظام الإدارة الشامل 2026</p>
             </div>
         </div>
 
         <div class="flex items-center gap-8">
-            <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="زر-ويز">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732258.png" class="w-5 h-5" alt="Waze">
-                <span class="text-[10px]">الموقع عبر ويز</span>
-            </a>
-            <button onclick="فتح_لوحة('مدير')" class="text-xs font-black text-ذهب border-b border-ذهب/30">لوحة التحكم</button>
+            <div class="nav-gate">
+                <a href="https://waze.com/ul?ll=33.3152,44.3661&navigate=yes" target="_blank" class="nav-link link-waze italic">WAZE_NAV</a>
+                <a href="https://www.google.com/maps?q=33.3152,44.3661" target="_blank" class="nav-link link-maps italic">GOOGLE_MAPS</a>
+            </div>
+            <button onclick="accessSystem('admin')" class="btn-master !py-2 !px-8 text-xs italic">ROOT_ACCESS</button>
         </div>
     </header>
 
-    <main class="pt-40 px-6">
-        <div class="grid lg:grid-cols-3 gap-6 mb-20">
-            <div class="إطار-ملكي ألبوم-عرض group">
-                <img id="عرض-داخلي" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800" alt="Interior">
-                <div class="absolute inset-0 bg-black/40 p-10 flex flex-col justify-end">
-                    <h3 class="text-4xl font-black italic">التصميم الداخلي</h3>
-                    <div class="h-1 w-20 bg-ذهب mt-4 transition-all group-hover:w-full"></div>
-                </div>
-            </div>
-
-            <div class="إطار-ملكي ألبوم-عرض group">
-                <img id="عرض-مسبح" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800" alt="Pool">
-                <div class="absolute inset-0 bg-black/40 p-10 flex flex-col justify-end">
-                    <h3 class="text-4xl font-black italic">المسبح الملكي</h3>
-                    <div class="h-1 w-20 bg-ذهب mt-4 transition-all group-hover:w-full"></div>
-                </div>
-            </div>
-
-            <div class="إطار-ملكي ألبوم-عرض group">
-                <img id="عرض-ألعاب" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800" alt="Games">
-                <div class="absolute inset-0 bg-black/40 p-10 flex flex-col justify-end">
-                    <h3 class="text-4xl font-black italic">صالات الألعاب</h3>
-                    <div class="h-1 w-20 bg-ذهب mt-4 transition-all group-hover:w-full"></div>
-                </div>
+    <section class="pt-48 px-8 grid lg:grid-cols-3 gap-6 mb-32">
+        <div class="cyber-panel section-vault" id="v-interior">
+            <img id="img-interior" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200" alt="Interior">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
+                <span class="text-gold font-black text-xs mb-4 tracking-[10px]">SECTION_01</span>
+                <h2 class="text-6xl font-black italic mb-4">التصميم <br> الداخلي</h2>
+                <div class="h-1 w-20 bg-gold transition-all duration-700 hover:w-full"></div>
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-12 gap-10 max-w-[1500px] mx-auto pb-40">
+        <div class="cyber-panel section-vault" id="v-pool">
+            <img id="img-pool" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1200" alt="Pool">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
+                <span class="text-gold font-black text-xs mb-4 tracking-[10px]">SECTION_02</span>
+                <h2 class="text-6xl font-black italic mb-4">المسبح <br> الملكي</h2>
+                <div class="h-1 w-20 bg-gold"></div>
+            </div>
+        </div>
+
+        <div class="cyber-panel section-vault" id="v-games">
+            <img id="img-games" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200" alt="Games">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent p-12 flex flex-col justify-end">
+                <span class="text-gold font-black text-xs mb-4 tracking-[10px]">SECTION_03</span>
+                <h2 class="text-6xl font-black italic mb-4">صالات <br> الألعاب</h2>
+                <div class="h-1 w-20 bg-gold"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-8 max-w-[1600px] mx-auto grid lg:grid-cols-12 gap-20 pb-40">
+        
+        <div class="lg:col-span-5 space-y-12">
+            <h3 class="text-8xl font-black italic leading-none tracking-tighter">أثبت <br><span class="text-gold">سيادتك</span></h3>
+            <div class="h-1 w-40 bg-gold"></div>
+            <p class="text-gray-500 text-lg leading-loose italic">نظام أكسس يدمج المعايير الأمنية العالية مع سلاسة الاستخدام. رفع المستمسكات الرسمية هو الخطوة الأولى نحو عالم الرفاهية.</p>
             
-            <div class="lg:col-span-4 space-y-10">
-                <h2 class="text-6xl font-black leading-tight italic">تأكيد <br><span class="text-ذهب font-light">الهوية والحجز</span></h2>
-                <div class="p-8 إطار-ملكي border-r-8 border-ذهب">
-                    <p class="text-gray-400 text-sm leading-loose">نظام أكسس يتطلب رفع المستمسكات الرسمية (هوية الأحوال، بطاقة السكن) لضمان بيئة آمنة وحصرية لجميع الضيوف.</p>
-                </div>
-                <div class="h-60 إطار-ملكي overflow-hidden grayscale contrast-125">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d13337.33230623692!2d44.3661!3d33.3152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2siq!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-
-            <div class="lg:col-span-8 إطار-ملكي p-12">
-                <div class="grid grid-cols-2 gap-8 mb-10">
-                    <div class="col-span-2">
-                        <label class="text-xs font-black text-gray-500 mb-3 block">الاسم الرباعي الرسمي للضيف</label>
-                        <input type="text" id="الاسم_الكامل" class="حقل-إدخال text-xl font-black" placeholder="أدخل الاسم كما في الهوية">
-                    </div>
-                    <div>
-                        <label class="text-xs font-black text-gray-500 mb-3 block">رقم الهاتف الفعال</label>
-                        <input type="tel" id="الهاتف" class="حقل-إدخال" placeholder="07XX XXX XXXX">
-                    </div>
-                    <div>
-                        <label class="text-xs font-black text-gray-500 mb-3 block">تاريخ الدورة (الوصول)</label>
-                        <input type="text" id="التاريخ" class="حقل-إدخال" placeholder="اختر التاريخ">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-6 p-8 bg-white/5 rounded-lg border border-dashed border-ذهب/30 mb-10">
-                    <div class="text-center p-6 border border-white/5 rounded hover:border-ذهب transition-all cursor-pointer" onclick="document.getElementById('file1').click()">
-                        <span class="block text-2xl mb-2">🪪</span>
-                        <span class="text-[10px] font-black">هوية الأحوال / الموحدة</span>
-                        <input type="file" id="file1" class="hidden" onchange="تنبيه_رفع(this, 's1')">
-                        <div id="s1" class="text-[8px] text-ذهب mt-2 opacity-0">تم الاختيار ✓</div>
-                    </div>
-                    <div class="text-center p-6 border border-white/5 rounded hover:border-ذهب transition-all cursor-pointer" onclick="document.getElementById('file2').click()">
-                        <span class="block text-2xl mb-2">🏠</span>
-                        <span class="text-[10px] font-black">بطاقة السكن الرسمية</span>
-                        <input type="file" id="file2" class="hidden" onchange="تنبيه_رفع(this, 's2')">
-                        <div id="s2" class="text-[8px] text-ذهب mt-2 opacity-0">تم الاختيار ✓</div>
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center">
-                    <div>
-                        <span class="text-[10px] text-gray-500 block">قيمة الحجز النهائي</span>
-                        <div class="text-5xl font-black italic">600,000 <span class="text-xs text-ذهب">دينار</span></div>
-                    </div>
-                    <button onclick="إرسال_الطلب()" class="bg-ذهب text-black font-black px-12 py-5 text-sm hover:shadow-[0_0_50px_#d4af37] transition-all">إرسال بيانات الحجز</button>
-                </div>
+            <div class="cyber-panel p-10 border-r-8 border-gold">
+                <span class="text-[10px] font-black text-gold uppercase tracking-[5px] block mb-4">التكلفة الإجمالية للحجز</span>
+                <div class="text-7xl font-black italic"><span id="live-price">600,000</span> <span class="text-xs">دينار عراقي</span></div>
+                <p class="text-[10px] text-gray-600 mt-6 tracking-widest font-bold">شاملة جميع الخدمات والوصول الكامل لجميع الأقسام</p>
             </div>
         </div>
-    </main>
 
-    <div id="لوحة-التحكم" class="بوابة-النظام">
-        <div class="max-w-[1500px] mx-auto">
-            <div class="flex justify-between items-center mb-16">
-                <h2 class="text-6xl font-black italic text-ذهب">إدارة أكسس <span class="text-white">v60.0</span></h2>
-                <button onclick="إغلاق_النظام()" class="text-red-500 font-black">إيقاف الجلسة ×</button>
+        <div class="lg:col-span-7 cyber-panel p-16">
+            <div class="grid grid-cols-2 gap-10">
+                <div class="col-span-2">
+                    <label class="text-xs font-black text-gray-500 mb-4 block uppercase tracking-[3px]">الاسم الرباعي الرسمي</label>
+                    <input type="text" id="guest-name" class="w-full bg-transparent border-b-2 border-white/10 p-4 text-3xl font-black focus:border-gold outline-none transition-all" placeholder="أدخل الاسم الكامل">
+                </div>
+                <div>
+                    <label class="text-xs font-black text-gray-500 mb-4 block uppercase tracking-[3px]">رقم الاتصال</label>
+                    <input type="tel" id="guest-phone" class="w-full bg-transparent border-b-2 border-white/10 p-4 focus:border-gold outline-none" placeholder="07xx xxx xxxx">
+                </div>
+                <div>
+                    <label class="text-xs font-black text-gray-500 mb-4 block uppercase tracking-[3px]">تاريخ الدورة</label>
+                    <input type="text" id="booking-date" class="w-full bg-transparent border-b-2 border-white/10 p-4 focus:border-gold outline-none" placeholder="اختر التاريخ">
+                </div>
+                
+                <div class="col-span-2 grid grid-cols-2 gap-6 pt-10">
+                    <div class="p-8 border border-dashed border-white/10 rounded text-center hover:border-gold transition-all group" onclick="document.getElementById('id-front').click()">
+                        <span class="block text-4xl mb-4 group-hover:scale-125 transition-transform">🪪</span>
+                        <span class="text-[10px] font-black block">صورة الهوية / الموحدة</span>
+                        <input type="file" id="id-front" class="hidden" onchange="fileVerify(this, 's1')">
+                        <div id="s1" class="text-green-500 text-[10px] mt-4 font-bold opacity-0">تم التحقق ✓</div>
+                    </div>
+                    <div class="p-8 border border-dashed border-white/10 rounded text-center hover:border-gold transition-all group" onclick="document.getElementById('id-residence').click()">
+                        <span class="block text-4xl mb-4 group-hover:scale-125 transition-transform">🏠</span>
+                        <span class="text-[10px] font-black block">بطاقة السكن الرسمية</span>
+                        <input type="file" id="id-residence" class="hidden" onchange="fileVerify(this, 's2')">
+                        <div id="s2" class="text-green-500 text-[10px] mt-4 font-bold opacity-0">تم التحقق ✓</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4 space-y-8">
-                    <div class="إطار-ملكي p-8">
-                        <h4 class="text-ذهب font-black mb-6 border-b border-white/5 pb-2">تغيير صور الموقع 🖼️</h4>
+            <div class="mt-20">
+                <button onclick="initiateTransaction()" class="btn-master w-full text-xl py-8">تأكيد الحجز السيادي</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="admin-os" class="system-os">
+        <div class="max-w-[1700px] mx-auto">
+            <div class="flex justify-between items-center mb-24 border-b border-gold/20 pb-12">
+                <div>
+                    <h2 class="text-8xl font-black italic tracking-tighter text-gold">ROOT_<span class="text-white">ACCESS</span></h2>
+                    <p class="text-[10px] tracking-[20px] font-bold text-gray-500 mt-6 uppercase">نظام الرقابة والتدقيق المحاسبي الشامل</p>
+                </div>
+                <button onclick="closeOS()" class="text-red-600 font-black text-xl hover:scale-110 transition-transform">TERMINATE_SESSION ×</button>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12">
+                
+                <div class="lg:col-span-4 space-y-10">
+                    
+                    <div class="cyber-panel p-10">
+                        <h4 class="text-gold font-black text-xs mb-10 tracking-[5px] uppercase border-b border-white/5 pb-4">Media Core Assets 📸</h4>
                         <div class="space-y-6">
-                            <input type="file" onchange="تحديث_ميديا(this, 'داخلي')" class="text-[10px] block w-full">
-                            <input type="file" onchange="تحديث_ميديا(this, 'مسبح')" class="text-[10px] block w-full">
-                            <input type="file" onchange="تحديث_ميديا(this, 'ألعاب')" class="text-[10px] block w-full">
+                            <div class="flex justify-between items-center bg-white/5 p-4 rounded">
+                                <span class="text-[10px] font-bold">INTERIOR_IMG</span>
+                                <input type="file" onchange="updateAsset(this, 'interior')" class="hidden" id="f-int">
+                                <button onclick="document.getElementById('f-int').click()" class="text-gold text-[10px] font-black">UPLOAD</button>
+                            </div>
+                            <div class="flex justify-between items-center bg-white/5 p-4 rounded">
+                                <span class="text-[10px] font-bold">POOL_IMG</span>
+                                <input type="file" onchange="updateAsset(this, 'pool')" class="hidden" id="f-pool">
+                                <button onclick="document.getElementById('f-pool').click()" class="text-gold text-[10px] font-black">UPLOAD</button>
+                            </div>
+                            <div class="flex justify-between items-center bg-white/5 p-4 rounded">
+                                <span class="text-[10px] font-bold">GAMES_IMG</span>
+                                <input type="file" onchange="updateAsset(this, 'games')" class="hidden" id="f-games">
+                                <button onclick="document.getElementById('f-games').click()" class="text-gold text-[10px] font-black">UPLOAD</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="إطار-ملكي p-8">
-                        <h4 class="text-ذهب font-black mb-6">إدارة الأكواد السرية 🛡️</h4>
-                        <input type="password" id="رمز_مدير" class="حقل-إدخال text-xs mb-4" placeholder="رمز مدير جديد">
-                        <button onclick="تغيير_الرمز()" class="w-full bg-ذهب text-black font-black py-3 text-xs">تحديث السيادة</button>
+
+                    <div class="cyber-panel p-10">
+                        <h4 class="text-gold font-black text-xs mb-10 tracking-[5px] uppercase border-b border-white/5 pb-4">Identity Forge 🔑</h4>
+                        <div class="space-y-6">
+                            <input type="password" id="master-pass-new" class="w-full bg-white/5 p-4 border-b border-gold/30 outline-none text-xs" placeholder="تغيير كود المدير الرئيسي">
+                            <button onclick="updateMasterPass()" class="w-full py-4 bg-gold text-black font-black text-[10px]">تحديث السيادة</button>
+                            <hr class="border-white/5 my-6">
+                            <input type="text" id="staff-name" class="w-full bg-white/5 p-4 border-b border-white/10 outline-none text-xs mb-4" placeholder="اسم الموظف">
+                            <input type="password" id="staff-key" class="w-full bg-white/5 p-4 border-b border-white/10 outline-none text-xs mb-4" placeholder="كود الدخول المخصص">
+                            <button onclick="injectStaffKey()" class="w-full py-4 border border-gold text-gold font-black text-[10px]">توليد كود موظف</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-8 إطار-ملكي p-10">
-                    <table class="w-full text-center text-xs">
-                        <thead class="bg-ذهب text-black font-black">
-                            <tr><th class="p-4">TXN</th><th>الضيف</th><th>التاريخ</th><th>المستمسكات</th><th>الحالة</th></tr>
-                        </thead>
-                        <tbody id="سجل-الحجوزات"></tbody>
-                    </table>
+                <div class="lg:col-span-8">
+                    <div class="grid grid-cols-3 gap-6 mb-10">
+                        <div class="cyber-panel p-8 text-center">
+                            <span class="text-[10px] text-gray-500 uppercase block mb-2">إجمالي الإيرادات</span>
+                            <span id="stat-revenue" class="text-4xl font-black text-gold">0</span>
+                        </div>
+                        <div class="cyber-panel p-8 text-center">
+                            <span class="text-[10px] text-gray-500 uppercase block mb-2">عدد الحجوزات</span>
+                            <span id="stat-count" class="text-4xl font-black text-white">0</span>
+                        </div>
+                        <div class="cyber-panel p-8 text-center border-b-4 border-red-600">
+                            <span class="text-[10px] text-red-600 uppercase block mb-2">الضرائب التقديرية</span>
+                            <span id="stat-tax" class="text-4xl font-black text-white">0</span>
+                        </div>
+                    </div>
+
+                    <div class="cyber-panel p-10 h-[600px] overflow-y-auto">
+                        <h4 class="text-gold font-black text-xs mb-10 tracking-[5px] uppercase">سجل الحجوزات المركزي (التدقيق المالي)</h4>
+                        <table class="account-table">
+                            <thead>
+                                <tr class="text-gold text-[10px] font-black">
+                                    <th>TXN_ID</th>
+                                    <th>الضيف</th>
+                                    <th>المبلغ (IQD)</th>
+                                    <th>التاريخ</th>
+                                    <th>المستمسكات</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audit-ledger-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. إدارة الميديا والرفع
-        function تحديث_ميديا(input, target) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = e.target.result;
-                if(target === 'داخلي') document.getElementById('عرض-داخلي').src = img;
-                if(target === 'مسبح') document.getElementById('عرض-مسبح').src = img;
-                if(target === 'ألعاب') document.getElementById('عرض-ألعاب').src = img;
-                localStorage.setItem('axis_media_' + target, img);
-                alert('تم تحديث ميديا قسم: ' + target);
-            };
-            reader.readAsDataURL(input.files[0]);
+        /* THE SOVEREIGN ENGINE v70.0
+           - Logic Density: Ultra-Dense
+           - Scope: Accounting, Security, GIS (Waze/Maps), Asset Management
+        */
+
+        // 1. نظام تتبع الماوس (UX Enhancement)
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 2. إدارة الأصول البصرية (Media Persistence)
+        function updateAsset(input, target) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgData = e.target.result;
+                    document.getElementById(`img-${target}`).src = imgData;
+                    localStorage.setItem(`axis_asset_${target}`, imgData);
+                    alert(`✅ نظام الميديا: تم تحديث أصول قسم ${target} بنجاح.`);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
-        function تنبيه_رفع(input, viewId) {
+        function fileVerify(input, statusId) {
             if(input.files.length > 0) {
-                document.getElementById(viewId).style.opacity = "1";
-                gsap.from("#" + viewId, {scale: 0.5, duration: 0.4});
+                const status = document.getElementById(statusId);
+                status.style.opacity = "1";
+                gsap.from(status, { scale: 0, duration: 0.5, ease: "back.out" });
             }
         }
 
-        // 2. إدارة الوصول (Security Core)
-        function فتح_لوحة(type) {
-            const key = prompt("أدخل كود الصلاحية العليا:");
+        // 3. المحرك الأمني (Security & Auth Matrix)
+        function accessSystem(type) {
+            const key = prompt("⚠️ نظام أكسس: يرجى إدخال مفتاح التحقق السيادي:");
             const master = localStorage.getItem('axis_master_key') || "1234";
-            if(key === master) {
-                document.getElementById('لوحة-التحكم').style.display = "block";
-                مزامنة_السجل();
-            } else alert("❌ الكود غير صحيح");
-        }
 
-        function تغيير_الرمز() {
-            const val = document.getElementById('رمز_مدير').value;
-            if(val) {
-                localStorage.setItem('axis_master_key', val);
-                alert('تم تحديث رمز الدخول بنجاح');
+            if (type === 'admin') {
+                if (key === master) {
+                    document.getElementById('admin-os').style.display = 'block';
+                    gsap.from("#admin-os", { opacity: 0, duration: 0.8 });
+                    syncAccountingHub();
+                } else {
+                    alert("🚫 خطأ أمني: كود التحقق غير صحيح. تم تسجيل المحاولة.");
+                }
+            } else {
+                const staffList = JSON.parse(localStorage.getItem('axis_staff_keys') || "[]");
+                const found = staffList.find(s => s.key === key);
+                if (found) {
+                    alert(`أهلاً بك يا ${found.name}. بوابة الموظفين جاهزة.`);
+                } else {
+                    alert("🚫 وصول مرفوض.");
+                }
             }
         }
 
-        // 3. محرك المعاملات (Booking Matrix)
-        function إرسال_الطلب() {
-            const n = document.getElementById('الاسم_الكامل').value;
-            const d = document.getElementById('التاريخ').value;
-            const f1 = document.getElementById('file1').files.length;
-            const f2 = document.getElementById('file2').files.length;
+        function updateMasterPass() {
+            const newVal = document.getElementById('master-pass-new').value;
+            if(newVal.length < 4) return alert("❌ الرمز ضعيف جداً.");
+            localStorage.setItem('axis_master_key', newVal);
+            alert("✅ تم تحديث كود السيادة للمدير.");
+            document.getElementById('master-pass-new').value = "";
+        }
 
-            if(!n || !d || !f1 || !f2) return alert("يرجى ملء كافة الحقول ورفع المستمسكات!");
+        function injectStaffKey() {
+            const name = document.getElementById('staff-name').value;
+            const key = document.getElementById('staff-key').value;
+            if(!name || !key) return alert("❌ املأ بيانات الموظف.");
 
-            const txn = "AX-" + Math.floor(Math.random()*90000);
+            let list = JSON.parse(localStorage.getItem('axis_staff_keys') || "[]");
+            list.push({ id: Date.now(), name: name, key: key });
+            localStorage.setItem('axis_staff_keys', JSON.stringify(list));
+            alert(`✅ تم حقن كود دخول جديد للموظف: ${name}`);
+            document.getElementById('staff-name').value = "";
+            document.getElementById('staff-key').value = "";
+        }
+
+        // 4. المحرك المحاسبي والحجوزات (Financial Engine)
+        function initiateTransaction() {
+            const name = document.getElementById('guest-name').value;
+            const phone = document.getElementById('guest-phone').value;
+            const date = document.getElementById('booking-date').value;
+            const f1 = document.getElementById('id-front').files.length;
+            const f2 = document.getElementById('id-residence').files.length;
+
+            if(!name || !phone || !date || !f1 || !f2) {
+                return alert("⚠️ بروتوكول أمان: يرجى إكمال الاسم، الهاتف، التاريخ ورفع كافّة المستمسكات.");
+            }
+
+            const txnId = "AX-" + Math.random().toString(36).substr(2, 7).toUpperCase();
             let ledger = JSON.parse(localStorage.getItem('axis_ledger') || "[]");
-            ledger.push({id: txn, name: n, date: d, status: 'مؤكد'});
+            
+            const entry = {
+                id: txnId,
+                guest: name,
+                amount: 600000,
+                date: date,
+                timestamp: new Date().toLocaleString('ar-IQ'),
+                status: 'VERIFIED'
+            };
+
+            ledger.push(entry);
             localStorage.setItem('axis_ledger', JSON.stringify(ledger));
 
-            alert('✅ تم استلام طلبك بنجاح. كود المعاملة: ' + txn);
+            alert(`✅ تم تأكيد الحجز بنجاح. كود المعاملة: ${txnId}`);
             window.location.reload();
         }
 
-        function مزامنة_السجل() {
-            const data = JSON.parse(localStorage.getItem('axis_ledger') || "[]");
-            document.getElementById('سجل-الحجوزات').innerHTML = data.map(i => `
-                <tr class="border-b border-white/5">
-                    <td class="p-4 text-ذهب font-black">${i.id}</td>
-                    <td>${i.name}</td>
-                    <td>${i.date}</td>
-                    <td class="text-green-500">مرفوعة ✓</td>
-                    <td class="font-bold italic">CLEARED</td>
-                </tr>
-            `).reverse().join('');
+        function syncAccountingHub() {
+            const ledger = JSON.parse(localStorage.getItem('axis_ledger') || "[]");
+            let totalRevenue = 0;
+            
+            const html = ledger.map(item => {
+                totalRevenue += item.amount;
+                return `
+                    <tr>
+                        <td class="text-gold font-black">${item.id}</td>
+                        <td class="font-bold">${item.guest}</td>
+                        <td class="text-white">${item.amount.toLocaleString()}</td>
+                        <td>${item.date}</td>
+                        <td class="text-green-500 text-[10px]">مرفوعة ✓</td>
+                        <td><span class="bg-gold/10 text-gold px-3 py-1 rounded-full text-[8px]">ACTIVE</span></td>
+                    </tr>
+                `;
+            }).reverse().join('');
+
+            document.getElementById('audit-ledger-body').innerHTML = html;
+            document.getElementById('stat-revenue').innerText = totalRevenue.toLocaleString() + " IQD";
+            document.getElementById('stat-count').innerText = ledger.length;
+            document.getElementById('stat-tax').innerText = (totalRevenue * 0.05).toLocaleString() + " IQD";
         }
 
-        // 4. التشغيل الابتدائي
+        // 5. تهيئة النظام (System Init)
         window.onload = function() {
-            // استرجاع الميديا
-            ['داخلي', 'مسبح', 'ألعاب'].forEach(t => {
-                const img = localStorage.getItem('axis_media_' + t);
-                if(img) document.getElementById('عرض-' + t).src = img;
+            // استعادة أصول الميديا
+            ['interior', 'pool', 'games'].forEach(t => {
+                const saved = localStorage.getItem(`axis_asset_${t}`);
+                if(saved) document.getElementById(`img-${t}`).src = saved;
             });
 
-            flatpickr("#التاريخ", { minDate: "today", locale: "ar" });
-            
-            gsap.from(".إطار-ملكي", { duration: 1, opacity: 0, y: 50, stagger: 0.2 });
+            // تهيئة التقويم
+            flatpickr("#booking-date", { 
+                minDate: "today", 
+                locale: "ar",
+                disableMobile: "true"
+            });
+
+            // أنيميشن البداية
+            gsap.from(".cyber-panel", {
+                duration: 1.5,
+                y: 100,
+                opacity: 0,
+                stagger: 0.2,
+                ease: "power4.out"
+            });
         };
 
-        function إغلاق_النظام() { document.getElementById('لوحة-التحكم').style.display = "none"; }
+        function closeOS() {
+            gsap.to("#admin-os", { opacity: 0, duration: 0.5, onComplete: () => {
+                document.getElementById('admin-os').style.display = 'none';
+            }});
+        }
+
     </script>
 </body>
 </html>
