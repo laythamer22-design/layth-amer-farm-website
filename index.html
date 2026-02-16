@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الواحة الملكية ERP | النسخة الأصلية المطورة</title>
+    <title>الواحة الملكية - النظام المتكامل v12.0</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;400;700;900&display=swap" rel="stylesheet">
@@ -12,228 +12,144 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root { --gold: #c5a059; --bg: #030303; --panel: #0a0a0a; }
-        
-        /* إعادة الماوس والخطوط الأصلية */
-        * { cursor: auto !important; font-family: 'Tajawal', sans-serif; transition: 0.2s ease-in-out; }
-        button, select, input, .clickable { cursor: pointer !important; }
-        
-        body { background: var(--bg); color: #f0f0f0; }
+        :root { --gold: #c5a059; --bg: #030303; }
+        * { cursor: auto !important; font-family: 'Tajawal', sans-serif; }
+        button, input, .clickable { cursor: pointer !important; }
+        body { background: var(--bg); color: #f0f0f0; overflow-x: hidden; }
 
-        /* ستايل "الواحة" الأصلي الذي تفضله */
-        .glass-box {
-            background: var(--panel);
-            border: 1px solid rgba(197, 160, 89, 0.15);
-            border-top: 3px solid var(--gold);
-            border-radius: 4px;
-        }
+        .glass-box { background: #0a0a0a; border: 1px solid rgba(197, 160, 89, 0.15); border-top: 3px solid var(--gold); }
+        .neo-input { background: #111 !important; border: 1px solid #222 !important; color: var(--gold) !important; padding: 14px; width: 100%; outline: none; }
+        .btn-royal { background: var(--gold); color: #000; font-weight: 800; padding: 14px; width: 100%; transition: 0.3s; }
+        .btn-royal:hover { background: #e2b765; transform: translateY(-2px); }
 
-        .neo-input {
-            background: #111 !important;
-            border: 1px solid #222 !important;
-            color: var(--gold) !important;
-            padding: 14px !important;
-            width: 100%;
-            outline: none;
-        }
-
-        .btn-royal {
-            background: var(--gold);
-            color: #000;
-            font-weight: 800;
-            padding: 14px 28px;
-            text-transform: uppercase;
-        }
-
-        .btn-royal:hover { background: #e2b765; transform: scale(1.02); }
-
-        /* نظام الألبومات المطور بمظهر فخم */
-        .album-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .album-card { position: relative; height: 300px; overflow: hidden; border: 1px solid #111; cursor: pointer; }
-        .album-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
+        /* الألبومات */
+        .album-card { position: relative; height: 250px; overflow: hidden; border: 1px solid #111; }
+        .album-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 0.5s; }
         .album-card:hover img { filter: brightness(1); transform: scale(1.1); }
-        
-        /* بطاقة الوصول (Access Card) */
-        .access-card-ui {
-            background: #000; border: 2px solid var(--gold); padding: 30px; text-align: right;
-            background-image: linear-gradient(45deg, #050505 25%, #0a0a0a 25%, #0a0a0a 50%, #050505 50%, #050505 75%, #0a0a0a 75%, #0a0a0a 100%);
-            background-size: 56.57px 56.57px;
-        }
     </style>
 </head>
 <body>
 
-    <header class="p-5 border-b border-white/5 bg-black/80 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <span class="text-gold font-black text-2xl tracking-tighter italic">OASIS <span class="text-white">ERP</span></span>
-        </div>
-        <div class="flex gap-4">
-            <button onclick="loginGate()" class="border border-gold text-gold px-5 py-2 text-[11px] font-bold hover:bg-gold hover:text-black uppercase">ADMIN PANEL</button>
-        </div>
+    <header class="p-5 border-b border-white/5 bg-black/90 flex justify-between items-center sticky top-0 z-50">
+        <span class="text-gold font-black text-2xl italic uppercase">OASIS ROYAL</span>
+        <button onclick="loginGate()" class="border border-gold text-gold px-5 py-1 text-[10px] font-bold">لوحة المدير</button>
     </header>
 
-    <main class="p-6 lg:p-16 max-w-7xl mx-auto space-y-20">
+    <main class="p-6 lg:p-16 max-w-7xl mx-auto space-y-16">
         
-        <section class="glass-box p-8 max-w-2xl mx-auto text-center space-y-4">
-            <h2 class="text-gold font-bold text-sm tracking-widest uppercase italic">استعلام بطاقة الوصول</h2>
+        <section class="max-w-xl mx-auto space-y-4">
+            <h2 class="text-center text-gold text-xs font-bold uppercase tracking-widest">بوابة استعلام الزبائن</h2>
             <div class="flex gap-2">
-                <input type="text" id="accessInput" class="neo-input text-center" placeholder="أدخل كود الحجز (مثلاً: ID-1234)">
-                <button onclick="checkAccess()" class="btn-royal">دخول</button>
+                <input type="text" id="accessInput" class="neo-input text-center" placeholder="أدخل كود الوصول الخاص بك">
+                <button onclick="checkAccess()" class="bg-gold text-black px-6 font-black text-sm">دخول</button>
             </div>
         </section>
 
         <section class="grid lg:grid-cols-2 gap-10">
-            
             <div class="glass-box p-8 space-y-6">
-                <h3 class="text-gold font-black text-xl italic border-b border-white/5 pb-2">تسجيل إقامة جديدة</h3>
+                <h3 class="text-gold font-black italic border-b border-white/5 pb-2">تسجيل إقامة وأرشفة</h3>
                 <input type="text" id="cName" class="neo-input" placeholder="الاسم الكامل للزبون">
-                <input type="tel" id="cPhone" class="neo-input" placeholder="رقم الهاتف النشط">
-                <input type="text" id="cDate" class="neo-input" placeholder="اختر تاريخ الوصول">
+                <input type="tel" id="cPhone" class="neo-input" placeholder="رقم الهاتف">
+                <input type="text" id="cDate" class="neo-input" placeholder="تاريخ الحجز">
                 
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 border border-dashed border-zinc-800 text-center clickable" onclick="document.getElementById('file1').click()">
-                        <span id="txt1" class="text-[10px] text-gray-500 uppercase">الهوية الموحدة</span>
-                        <input type="file" id="file1" hidden onchange="docSync(this, 'txt1')">
+                    <div class="p-4 border border-dashed border-zinc-800 text-center clickable" onclick="document.getElementById('f1').click()">
+                        <span id="s1" class="text-[9px] text-gray-500 uppercase">الهوية الموحدة</span>
+                        <input type="file" id="f1" hidden onchange="sync(this, 's1')">
                     </div>
-                    <div class="p-4 border border-dashed border-zinc-800 text-center clickable" onclick="document.getElementById('file2').click()">
-                        <span id="txt2" class="text-[10px] text-gray-500 uppercase">بطاقة السكن</span>
-                        <input type="file" id="file2" hidden onchange="docSync(this, 'txt2')">
+                    <div class="p-4 border border-dashed border-zinc-800 text-center clickable" onclick="document.getElementById('f2').click()">
+                        <span id="s2" class="text-[9px] text-gray-500 uppercase">بطاقة السكن</span>
+                        <input type="file" id="f2" hidden onchange="sync(this, 's2')">
                     </div>
                 </div>
-                <button onclick="submitBooking()" class="btn-royal w-full">تأكيد الحجز والأرشفة</button>
+                <button onclick="submitBooking()" class="btn-royal">تأكيد الحجز وتوليد الكود</button>
             </div>
 
-            <div class="space-y-6">
-                <h3 class="text-white font-black text-xl italic uppercase">معرض الأقسام</h3>
-                <div class="album-grid">
-                    <div class="album-card" onclick="openGallery('pools')">
+            <div class="space-y-4">
+                <h3 class="text-white font-black italic uppercase">ألبومات الأقسام</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="album-card clickable" onclick="showGallery('pools')">
                         <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7">
-                        <div class="absolute bottom-0 p-4 bg-black/90 w-full text-gold font-bold text-xs uppercase">المسابح الملكية</div>
+                        <div class="absolute inset-0 flex items-center justify-center text-gold font-bold">المسابح الملكية</div>
                     </div>
-                    <div class="album-card" onclick="openGallery('suites')">
+                    <div class="album-card clickable" onclick="showGallery('suites')">
                         <img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190">
-                        <div class="absolute bottom-0 p-4 bg-black/90 w-full text-gold font-bold text-xs uppercase">الأجنحة والفلل</div>
+                        <div class="absolute inset-0 flex items-center justify-center text-gold font-bold">الأجنحة والفلل</div>
                     </div>
                 </div>
             </div>
-
         </section>
-
     </main>
 
-    <div id="adminPanel" class="fixed inset-0 z-[100] bg-black hidden overflow-y-auto p-6 lg:p-12">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-3xl font-black text-gold italic uppercase tracking-tighter">CENTRAL <span class="text-white">ARCHIVE</span></h2>
-                <button onclick="closeUI()" class="border border-red-500 text-red-500 px-6 py-2 text-xs font-bold uppercase">إغلاق</button>
-            </div>
-
-            <div class="glass-box p-8 overflow-hidden">
-                <table class="w-full text-right text-xs">
-                    <thead class="text-gray-500 border-b border-white/5 uppercase">
-                        <tr><th class="py-4">الكود</th><th>الاسم</th><th>الهاتف</th><th>الحالة</th><th>التاريخ</th><th>المستمسكات</th></tr>
-                    </thead>
-                    <tbody id="ledgerData"></tbody>
-                </table>
-            </div>
+    <div id="adminPanel" class="fixed inset-0 z-[100] bg-black hidden overflow-y-auto p-10">
+        <div class="flex justify-between items-center mb-8 border-b border-gold/20 pb-4">
+            <h2 class="text-2xl font-black text-gold italic">الأرشيف المركزي</h2>
+            <button onclick="document.getElementById('adminPanel').classList.add('hidden')" class="text-red-500 border border-red-500 px-4 py-1">إغلاق</button>
+        </div>
+        <div class="glass-box overflow-hidden">
+            <table class="w-full text-right text-xs">
+                <thead class="text-gray-500 border-b border-white/5 uppercase">
+                    <tr><th class="p-4">الكود</th><th>الاسم</th><th>الهاتف</th><th>الحالة</th><th>التاريخ</th></tr>
+                </thead>
+                <tbody id="ledgerBody"></tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        // داتابيز الأرشفة (Master Data)
-        let OASIS_DB = JSON.parse(localStorage.getItem('oasis_final_db')) || [];
-        let docCount = 0;
+        let db = JSON.parse(localStorage.getItem('oasis_final_db')) || [];
+        let docs = 0;
 
-        window.onload = () => {
-            flatpickr("#cDate", { locale: "ar", minDate: "today" });
-        }
-
-        // --- نظام الحجز والأتمتة والارشفة ---
         function submitBooking() {
             const name = document.getElementById('cName').value;
             const phone = document.getElementById('cPhone').value;
             const date = document.getElementById('cDate').value;
+            if(!name || !phone || docs < 2) return Swal.fire('خطأ', 'أكمل البيانات والمستمسكات', 'error');
 
-            if(!name || !phone || docCount < 2) {
-                return Swal.fire('تنبيه أمني', 'يرجى إكمال البيانات ورفع المستمسكات للمطابقة', 'warning');
-            }
-
-            // خوارزمية الأتمتة: تحديد الزبون الثابت (VIP)
-            const isVIP = OASIS_DB.some(guest => guest.phone === phone);
-            const accessCode = "OAS-" + Math.floor(1000 + Math.random() * 9000);
-
-            const guestData = {
-                code: accessCode,
-                name, phone, date,
-                type: isVIP ? 'VIP' : 'جديد',
-                status: 'مكتملة ✅'
-            };
-
-            OASIS_DB.push(guestData);
-            localStorage.setItem('oasis_final_db', JSON.stringify(OASIS_DB));
+            const isVIP = db.some(u => u.phone === phone);
+            const code = "ROY-" + Math.floor(1000 + Math.random() * 9000);
+            
+            const entry = { code, name, phone, date, type: isVIP ? 'VIP' : 'جديد' };
+            db.push(entry);
+            localStorage.setItem('oasis_final_db', JSON.stringify(db));
 
             Swal.fire({
-                title: isVIP ? 'أهلاً بعودتك (VIP)' : 'تم تسجيل الحجز',
-                html: `<div class="p-6 bg-black border border-gold mt-4">
-                        <p class="text-gray-400 text-xs uppercase mb-2">كود الوصول الخاص بك</p>
-                        <h2 class="text-4xl font-black text-gold">${accessCode}</h2>
-                       </div>`,
-                confirmButtonColor: '#c5a059'
+                title: isVIP ? 'أهلاً بعودتك (VIP)' : 'تم الحجز',
+                html: `<div class="p-4 bg-zinc-900 border border-gold mt-2"><p class="text-xs text-gray-400">كود الوصول:</p><h2 class="text-3xl font-black text-gold">${code}</h2></div>`,
+                icon: 'success'
             }).then(() => window.location.reload());
         }
 
-        // --- نظام الاستعلام عن الكود (للزبان) ---
         function checkAccess() {
             const code = document.getElementById('accessInput').value;
-            const guest = OASIS_DB.find(g => g.code === code);
-
-            if(guest) {
+            const user = db.find(u => u.code === code);
+            if(user) {
                 Swal.fire({
-                    background: '#0a0a0a',
-                    showConfirmButton: false,
-                    html: `
-                        <div class="access-card-ui">
-                            <h2 class="text-gold font-black text-xl italic mb-6 border-b border-gold/20 pb-2">بطاقة الدخول الرسمية</h2>
-                            <div class="space-y-3 text-sm text-white">
-                                <p class="flex justify-between"><span>الاسم:</span> <span class="font-bold">${guest.name}</span></p>
-                                <p class="flex justify-between"><span>الحالة:</span> <span class="text-gold font-black">${guest.type}</span></p>
-                                <p class="flex justify-between"><span>التاريخ:</span> <span>${guest.date}</span></p>
-                                <p class="flex justify-between text-green-500"><span>المستمسكات:</span> <span>مؤمنة ✅</span></p>
-                            </div>
-                        </div>
-                    `
+                    background: '#0a0a0a', color: '#fff',
+                    html: `<div class="text-right p-4 border border-gold"><h3 class="text-gold font-bold mb-4">بطاقة الدخول الرسمية</h3><p class="mb-2">الاسم: ${user.name}</p><p class="mb-2">الحالة: ${user.type}</p><p>التاريخ: ${user.date}</p></div>`
                 });
-            } else {
-                Swal.fire('خطأ', 'الكود غير موجود في سجلات الأتمتة', 'error');
-            }
+            } else { Swal.fire('خطأ', 'الكود غير موجود', 'error'); }
         }
 
-        // --- لوحة الإدارة والأرشفة ---
         function loginGate() {
-            Swal.fire({ title: 'رمز المدير', input: 'password', confirmButtonColor: '#c5a059' }).then(res => {
+            Swal.fire({ title: 'رمز المدير', input: 'password' }).then(res => {
                 if(res.value === 'admin123') {
                     document.getElementById('adminPanel').classList.remove('hidden');
-                    renderLedger();
+                    document.getElementById('ledgerBody').innerHTML = db.slice().reverse().map(i => `
+                        <tr class="border-b border-white/5">
+                            <td class="p-4 text-gold font-bold">${i.code}</td>
+                            <td>${i.name}</td><td>${i.phone}</td>
+                            <td class="${i.type==='VIP'?'text-gold':'text-blue-400'}">${i.type}</td>
+                            <td>${i.date}</td>
+                        </tr>
+                    `).join('');
                 } else { Swal.fire('خطأ', 'الرمز السري غير صحيح', 'error'); }
             });
         }
 
-        function renderLedger() {
-            document.getElementById('ledgerData').innerHTML = OASIS_DB.slice().reverse().map(i => `
-                <tr class="border-b border-white/5 hover:bg-white/5">
-                    <td class="py-4 text-gold font-black">${i.code}</td>
-                    <td class="font-bold uppercase">${i.name}</td>
-                    <td>${i.phone}</td>
-                    <td><span class="${i.type==='VIP'?'text-gold':'text-blue-400'} font-bold">${i.type}</span></td>
-                    <td>${i.date}</td>
-                    <td class="text-green-500">مرفوعة ✅</td>
-                </tr>
-            `).join('');
-        }
-
-        function docSync(input, id) { if(input.files[0]) { document.getElementById(id).innerText = "✅ مكتمل"; document.getElementById(id).classList.add('text-gold'); docCount++; } }
-        function closeUI() { document.getElementById('adminPanel').classList.add('hidden'); }
-        function openGallery(slug) { Swal.fire({ title: 'معرض الألبوم: ' + slug, text: 'يتم الآن عرض الصور الفاخرة...', icon: 'info' }); }
+        function sync(input, id) { if(input.files[0]) { document.getElementById(id).innerText = "✅ مرفوع"; docs++; } }
+        function showGallery(type) { Swal.fire('المعرض', `سيتم عرض ألبوم ${type} قريباً`, 'info'); }
+        flatpickr("#cDate", { minDate: "today" });
     </script>
 </body>
 </html>
