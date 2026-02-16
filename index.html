@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta_title">الواحة الملكية | نظام الإدارة المتكامل 2026</title>
+    <title>الواحة الملكية | نظام الحجز والوصول المتكامل v10.0</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;400;700;900&display=swap" rel="stylesheet">
@@ -12,388 +12,193 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root { --gold: #c5a059; --bg: #030303; --panel: #0a0a0a; }
+        :root { --gold: #c5a059; --bg: #020202; }
+        * { cursor: auto !important; font-family: 'Tajawal', sans-serif; transition: 0.3s ease; }
+        button, select, input, .clickable { cursor: pointer !important; }
+        body { background: var(--bg); color: #fff; }
+
+        .glass-box { background: #080808; border: 1px solid rgba(197, 160, 89, 0.1); border-top: 3px solid var(--gold); }
+        .neo-input { background: #0a0a0a !important; border: 1px solid #1a1a1a !important; color: var(--gold) !important; padding: 15px !important; width: 100%; outline: none; }
         
-        /* ضبط الماوس: طبيعي 100% كما طلبت */
-        * { cursor: auto !important; font-family: 'Tajawal', sans-serif; box-sizing: border-box; }
-        button, select, input, .clickable, .upload-zone { cursor: pointer !important; }
-        
-        body { background: var(--bg); color: #f0f0f0; margin: 0; overflow-x: hidden; }
-
-        /* ستايل Sharp Luxury (حواف حادة وفخامة داكنة) */
-        .glass-box { background: var(--panel); border: 1px solid rgba(197, 160, 89, 0.15); border-top: 3px solid var(--gold); }
-        .neo-input { background: #0d0d0d !important; border: 1px solid #222 !important; color: var(--gold) !important; padding: 14px !important; width: 100%; outline: none; border-radius: 0; }
-        .neo-input:focus { border-color: var(--gold) !important; }
-
-        .btn-royal { background: var(--gold); color: #000; font-weight: 800; padding: 15px 30px; text-transform: uppercase; border: none; transition: 0.3s; }
-        .btn-royal:hover { background: #e2b765; transform: translateY(-2px); }
-
-        .upload-zone { border: 2px dashed #222; padding: 25px; text-align: center; background: #080808; transition: 0.3s; }
-        .upload-zone:hover { border-color: var(--gold); }
-
-        /* التبويبات الإدارية */
-        .admin-tab { border-bottom: 3px solid transparent; padding: 15px 25px; cursor: pointer; color: #555; font-weight: bold; font-size: 12px; }
-        .active-tab { border-color: var(--gold); color: var(--gold); background: rgba(197, 160, 89, 0.05); }
-
-        /* إخفاء السكرول بار */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); }
+        .access-card {
+            background: linear-gradient(135deg, #0f0f0f 0%, #050505 100%);
+            border: 1px solid var(--gold);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .access-card::before {
+            content: "OFFICIAL ACCESS";
+            position: absolute; right: -20px; top: 20px;
+            transform: rotate(45deg); background: var(--gold);
+            color: black; font-size: 8px; font-weight: 900; padding: 5px 30px;
+        }
     </style>
 </head>
 <body>
 
-    <header class="p-5 border-b border-white/5 bg-black/90 flex justify-between items-center sticky top-0 z-[60]">
-        <div class="flex items-center gap-3">
-            <span id="web_title_nav" class="text-gold font-black text-2xl tracking-tighter italic uppercase">الواحة الملكية</span>
-        </div>
+    <header class="p-5 border-b border-white/5 bg-black/95 flex justify-between items-center sticky top-0 z-[100]">
+        <h1 class="text-gold font-black text-2xl italic">OASIS <span class="text-white text-sm">v10.0</span></h1>
         <div class="flex gap-4">
-            <button onclick="loginGate('staff')" class="text-[10px] font-bold text-gray-500 hover:text-gold uppercase tracking-widest">بوابة الموظفين</button>
-            <button onclick="loginGate('admin')" class="border border-gold text-gold px-5 py-2 text-[10px] font-bold hover:bg-gold hover:text-black uppercase">لوحة المدير</button>
+            <button onclick="loginGate()" class="text-gold border border-gold px-5 py-1 text-[10px] font-bold">لوحة المدير</button>
         </div>
     </header>
 
-    <main class="p-6 lg:p-20 max-w-7xl mx-auto space-y-24">
+    <main class="p-6 lg:p-20 max-w-7xl mx-auto space-y-20">
         
-        <div class="text-center space-y-6">
-            <h1 id="hero_title" class="text-6xl lg:text-8xl font-black italic">فخامة <span class="text-gold">لا تضاهى</span></h1>
-            <p id="hero_desc" class="text-gray-500 max-w-3xl mx-auto text-sm leading-relaxed">أهلاً بك في نظام الواحة الملكية، حيث تلتقي التكنولوجيا بالفخامة العراقية الأصيلة.</p>
-        </div>
-
-        <section class="grid lg:grid-cols-3 gap-10">
-            <div class="glass-box p-8 space-y-6">
-                <h3 class="text-gold font-black text-lg border-b border-white/5 pb-3 italic">01. تفاصيل الحجز</h3>
-                <input type="text" id="cName" class="neo-input" placeholder="الاسم الرباعي للعميل">
-                <input type="tel" id="cPhone" class="neo-input" placeholder="رقم الهاتف النشط">
-                <input type="text" id="cDate" class="neo-input" placeholder="تاريخ الوصول">
-                <select id="cType" onchange="updatePriceDisplay()" class="neo-input">
-                    <option value="24">إقامة ملكية 24 ساعة</option>
-                    <option value="12_AM">نصف يوم (6 صباحاً - 6 مساءً)</option>
-                    <option value="12_PM">نصف يوم (7 مساءً - 5 صباحاً)</option>
-                </select>
+        <section class="max-w-xl mx-auto text-center space-y-6">
+            <h2 class="text-gold font-black text-xl italic uppercase tracking-widest">بوابة الوصول للزبائن</h2>
+            <div class="flex gap-2">
+                <input type="text" id="checkCode" class="neo-input text-center" placeholder="أدخل كود الحجز الخاص بك">
+                <button onclick="lookupCustomer()" class="bg-gold text-black px-8 font-black">دخول</button>
             </div>
-
-            <div class="glass-box p-8 space-y-6">
-                <h3 class="text-gold font-black text-lg border-b border-white/5 pb-3 italic">02. التحقق الأمني</h3>
-                <div class="upload-zone" onclick="document.getElementById('file_id').click()">
-                    <span id="txt_id" class="text-[11px] text-gray-400">اسحب أو ارفع "الهوية الشخصية"</span>
-                    <input type="file" id="file_id" hidden onchange="processFile(this, 'txt_id')">
-                </div>
-                <div class="upload-zone" onclick="document.getElementById('file_res').click()">
-                    <span id="txt_res" class="text-[11px] text-gray-400">اسحب أو ارفع "بطاقة السكن"</span>
-                    <input type="file" id="file_res" hidden onchange="processFile(this, 'txt_res')">
-                </div>
-                <p class="text-[9px] text-green-600 font-bold uppercase tracking-widest text-center">🛡️ Secure Encryption Active</p>
-            </div>
-
-            <div class="glass-box p-8 text-center flex flex-col justify-between">
-                <div>
-                    <h3 class="text-gold font-black text-lg border-b border-white/5 pb-3 italic">03. الحساب الإجمالي</h3>
-                    <div class="py-12">
-                        <span id="priceVal" class="text-7xl font-black italic">0</span>
-                        <span class="block text-gold font-bold text-xs mt-2 uppercase tracking-widest">IQD Iraqi Dinar</span>
-                    </div>
-                </div>
-                <button onclick="executeFinalBooking()" class="btn-royal w-full">تأكيد الحجز والإرسال</button>
-            </div>
+            <p class="text-[9px] text-gray-600 italic">أدخل الكود الذي استلمته عند الحجز لعرض تفاصيل إقامتك</p>
         </section>
 
-        <section class="grid md:grid-cols-3 gap-8">
-            <div class="relative overflow-hidden border border-white/5">
-                <img id="view_img_1" src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7" class="w-full h-[450px] object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
-                <div class="absolute bottom-0 p-6 bg-black/90 w-full border-t border-gold text-xs font-bold italic">GALLERY: SWIMMING POOLS</div>
+        <section class="grid lg:grid-cols-2 gap-12">
+            <div class="glass-box p-8 space-y-6">
+                <h3 class="text-gold font-black text-xl mb-4">تسجيل مستأجر جديد</h3>
+                <input type="text" id="cName" class="neo-input" placeholder="الاسم الرباعي الكامل">
+                <input type="tel" id="cPhone" class="neo-input" placeholder="رقم الهاتف">
+                <input type="text" id="cDate" class="neo-input" placeholder="تاريخ الحجز">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-black p-4 border border-dashed border-zinc-800 text-center" onclick="document.getElementById('f1').click()">
+                        <span id="s1" class="text-[9px] text-gray-500 uppercase">الهوية الموحدة</span>
+                        <input type="file" id="f1" hidden onchange="sync(this, 's1')">
+                    </div>
+                    <div class="bg-black p-4 border border-dashed border-zinc-800 text-center" onclick="document.getElementById('f2').click()">
+                        <span id="s2" class="text-[9px] text-gray-500 uppercase">بطاقة السكن</span>
+                        <input type="file" id="f2" hidden onchange="sync(this, 's2')">
+                    </div>
+                </div>
+                <button onclick="processFinalBooking()" class="w-full bg-gold text-black font-black py-4">تأكيد الحجز وتوليد كود الوصول</button>
             </div>
-            <div class="relative overflow-hidden border border-white/5">
-                <img id="view_img_2" src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190" class="w-full h-[450px] object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
-                <div class="absolute bottom-0 p-6 bg-black/90 w-full border-t border-gold text-xs font-bold italic">GALLERY: ROYAL SUITES</div>
-            </div>
-            <div class="relative overflow-hidden border border-white/5">
-                <img id="view_img_3" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018" class="w-full h-[450px] object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
-                <div class="absolute bottom-0 p-6 bg-black/90 w-full border-t border-gold text-xs font-bold italic">GALLERY: SPORTS FACILITIES</div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="h-40 border border-white/5 relative overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-100">
+                    <span class="absolute inset-0 flex items-center justify-center font-bold text-gold italic">المسابح الملكية</span>
+                </div>
+                <div class="h-40 border border-white/5 relative overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190" class="w-full h-full object-cover filter brightness-50 group-hover:brightness-100">
+                    <span class="absolute inset-0 flex items-center justify-center font-bold text-gold italic">الأجنحة والفلل</span>
+                </div>
             </div>
         </section>
     </main>
 
-    <div id="adminPanel" class="fixed inset-0 z-[100] bg-black hidden overflow-y-auto p-4 lg:p-12">
-        <div class="max-w-[1500px] mx-auto">
-            <div class="flex justify-between items-center mb-12 border-b border-white/5 pb-8">
-                <div>
-                    <h2 class="text-4xl font-black italic text-gold tracking-tighter uppercase">Oasis <span class="text-white">Supreme Admin</span></h2>
-                    <p class="text-[10px] text-gray-500 font-bold uppercase mt-2 tracking-[5px]">Integrated Management System v7.5</p>
-                </div>
-                <button onclick="closeUI()" class="border border-red-600 text-red-600 px-10 py-3 font-black text-xs hover:bg-red-600 hover:text-white">EXIT SYSTEM</button>
-            </div>
-
-            <div class="flex flex-wrap gap-2 mb-10">
-                <div id="t1" onclick="switchTab(1)" class="admin-tab active-tab">تعديل محتوى الويب</div>
-                <div id="t2" onclick="switchTab(2)" class="admin-tab">إدارة الأسعار والروابط</div>
-                <div id="t3" onclick="switchTab(3)" class="admin-tab">السجل المالي والمستمسكات</div>
-                <div id="t4" onclick="switchTab(4)" class="admin-tab">الموظفين والأمان</div>
-            </div>
-
-            <div id="c1" class="admin-content grid lg:grid-cols-3 gap-8">
-                <div class="glass-box p-8 space-y-6">
-                    <h4 class="text-gold font-bold italic mb-4">النصوص الرئيسية</h4>
-                    <input type="text" id="in_web_title" class="neo-input" oninput="liveRefresh('web_title_nav', this.value)" placeholder="اسم المشروع">
-                    <input type="text" id="in_hero_title" class="neo-input" oninput="liveRefresh('hero_title', this.value)" placeholder="العنوان الكبير">
-                    <textarea id="in_hero_desc" class="neo-input h-32" oninput="liveRefresh('hero_desc', this.value)" placeholder="الوصف القصير"></textarea>
-                </div>
-                <div class="glass-box p-8 space-y-6">
-                    <h4 class="text-gold font-bold italic mb-4">صور الألبومات</h4>
-                    <div class="space-y-4">
-                        <label class="text-[10px] text-gray-500 uppercase">صورة المسابح</label>
-                        <input type="file" onchange="updateImage(this, 'view_img_1')" class="block w-full text-[10px]">
-                        <label class="text-[10px] text-gray-500 uppercase">صورة الأجنحة</label>
-                        <input type="file" onchange="updateImage(this, 'view_img_2')" class="block w-full text-[10px]">
-                        <label class="text-[10px] text-gray-500 uppercase">صورة الملاعب</label>
-                        <input type="file" onchange="updateImage(this, 'view_img_3')" class="block w-full text-[10px]">
-                    </div>
-                </div>
-                <div class="p-8 flex items-end">
-                    <button onclick="saveToDB()" class="btn-royal w-full">حفظ التغييرات النهائية</button>
-                </div>
-            </div>
-
-            <div id="c2" class="admin-content hidden grid lg:grid-cols-2 gap-8">
-                <div class="glass-box p-8 space-y-6">
-                    <h4 class="text-gold font-bold italic mb-4">التحكم المالي (IQD)</h4>
-                    <label class="text-[10px] text-gray-500">سعر 24 ساعة</label>
-                    <input type="number" id="in_p24" class="neo-input">
-                    <label class="text-[10px] text-gray-500">سعر 12 ساعة</label>
-                    <input type="number" id="in_p12" class="neo-input">
-                </div>
-                <div class="glass-box p-8 space-y-6">
-                    <h4 class="text-gold font-bold italic mb-4">روابط التواصل والخرائط</h4>
-                    <label class="text-[10px] text-gray-500">رقم واتساب الحجوزات</label>
-                    <input type="text" id="in_wa" class="neo-input" placeholder="مثال: 9647700000000">
-                    <label class="text-[10px] text-gray-500">رابط Google Maps</label>
-                    <input type="text" id="in_map" class="neo-input">
-                </div>
-            </div>
-
-            <div id="c3" class="admin-content hidden glass-box p-8">
-                <div class="flex justify-between items-center mb-8">
-                    <h4 class="text-gold font-bold italic uppercase">الدفتر المحاسبي المركزي</h4>
-                    <div class="bg-gold text-black px-6 py-2 font-black">إجمالي الإيرادات: <span id="dashRev">0</span></div>
-                </div>
-                <div class="overflow-x-auto h-[500px]">
-                    <table class="w-full text-right text-xs">
-                        <thead class="text-gray-500 border-b border-white/5 uppercase">
-                            <tr>
-                                <th class="py-4">الكود</th>
-                                <th>اسم العميل</th>
-                                <th>التاريخ</th>
-                                <th>المبلغ</th>
-                                <th>المستمسكات</th>
-                                <th>الحالة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ledgerBody"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="c4" class="admin-content hidden grid lg:grid-cols-2 gap-10">
-                <div class="glass-box p-8 space-y-6">
-                    <h4 class="text-gold font-bold italic mb-6">إدارة الوصول (المدير)</h4>
-                    <input type="password" id="in_admin_pass" class="neo-input" placeholder="الرمز السري الجديد">
-                    <button onclick="updateSecurity('admin')" class="btn-royal !py-3 !text-[10px]">تحديث باسوورد المدير</button>
-                </div>
-                <div class="glass-box p-8 space-y-6">
-                    <h4 class="text-gold font-bold italic mb-6">بوابة الموظفين (توليد رموز)</h4>
-                    <input type="text" id="in_staff_name" class="neo-input" placeholder="اسم الموظف">
-                    <button onclick="generateStaffKey()" class="btn-royal !py-3 !text-[10px] !bg-white/10 !text-white border border-white/20">توليد رمز دخول جديد</button>
-                    <div id="staff_list_box" class="mt-6 space-y-2"></div>
-                </div>
-            </div>
-
+    <div id="adminPanel" class="fixed inset-0 z-[1000] bg-black hidden overflow-y-auto p-10">
+        <div class="flex justify-between items-center mb-10 border-b border-gold/20 pb-6">
+            <h2 class="text-2xl font-black text-gold italic uppercase">سجل البيانات المركزي</h2>
+            <button onclick="closeUI()" class="text-red-500 border border-red-500 px-6 py-2">إغلاق</button>
+        </div>
+        <div class="glass-box p-6 overflow-hidden">
+            <table class="w-full text-right text-xs">
+                <thead class="text-gray-500 border-b border-white/5 uppercase">
+                    <tr><th class="py-4">كود الوصول</th><th>الاسم</th><th>الهاتف</th><th>النوع</th><th>التاريخ</th><th>المستمسكات</th></tr>
+                </thead>
+                <tbody id="adminTable"></tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        // --- القاعدة البيانات المركزية (Master Database) ---
-        let OASIS = JSON.parse(localStorage.getItem('oasis_final_db')) || {
-            config: {
-                title: "الواحة الملكية",
-                hero: "فخامة لا تضاهى",
-                desc: "أهلاً بك في نظام الواحة الملكية، حيث تلتقي التكنولوجيا بالفخامة العراقية الأصيلة.",
-                wa: "9647700000000",
-                map: "https://goo.gl/maps/example"
-            },
-            prices: { p24: 600000, p12: 350000 },
-            adminPass: "admin123",
-            staff: {},
-            ledger: []
-        };
+        let db = JSON.parse(localStorage.getItem('oasis_master_db')) || [];
+        let secureCount = 0;
 
-        let tempFiles = {}; // لتخزين الصور مؤقتاً قبل الحجز
+        // --- نظام توليد الحجز ---
+        function processFinalBooking() {
+            const name = document.getElementById('cName').value;
+            const phone = document.getElementById('cPhone').value;
+            const date = document.getElementById('cDate').value;
 
-        window.onload = () => {
-            initApp();
-            flatpickr("#cDate", { locale: "ar", minDate: "today", dateFormat: "Y-m-d" });
-            updatePriceDisplay();
-        }
+            if(!name || !phone || secureCount < 2) return Swal.fire('تنبيه', 'أكمل البيانات والمستمسكات', 'error');
 
-        function initApp() {
-            // تحميل النصوص
-            document.getElementById('web_title_nav').innerText = OASIS.config.title;
-            document.getElementById('hero_title').innerText = OASIS.config.hero;
-            document.getElementById('hero_desc').innerText = OASIS.config.desc;
-            
-            // تعبئة حقول لوحة الإدارة
-            document.getElementById('in_web_title').value = OASIS.config.title;
-            document.getElementById('in_hero_title').value = OASIS.config.hero;
-            document.getElementById('in_hero_desc').value = OASIS.config.desc;
-            document.getElementById('in_p24').value = OASIS.prices.p24;
-            document.getElementById('in_p12').value = OASIS.prices.p12;
-            document.getElementById('in_wa').value = OASIS.config.wa;
-            document.getElementById('in_map').value = OASIS.config.map;
+            const isVIP = db.some(u => u.phone === phone);
+            const accessCode = "ID-" + Math.floor(1000 + Math.random() * 9000);
 
-            // تحميل الصور المخزنة
-            ['1', '2', '3'].forEach(i => {
-                const savedImg = localStorage.getItem(`oasis_img_${i}`);
-                if(savedImg) document.getElementById(`view_img_${i}`).src = savedImg;
-            });
-            refreshAdminData();
-        }
-
-        // --- محرك التعديل الحي (Live Update) ---
-        function liveRefresh(id, val) { document.getElementById(id).innerText = val; }
-
-        function updateImage(input, targetId) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    localStorage.setItem(`oasis_img_${targetId.split('_')[2]}`, e.target.result);
-                    document.getElementById(targetId).src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function saveToDB() {
-            OASIS.config = {
-                title: document.getElementById('in_web_title').value,
-                hero: document.getElementById('in_hero_title').value,
-                desc: document.getElementById('in_hero_desc').value,
-                wa: document.getElementById('in_wa').value,
-                map: document.getElementById('in_map').value
+            const newGuest = {
+                code: accessCode,
+                name: name,
+                phone: phone,
+                date: date,
+                type: isVIP ? 'VIP' : 'جديد',
+                docs: "مكتملة ✅",
+                timestamp: new Date().toLocaleString('ar-EG')
             };
-            OASIS.prices = {
-                p24: parseInt(document.getElementById('in_p24').value),
-                p12: parseInt(document.getElementById('in_p12').value)
-            };
-            localStorage.setItem('oasis_final_db', JSON.stringify(OASIS));
-            Swal.fire('تم الحفظ', 'تم تحديث كافة إعدادات الويب بنجاح', 'success');
-        }
 
-        // --- نظام الحماية والتبويبات ---
-        function loginGate(type) {
+            db.push(newGuest);
+            localStorage.setItem('oasis_master_db', JSON.stringify(db));
+
             Swal.fire({
-                title: type === 'admin' ? 'دخول الإدارة' : 'دخول الموظفين',
-                input: 'password',
-                inputPlaceholder: 'أدخل الرمز السري',
-                background: '#0a0a0a',
-                color: '#fff',
+                title: 'تم تأكيد الحجز!',
+                html: `<div class="p-4 bg-zinc-900 rounded mt-4">
+                        <p class="text-gold font-bold">كود الوصول الخاص بك:</p>
+                        <h2 class="text-4xl font-black text-white mt-2">${accessCode}</h2>
+                        <p class="text-[10px] text-gray-500 mt-2">يرجى تصوير الشاشة أو حفظ الكود للدخول</p>
+                      </div>`,
+                icon: 'success',
                 confirmButtonColor: '#c5a059'
-            }).then(res => {
-                if(!res.value) return;
-                if(type === 'admin' && res.value === OASIS.adminPass) {
+            }).then(() => window.location.reload());
+        }
+
+        // --- نظام الوصول للزبون ---
+        function lookupCustomer() {
+            const code = document.getElementById('checkCode').value;
+            const guest = db.find(u => u.code === code);
+
+            if(guest) {
+                Swal.fire({
+                    background: '#050505',
+                    color: '#fff',
+                    showConfirmButton: false,
+                    html: `
+                        <div class="access-card text-right">
+                            <h3 class="text-gold font-black text-xl mb-6 italic border-b border-gold/20 pb-2">بطاقة وصول الواحة</h3>
+                            <div class="space-y-3 text-sm">
+                                <p><span class="text-gray-500 uppercase text-[10px]">الاسم:</span> <span class="font-bold">${guest.name}</span></p>
+                                <p><span class="text-gray-500 uppercase text-[10px]">كود التعريف:</span> <span class="text-gold font-black">${guest.code}</span></p>
+                                <p><span class="text-gray-500 uppercase text-[10px]">حالة العميل:</span> <span class="text-blue-400 font-bold">${guest.type}</span></p>
+                                <p><span class="text-gray-500 uppercase text-[10px]">تاريخ الإقامة:</span> <span class="font-bold">${guest.date}</span></p>
+                                <p><span class="text-gray-500 uppercase text-[10px]">المستمسكات:</span> <span class="text-green-500 font-bold">${guest.docs}</span></p>
+                            </div>
+                            <div class="mt-8 pt-4 border-t border-white/5 text-center">
+                                <p class="text-[9px] text-gray-600 uppercase tracking-widest italic font-bold">Oasis Royal Integrated Security System</p>
+                            </div>
+                        </div>
+                    `
+                });
+            } else {
+                Swal.fire('خطأ', 'كود الوصول غير صحيح أو غير مسجل', 'error');
+            }
+        }
+
+        // --- لوحة المدير ---
+        function loginGate() {
+            Swal.fire({ title: 'رمز المدير', input: 'password', confirmButtonColor: '#c5a059' }).then(res => {
+                if(res.value === 'admin123') {
                     document.getElementById('adminPanel').classList.remove('hidden');
-                } else if(type === 'staff' && Object.values(OASIS.staff).includes(res.value)) {
-                    Swal.fire('أهلاً بك', 'تم تسجيل دخول الموظف بنجاح', 'success');
-                } else { Swal.fire('خطأ', 'الرمز السري غير صحيح', 'error'); }
+                    renderAdminTable();
+                } else { Swal.fire('فشل', 'الرمز خطأ', 'error'); }
             });
         }
 
-        function switchTab(n) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active-tab'));
-            document.querySelectorAll('.admin-content').forEach(c => c.classList.add('hidden'));
-            document.getElementById('t' + n).classList.add('active-tab');
-            document.getElementById('c' + n).classList.remove('hidden');
-        }
-
-        function updateSecurity(type) {
-            const val = document.getElementById('in_admin_pass').value;
-            if(val) {
-                OASIS.adminPass = val;
-                localStorage.setItem('oasis_final_db', JSON.stringify(OASIS));
-                Swal.fire('تم', 'تم تغيير رمز المدير السري', 'success');
-            }
-        }
-
-        function generateStaffKey() {
-            const name = document.getElementById('in_staff_name').value;
-            if(!name) return;
-            const key = "ST-" + Math.floor(1000 + Math.random()*9000);
-            OASIS.staff[name] = key;
-            localStorage.setItem('oasis_final_db', JSON.stringify(OASIS));
-            refreshAdminData();
-            Swal.fire('رمز جديد', `اسم: ${name} | الرمز: ${key}`, 'success');
-        }
-
-        // --- محرك الحجز والمالية ---
-        function updatePriceDisplay() {
-            const p = document.getElementById('cType').value === '24' ? OASIS.prices.p24 : OASIS.prices.p12;
-            document.getElementById('priceVal').innerText = p.toLocaleString();
-        }
-
-        function processFile(input, txtId) {
-            if (input.files[0]) {
-                tempFiles[txtId] = true;
-                document.getElementById(txtId).innerText = "✅ تم التحقق والمطابقة";
-                document.getElementById(txtId).classList.replace('text-gray-400', 'text-green-500');
-            }
-        }
-
-        function executeFinalBooking() {
-            const n = document.getElementById('cName').value;
-            const ph = document.getElementById('cPhone').value;
-            const d = document.getElementById('cDate').value;
-            
-            if(!n || !ph || !d || !tempFiles['txt_id'] || !tempFiles['txt_res']) {
-                return Swal.fire('تنبيه أمني', 'يرجى إكمال البيانات ورفع المستمسكات المطلوبة', 'warning');
-            }
-
-            const code = "ROY-" + Math.floor(Math.random()*90000 + 10000);
-            const entry = {
-                code, name: n, date: d,
-                amount: document.getElementById('priceVal').innerText,
-                status: 'مؤكد'
-            };
-            
-            OASIS.ledger.push(entry);
-            localStorage.setItem('oasis_final_db', JSON.stringify(OASIS));
-
-            const msg = `*حجز جديد - الواحة الملكية*%0Aالكود: ${code}%0Aالعميل: ${n}%0Aالتاريخ: ${d}%0Aالمبلغ: ${entry.amount} IQD%0A_المستمسكات مرفوعة ومؤمنة_`;
-            window.location.href = `https://wa.me/${OASIS.config.wa}?text=${msg}`;
-        }
-
-        function refreshAdminData() {
-            let total = 0;
-            document.getElementById('ledgerBody').innerHTML = OASIS.ledger.slice().reverse().map(i => {
-                total += parseInt(i.amount.replace(/,/g, ''));
-                return `
-                    <tr class="border-b border-white/5 hover:bg-white/5">
-                        <td class="py-4 text-gold font-black">${i.code}</td>
-                        <td class="font-bold">${i.name}</td>
-                        <td class="text-gray-400">${i.date}</td>
-                        <td class="font-black">${i.amount}</td>
-                        <td class="text-green-500 font-bold text-[10px]">مرفوعة ✅</td>
-                        <td><span class="bg-green-500/10 text-green-500 px-3 py-1 rounded-full text-[9px]">مكتمل</span></td>
-                    </tr>
-                `;
-            }).join('');
-            document.getElementById('dashRev').innerText = total.toLocaleString() + " IQD";
-
-            document.getElementById('staff_list_box').innerHTML = Object.entries(OASIS.staff).map(([n, k]) => `
-                <div class="flex justify-between p-3 bg-black border border-white/5 text-[11px]">
-                    <span class="text-gray-400">${n}</span>
-                    <span class="text-gold font-black uppercase">${k}</span>
-                </div>
+        function renderAdminTable() {
+            document.getElementById('adminTable').innerHTML = db.slice().reverse().map(i => `
+                <tr class="border-b border-white/5">
+                    <td class="py-4 text-gold font-black">${i.code}</td>
+                    <td class="font-bold">${i.name}</td>
+                    <td>${i.phone}</td>
+                    <td><span class="px-2 py-1 bg-zinc-900 border border-zinc-700 text-[10px]">${i.type}</span></td>
+                    <td>${i.date}</td>
+                    <td class="text-green-500">${i.docs}</td>
+                </tr>
             `).join('');
         }
 
+        function sync(input, id) { if(input.files[0]) { document.getElementById(id).innerText = "✅ مرفوع"; secureCount++; } }
         function closeUI() { document.getElementById('adminPanel').classList.add('hidden'); }
+        flatpickr("#cDate", { minDate: "today" });
     </script>
 </body>
 </html>
