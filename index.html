@@ -6,6 +6,19 @@
     <title>المنصة الإمبراطورية لإدارة المنتجعات | THE ROYAL OASIS ERP 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'royal-gold': '#d4af37',
+                        'neon-green': '#39ff14',
+                        'neon-blue': '#00d2ff',
+                    }
+                }
+            }
+        };
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -22,6 +35,7 @@
             --sidebar-width: 280px;
             --neon-blue: #00d2ff;
             --neon-green: #39ff14;
+            --danger-color: #ef4444;
         }
 
         body {
@@ -231,13 +245,13 @@
     <main class="pt-40 px-10 pb-20 max-w-[1600px] mx-auto">
         
         <div class="gallery-grid mb-32">
-            <div class="gallery-item col-span-4"><img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">المسابح الأولمبية</h3></div></div>
-            <div class="gallery-item col-span-4"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">الملاعب الدولية</h3></div></div>
-            <div class="gallery-item col-span-4"><img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">صالة البلياردو</h3></div></div>
-            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1600607687940-47a04b6bd9a1?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">الأجنحة الملكية</h3></div></div>
-            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">الترفيه الذكي</h3></div></div>
-            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">الحدائق الطبيعية</h3></div></div>
-            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1590073242678-70ee3fc28e84?w=800"><div class="overlay"><h3 class="text-white font-black text-xl">الجلسات الخارجية</h3></div></div>
+            <div class="gallery-item col-span-4"><img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800" alt="المسابح الأولمبية" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">المسابح الأولمبية</h3></div></div>
+            <div class="gallery-item col-span-4"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800" alt="الملاعب الدولية" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">الملاعب الدولية</h3></div></div>
+            <div class="gallery-item col-span-4"><img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?w=800" alt="صالة البلياردو" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">صالة البلياردو</h3></div></div>
+            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800" alt="الأجنحة الملكية" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">الأجنحة الملكية</h3></div></div>
+            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800" alt="الترفيه الذكي" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">الترفيه الذكي</h3></div></div>
+            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800" alt="الحدائق الطبيعية" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">الحدائق الطبيعية</h3></div></div>
+            <div class="gallery-item col-span-3"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" alt="الجلسات الخارجية" loading="lazy"><div class="overlay"><h3 class="text-white font-black text-xl">الجلسات الخارجية</h3></div></div>
         </div>
 
         <div class="glass-panel p-16 max-w-5xl mx-auto border-t-4 border-royal-gold">
@@ -490,12 +504,20 @@
             const guest = document.getElementById('guestName').value.trim();
             const box = document.getElementById(boxId);
             
-            if (guest.split(' ').length < 4) {
+            if (guest.split(' ').filter(Boolean).length < 4) {
                 alert("🚫 خطأ أمني: يرجى كتابة الاسم الرباعي الكامل قبل البدء بالتحقق من المستمسكات.");
                 input.value = ""; return;
             }
 
-            const file = input.files[0];
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert("❌ يرجى رفع ملف صورة صالح للمستمسك الرسمي.");
+                input.value = "";
+                return;
+            }
+
             const reader = new FileReader();
             
             reader.onload = function(e) {
@@ -572,16 +594,23 @@
             window.location.href = `https://wa.me/${wa}?text=${whatsappMsg}`;
         }
 
+        function formatPrice(value) {
+            const num = parseInt(String(value).replace(/,/g, ''), 10);
+            return Number.isNaN(num) ? String(value) : num.toLocaleString('ar-IQ');
+        }
+
         function calculateFinancials() {
             const val = document.getElementById('bookType').value;
             const p24 = localStorage.getItem('erp_price_24') || "600,000";
             const p12 = localStorage.getItem('erp_price_12') || "350,000";
-            document.getElementById('finalPrice').innerText = (val === '24' ? p24 : p12).toLocaleString();
+            document.getElementById('finalPrice').innerText = formatPrice(val === '24' ? p24 : p12);
         }
 
         // 3. بوابات الدخول والأنظمة (Gateways)
         function toggleSystem(type) {
             const pwd = prompt("أدخل رمز الوصول المشفر:");
+            if (pwd === null) return;
+
             const adminPwd = localStorage.getItem('erp_admin_pass') || "1234";
 
             if (type === 'admin' && pwd === adminPwd) {
@@ -601,7 +630,8 @@
             let total = 0;
 
             table.innerHTML = data.map(item => {
-                total += parseInt(item.amount.replace(/,/g, ''));
+                const amount = parseInt(String(item.amount).replace(/,/g, ''), 10) || 0;
+                total += amount;
                 return `
                     <tr>
                         <td class="text-royal-gold font-bold">${item.code}</td>
@@ -640,10 +670,44 @@
             localStorage.setItem('erp_price_12', document.getElementById('setP12').value);
             localStorage.setItem('erp_ai_brain', document.getElementById('setAI').value);
             localStorage.setItem('erp_wa_num', document.getElementById('setWA').value);
-            localStorage.setItem('erp_admin_pass', document.getElementById('setPass').value || "1234");
+            const newPass = document.getElementById('setPass').value.trim();
+            if (newPass) {
+                localStorage.setItem('erp_admin_pass', newPass);
+            }
             
             alert("⚙️ تم تحديث إعدادات المنصة وحفظ البيانات في قاعدة البيانات المحلية.");
             location.reload();
+        }
+
+        function exportFullReport() {
+            const data = JSON.parse(localStorage.getItem('erp_ledger_data') || "[]");
+            if (!data.length) {
+                alert("لا توجد سجلات مالية لتصديرها حالياً.");
+                return;
+            }
+
+            const headers = ['كود القيد', 'المبلغ', 'التاريخ', 'اسم الضيف', 'رقم الهاتف', 'نوع الإقامة', 'وقت العملية', 'الحالة'];
+            const rows = data.map(item => [
+                item.code,
+                item.amount,
+                item.bookDate,
+                item.client,
+                item.phone,
+                item.stayType,
+                item.timestamp,
+                item.status
+            ]);
+
+            const csv = [headers, ...rows]
+                .map(row => row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(','))
+                .join('\n');
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `royal-oasis-ledger-${new Date().toISOString().slice(0, 10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
         }
 
         // 4. نظام المساعد الذكي (AI Integration)
@@ -682,9 +746,11 @@
 
         // تهيئة المنصة عند التحميل (Bootstrap)
         window.onload = function() {
-            // مزامنة واجهة المستخدم
-            document.getElementById('brandTitle').innerText = localStorage.getItem('erp_brand_name') || "الواحة الملكية";
-            document.getElementById('bookingUI').innerText = "حجز " + (localStorage.getItem('erp_brand_name') || "الجناح الملكي");
+            const savedBrand = localStorage.getItem('erp_brand_name');
+            if (savedBrand) {
+                document.getElementById('brandTitle').innerHTML = savedBrand + ' <span class="text-royal-gold italic">ERP</span>';
+                document.getElementById('bookingUI').innerText = "حجز " + savedBrand;
+            }
             
             // مزامنة حقول الإدارة
             document.getElementById('setBrandName').value = localStorage.getItem('erp_brand_name') || "";
@@ -698,10 +764,14 @@
             // تفعيل نظام التاريخ العربي المتقدم
             flatpickr("#bookDate", { 
                 minDate: "today", 
-                locale: "ar",
+                locale: flatpickr.l10ns.ar,
                 dateFormat: "Y-m-d",
-                disableMobile: "true",
+                disableMobile: true,
                 animate: true
+            });
+
+            document.getElementById('aiInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') executeAILogic();
             });
         };
     </script>
