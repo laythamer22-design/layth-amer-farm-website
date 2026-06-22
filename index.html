@@ -596,7 +596,7 @@
 
         function formatPrice(value) {
             const num = parseInt(String(value).replace(/,/g, ''), 10);
-            return Number.isNaN(num) ? String(value) : num.toLocaleString('ar-IQ');
+            return Number.isNaN(num) ? String(value) : num.toLocaleString('en-US');
         }
 
         function calculateFinancials() {
